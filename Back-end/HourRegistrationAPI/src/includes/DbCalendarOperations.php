@@ -26,7 +26,6 @@ class DbCalendarOperations
         $stmt->store_result();
         return $stmt->num_rows > 0;
     }
-
     /*  Create Operation
     The function will insert a new project in our database
     */
@@ -51,14 +50,44 @@ class DbCalendarOperations
         $calendars = array();
         while($statement->fetch()){
             $calendar = array();
-            $calendars['name'] = $name;
-            $calendars['appointment'] = $appointment;
+            $calendar['name'] = $name;
+            $calendar['appointment'] = $appointment;
             array_push($calendars, $calendar);
         }
         return $calendars;
     }
 
     public function deleteCalendar($id){
-        $statement = $this->con->prepare("DELETE * FROM calendar WHERE ");
+        $statement = $this->con->prepare("DELETE FROM calendar WHERE id = ?;");
+        $statement->bind_param('i', $id);
+        if($statement->execute()){
+            return true;
+        }
+        return false;
+    }
+
+    public function updateCalendar($name, $appointment, $id){
+        $statement = $this->con->prepare("UPDATE calendar SET name = ?, appointment = ? WHERE  id = ?;");
+        $statement->bind_param("ssi", $name, $appointment, $id);
+        if($statement->execute()){
+            return true;
+        }
+        return false;
+    }
+
+    public function getCalendarById($id){
+        $statement = $this->con->prepare("SELECT id, name, appointment FROM calendar WHERE id = ?;");
+        $statement->bind_param("s", $id);
+        $statement->execute();
+        $statement->bind_result($id, $name, $appointment);
+        $statement->fetch();
+        $calendar = array();
+        $calendar['id'] = $id;
+        $calendar['name'] = $name;
+        $calendar['appointment'] = $appointment;
+        if(!array_filter($calendar)){
+            return NULL_RETURNED;
+        }
+        return $calendar;
     }
 }
