@@ -15,10 +15,6 @@ class DbCalendarOperations
         return $this->con = $db->connect();
     }
 
-    /*
-     Read Operation
-     The function is checking if the project exist in the database or not
-    */
     private function isCalendarExists($name){
         $stmt = $this->con->prepare("SELECT id FROM calendar WHERE name = ?");
         $stmt->bind_param("s", $name);
@@ -26,9 +22,7 @@ class DbCalendarOperations
         $stmt->store_result();
         return $stmt->num_rows > 0;
     }
-    /*  Create Operation
-    The function will insert a new project in our database
-    */
+
     public function createCalendar($name, $appointment)
     {
         if (!$this->isCalendarExists($name)) {

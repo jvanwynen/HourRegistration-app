@@ -245,7 +245,6 @@ $app->post('/createcompany', function(Request $request, Response $response, arra
         ->withHeader('Content-type', 'application/json')
         ->withStatus(422);
 });
-
 /*
    Read Operation
    Function is returning all the companies from database
@@ -349,6 +348,32 @@ $app->put('/updatecompany/{id}', function(Request $request, Response $response, 
         ->withStatus(200);
 });
 
+$app->get('/getcompanypassbyid/{id}', function(Request $request, Response $response, array $args){
+    $db = new DbCompanyOperations();
+    $id = $args['id'];
+    $password = $db->getCompanyPasswordById($id);
+
+    if($password == NULL_RETURNED){
+        $response_data = array();
+        $response_data['error'] = true;
+        $response_data['message'] = 'No Data Returned';
+        $response->getBody()->write(json_encode($response_data));
+
+        return $response
+            ->withHeader('Content-type', 'application/json')
+            ->withStatus(200);
+    }else {
+        $response_data = array();
+        $response_data['error'] = false;
+        $response_data['companypassword'] = $password;
+        $response->getBody()->write(json_encode($response_data));
+
+        return $response
+            ->withHeader('Content-type', 'application/json')
+            ->withStatus(200);
+    }
+});
+
 $app->post('/createuser', function(Request $request, Response $response){
     //Check for empty parameters
     if (!haveEmptyParameters(array('admin', 'firstname', 'lastname', 'calendar_id', 'Company_id'), $request, $response)) {
@@ -393,11 +418,111 @@ $app->post('/createuser', function(Request $request, Response $response){
         ->withHeader('Content-type', 'application/json')
         ->withStatus(422);
 });
-
 //getallusers
+/*
+   Read Operation
+   Function is returning all the companies from database
+*/
+$app->get('/getallusers', function (Request $request, Response $response) {
+    $db = new DbUserOperations();
+    $users = $db->getAllUsers();
+
+    $response_data =array();
+    $response_data['error'] = false;
+    $response_data['users'] = $users;
+    $response->getBody()->write(json_encode($response_data));
+
+    return $response
+        ->withHeader('Content-type', 'application/json')
+        ->withStatus(200);
+});
+
 //deleteuser
+$app->delete('/deleteuser/{id}', function (Request $request, Response $response, array $args){
+    $id = $args['id'];
+    $db = new DbUserOperations();
+    $response_data = array();
+    if($db->deleteUser($id)){
+        $response_data['error'] = false;
+        $response_data['message'] = 'User has been deleted';
+    }
+    else{
+        $response_data['error'] = true;
+        $response_data['message'] = 'Please try again later';
+    }
+    $response->getBody()->write(json_encode($response_data));
+    return $response
+        ->withHeader('Content-type', 'application/json')
+        ->withStatus(200);
+
+});
+
 //updateuser
+$app->put('/updateuser/{id}', function (Request $request, Response $response, array $args){
+    $id = $args['id'];
+
+    if(!haveEmptyParameters(array('admin', 'firstname', 'lastname', 'calendar_id', 'Company_id'), $request, $response)){
+        $request_data = $request->getParsedBody();
+        $admin = $request_data['admin'];
+        $firstname = $request_data['firstname'];
+        $lastname = $request_data['lastname'];
+        $calendar_id = $request_data['calendar_id'];
+        $Company_id = $request_data['Company_id'];
+
+        $db = new DbUserOperations();
+        if($db->updateUser($admin, $firstname, $lastname, $calendar_id, $Company_id, $id)){
+            $response_data = array();
+            $response_data['error'] = false;
+            $response_data['message'] = 'User Updated Successfully';
+            $calendar = $db->getUserById($id);
+            $response_data['calendar'] = $calendar;
+            $response->getBody()->write(json_encode($response_data));
+            return $response
+                ->withHeader('Content-type', 'application/json')
+                ->withStatus(200);
+
+        }else{
+            $response_data = array();
+            $response_data['error'] = true;
+            $response_data['message'] = 'Please try again later';
+            $calendar = $db->getUserById($id);
+            $response_data['calendar'] = $calendar;
+            $response->getBody()->write(json_encode($response_data));
+            return $response
+                ->withHeader('Content-type', 'application/json')
+                ->withStatus(200);
+        }
+    }
+    return $response
+        ->withHeader('Content-type', 'application/json')
+        ->withStatus(200);
+});
+
 //getuserbyid
+$app->get('/getuserbyid/{id}', function(Request $request, Response $response, array $args){
+    $db = new DbUserOperations();
+    $id = $args['id'];
+    $user = $db->getUserById($id);
+
+    if($user == NULL_RETURNED){
+        $response_data = array();
+        $response_data['error'] = true;
+        $response_data['message'] = 'No Data Returned';
+        $response->getBody()->write(json_encode($response_data));
+
+        return $response
+            ->withHeader('Content-type', 'application/json')
+            ->withStatus(200);
+    }
+    $response_data = array();
+    $response_data['error'] = false;
+    $response_data['calendar'] = $user;
+    $response->getBody()->write(json_encode($response_data));
+
+    return $response
+        ->withHeader('Content-type', 'application/json')
+        ->withStatus(200);
+});
 
 //creatcalendar
 $app->post('/createcalendar', function(Request $request, Response $response){
