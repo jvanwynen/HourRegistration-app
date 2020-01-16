@@ -7,11 +7,12 @@
     <string name="nav_header_subtitle">android.studio@android.com</string>
     <string name="nav_header_desc">Navigation header</string>
     <string name="action_settings">Settings</string>
-
+    <string name="menu_home">Home</string>
     <string name="menu_calendar">My calendar</string>
     <string name="menu_hours">My hours</string>
     <string name="menu_projects">Projects</string>
     <string name="menu_settings">Settings</string>
     <string name="menu_logout">Logout</string>
+    <string name="title_activity_main">MainActivity</string>
     <string name="server_client_id">627510897874-46pejgnail9p51tkib5hg9d58nv9r85p.apps.googleusercontent.com</string>
 </resources>

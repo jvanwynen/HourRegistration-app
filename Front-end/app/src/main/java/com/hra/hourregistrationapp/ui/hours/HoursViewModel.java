@@ -4,13 +4,13 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-public class HourViewModel extends ViewModel {
+public class HoursViewModel extends ViewModel {
 
     private MutableLiveData<String> mText;
 
-    public HourViewModel() {
+    public HoursViewModel() {
         mText = new MutableLiveData<>();
-        mText.setValue("This is the hour fragment");
+        mText.setValue("This is Hours fragment");
     }
 
     public LiveData<String> getText() {
