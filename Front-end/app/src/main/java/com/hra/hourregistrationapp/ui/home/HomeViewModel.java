@@ -1,16 +1,16 @@
-package com.hra.hourregistrationapp.ui.calendar;
+package com.hra.hourregistrationapp.ui.home;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-public class CalendarViewModel extends ViewModel {
+public class HomeViewModel extends ViewModel {
 
     private MutableLiveData<String> mText;
 
-    public CalendarViewModel() {
+    public HomeViewModel() {
         mText = new MutableLiveData<>();
-        mText.setValue("This is Calendar fragment");
+        mText.setValue("This is Home fragment");
     }
 
     public LiveData<String> getText() {
