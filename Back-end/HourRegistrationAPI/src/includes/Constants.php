@@ -10,7 +10,6 @@ define('CREATED', 101);
 define('EXISTS', 102);
 define('FAILURE', 103);
 
-
 define('USER_AUTHENTICATED', 201);
 define('USER_NOT_FOUND', 202);
 define('NULL_RETURNED', 204);

@@ -13,10 +13,6 @@ class DbCompanyOperations
         return $this->con = $db->connect();
     }
 
-    /*
-    Read Operation
-    The function is checking if the project exist in the database or not
-*/
     private function isCompanyExists($name)
     {
         $stmt = $this->con->prepare("SELECT id FROM company WHERE name = ?");
@@ -26,9 +22,6 @@ class DbCompanyOperations
         return $stmt->num_rows > 0;
     }
 
-    /*  Create Operation
-        The function will insert a new project in our database
-    */
     public function createCompany($name, $password)
     {
         if (!$this->isCompanyExists($name)) {
@@ -61,13 +54,15 @@ class DbCompanyOperations
     The method is returning the password of a given user
     to verify the given password is correct or not
 */
-    private function getCompanyPasswordByName($name){
-        $stmt = $this->con->prepare("SELECT password FROM company WHERE name = ?");
-        $stmt->bind_param("s", $name);
+    public function getCompanyPasswordById($id){
+        $stmt = $this->con->prepare("SELECT password FROM company WHERE id = ?");
+        $stmt->bind_param("s", $id);
         $stmt->execute();
         $stmt->bind_result($password);
         $stmt->fetch();
-
+        if($password == null){
+            return NULL_RETURNED;
+        }
         return $password;
     }
 
