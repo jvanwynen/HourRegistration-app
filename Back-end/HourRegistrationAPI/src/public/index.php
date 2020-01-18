@@ -666,6 +666,28 @@ $app->get('/getcalendarbyid/{id}', function(Request $request, Response $response
 
 });
 
+$app->post('/tokensignin', function (Request $request, Response $response){
+    include_once dirname(__FILE__)  . '/Constants.php';
+    //$client = new Google_Client(['client_id' => $CLIENT_ID]);
+    $verify = new Google_AccessToken_Verify();
+    $request_data = $request->getParsedBody();
+    $id_token = $request_data['id_token'];
+    // $client->setScopes('email');  
+    // $client->setRedirectUri('/tokensignin');
+    // $client->setAccessType('offline');
+    // $client->setApprovalPrompt('force');
+    $payload = $verify->verifyIdToken($id_token);
+    if ($payload) {
+        $userid = $payload['sub'];
+        $username = $payload['name'];
+        print($username);
+    } else {
+        // Invalidsss ID token
+    }
+});
+
+
+
 //Checks if the parameters are empty or not and returns json object with the missing parameters
 function haveEmptyParameters($required_params, $request, $response)
 {
