@@ -16,7 +16,6 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
-import com.hra.hourregistrationapp.Controller.LoginController;
 import com.hra.hourregistrationapp.Controller.LoginInterface;
 import com.hra.hourregistrationapp.Model.Login;
 
@@ -90,7 +89,6 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
             String idToken = account.getIdToken();
 
             Login login = new Login(idToken);
-            Log.d("token: ", idToken);
 
             Call<Login> call = loginInterface.CreatePost(login);
             call.enqueue(new Callback<Login>() {

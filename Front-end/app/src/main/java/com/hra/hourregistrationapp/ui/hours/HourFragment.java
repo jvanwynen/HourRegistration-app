@@ -22,7 +22,7 @@ public class HourFragment extends Fragment {
                              ViewGroup container, Bundle savedInstanceState) {
         hoursViewModel =
                 ViewModelProviders.of(this).get(HoursViewModel.class);
-        View root = inflater.inflate(R.layout.fragment_settings, container, false);
+        View root = inflater.inflate(R.layout.fragment_hours, container, false);
         final TextView textView = root.findViewById(R.id.text_slideshow);
         hoursViewModel.getText().observe(this, new Observer<String>() {
             @Override

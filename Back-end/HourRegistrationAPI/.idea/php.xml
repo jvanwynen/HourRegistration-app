@@ -2,19 +2,28 @@
 <project version="4">
   <component name="PhpIncludePathManager">
     <include_path>
-      <path value="$PROJECT_DIR$/src/vendor/pimple/pimple" />
       <path value="$PROJECT_DIR$/src/vendor/slim/slim" />
       <path value="$PROJECT_DIR$/src/vendor/slim/psr7" />
       <path value="$PROJECT_DIR$/src/vendor/composer" />
       <path value="$PROJECT_DIR$/src/vendor/fig/http-message-util" />
       <path value="$PROJECT_DIR$/src/vendor/ralouphie/getallheaders" />
       <path value="$PROJECT_DIR$/src/vendor/nikic/fast-route" />
-      <path value="$PROJECT_DIR$/src/vendor/container-interop/container-interop" />
       <path value="$PROJECT_DIR$/src/vendor/psr/http-message" />
       <path value="$PROJECT_DIR$/src/vendor/psr/http-server-handler" />
       <path value="$PROJECT_DIR$/src/vendor/psr/container" />
       <path value="$PROJECT_DIR$/src/vendor/psr/http-server-middleware" />
       <path value="$PROJECT_DIR$/src/vendor/psr/http-factory" />
+      <path value="$PROJECT_DIR$/src/vendor/guzzlehttp/promises" />
+      <path value="$PROJECT_DIR$/src/vendor/firebase/php-jwt" />
+      <path value="$PROJECT_DIR$/src/vendor/guzzlehttp/psr7" />
+      <path value="$PROJECT_DIR$/src/vendor/monolog/monolog" />
+      <path value="$PROJECT_DIR$/src/vendor/phpseclib/phpseclib" />
+      <path value="$PROJECT_DIR$/src/vendor/google/apiclient-services" />
+      <path value="$PROJECT_DIR$/src/vendor/psr/log" />
+      <path value="$PROJECT_DIR$/src/vendor/guzzlehttp/guzzle" />
+      <path value="$PROJECT_DIR$/src/vendor/psr/cache" />
+      <path value="$PROJECT_DIR$/src/vendor/google/auth" />
+      <path value="$PROJECT_DIR$/src/vendor/google/apiclient" />
     </include_path>
   </component>
 </project>
