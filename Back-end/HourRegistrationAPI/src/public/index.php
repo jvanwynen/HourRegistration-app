@@ -11,7 +11,7 @@ require '../includes/DbProjectOperations.php';
 require '../includes/DbCompanyOperations.php';
 require '../includes/DbUserOperations.php';
 require '../includes/DbCalendarOperations.php';
-
+require '../vendor/autoload.php';
 $app = AppFactory::create();
 $app->addBodyParsingMiddleware(); // <<<--- add this middleware!
 $app->addRoutingMiddleware();
@@ -33,7 +33,7 @@ $app->post('/createproject', function (Request $request, Response $response) {
 
     //Check for empty parameters
     if (!haveEmptyParameters(array('name', 'hours', 'tag'), $request, $response)) {
-        
+
         // Put the requested data(parameters) in a variable(array) and put them in seperate variables
         $request_data = $request->getParsedBody();
         $name = $request_data['name'];
@@ -90,7 +90,7 @@ $app->get('/getallprojects', function (Request $request, Response $response) {
 
     $projects = $db->getAllProjects();
 
-    $response_data =array();
+    $response_data = array();
     $response_data['error'] = false;
     $response_data['projects'] = $projects;
     $response->getBody()->write(json_encode($response_data));
@@ -109,7 +109,7 @@ $app->get('/getprojectbyid/{id}', function (Request $request, Response $response
     $id = $args['id'];
     $project = $db->getProjectById($id);
 
-    if($project == NULL_RETURNED){
+    if ($project == NULL_RETURNED) {
         $response_data = array();
         $response_data['error'] = true;
         $response_data['message'] = 'No Data Returned';
@@ -118,7 +118,7 @@ $app->get('/getprojectbyid/{id}', function (Request $request, Response $response
         return $response
             ->withHeader('Content-type', 'application/json')
             ->withStatus(200);
-    }else {
+    } else {
         $response_data = array();
         $response_data['error'] = false;
         $response_data['project'] = $project;
@@ -137,10 +137,10 @@ $app->get('/getprojectbyid/{id}', function (Request $request, Response $response
     parameters: name, hours, tag
     method: POST
 */
-$app->put('/updateproject/{id}', function(Request $request, Response $response, array $args){
+$app->put('/updateproject/{id}', function (Request $request, Response $response, array $args) {
     $id = $args['id'];
 
-    if(!haveEmptyParameters(array('name','hours','tag'), $request, $response)){
+    if (!haveEmptyParameters(array('name', 'hours', 'tag'), $request, $response)) {
 
         $request_data = $request->getParsedBody();
         $name = $request_data['name'];
@@ -148,7 +148,7 @@ $app->put('/updateproject/{id}', function(Request $request, Response $response, 
         $tag = $request_data['tag'];
 
         $db = new DbProjectOperations();
-        if($db->updateProject($name, $hours, $tag, $id)){
+        if ($db->updateProject($name, $hours, $tag, $id)) {
             $response_data = array();
             $response_data['error'] = false;
             $response_data['message'] = 'Project Updated Successfully';
@@ -159,7 +159,7 @@ $app->put('/updateproject/{id}', function(Request $request, Response $response, 
                 ->withHeader('Content-type', 'application/json')
                 ->withStatus(200);
 
-        }else{
+        } else {
             $response_data = array();
             $response_data['error'] = true;
             $response_data['message'] = 'Please try again later';
@@ -178,7 +178,7 @@ $app->put('/updateproject/{id}', function(Request $request, Response $response, 
         ->withStatus(200);
 });
 
-$app->delete('/deleteproject/{id}', function(Request $request, Response $response, array $args) {
+$app->delete('/deleteproject/{id}', function (Request $request, Response $response, array $args) {
     $id = $args['id'];
     $db = new DbProjectOperations();
     $response_data = array();
@@ -196,7 +196,7 @@ $app->delete('/deleteproject/{id}', function(Request $request, Response $respons
 
 });
 
-$app->post('/createcompany', function(Request $request, Response $response, array $args){
+$app->post('/createcompany', function (Request $request, Response $response, array $args) {
     //Check for empty parameters
     if (!haveEmptyParameters(array('name', 'password'), $request, $response)) {
         //Put the requested data(parameters) in a variable(array) and put them in seperate variables
@@ -253,7 +253,7 @@ $app->get('/getallcompanies', function (Request $request, Response $response) {
     $db = new DbCompanyOperations();
     $companies = $db->getAllCompanies();
 
-    $response_data =array();
+    $response_data = array();
     $response_data['error'] = false;
     $response_data['companies'] = $companies;
     $response->getBody()->write(json_encode($response_data));
@@ -263,16 +263,16 @@ $app->get('/getallcompanies', function (Request $request, Response $response) {
         ->withStatus(200);
 });
 
-$app->post('/companylogin', function(Request $request, Response $response){
+$app->post('/companylogin', function (Request $request, Response $response) {
 
 });
 
-$app->get('/getcompanybyid/{id}', function(Request $request, Response $response, array $args){
+$app->get('/getcompanybyid/{id}', function (Request $request, Response $response, array $args) {
     $db = new DbCompanyOperations();
     $id = $args['id'];
     $company = $db->getCompanyById($id);
 
-    if($company == NULL_RETURNED){
+    if ($company == NULL_RETURNED) {
         $response_data = array();
         $response_data['error'] = true;
         $response_data['message'] = 'No Data Returned';
@@ -281,7 +281,7 @@ $app->get('/getcompanybyid/{id}', function(Request $request, Response $response,
         return $response
             ->withHeader('Content-type', 'application/json')
             ->withStatus(200);
-    }else {
+    } else {
         $response_data = array();
         $response_data['error'] = false;
         $response_data['company'] = $company;
@@ -293,7 +293,7 @@ $app->get('/getcompanybyid/{id}', function(Request $request, Response $response,
     }
 });
 
-$app->delete('/deletecompany/{id}', function (Request $request, Response $response, array $args){
+$app->delete('/deletecompany/{id}', function (Request $request, Response $response, array $args) {
     $id = $args['id'];
     $db = new DbCompanyOperations();
     $response_data = array();
@@ -310,16 +310,16 @@ $app->delete('/deletecompany/{id}', function (Request $request, Response $respon
         ->withStatus(200);
 });
 
-$app->put('/updatecompany/{id}', function(Request $request, Response $response, array $args){
+$app->put('/updatecompany/{id}', function (Request $request, Response $response, array $args) {
     $id = $args['id'];
 
-    if(!haveEmptyParameters(array('name', 'password'), $request, $response)){
+    if (!haveEmptyParameters(array('name', 'password'), $request, $response)) {
         $request_data = $request->getParsedBody();
         $name = $request_data['name'];
         $password = $request_data['password'];
         $hash_password = password_hash($password, PASSWORD_DEFAULT);
         $db = new DbCompanyOperations();
-        if($db->updateCompany($name, $hash_password, $id)){
+        if ($db->updateCompany($name, $hash_password, $id)) {
             $response_data = array();
             $response_data['error'] = false;
             $response_data['message'] = 'Company Updated Successfully';
@@ -330,7 +330,7 @@ $app->put('/updatecompany/{id}', function(Request $request, Response $response, 
                 ->withHeader('Content-type', 'application/json')
                 ->withStatus(200);
 
-        }else{
+        } else {
             $response_data = array();
             $response_data['error'] = true;
             $response_data['message'] = 'Please try again later';
@@ -348,12 +348,12 @@ $app->put('/updatecompany/{id}', function(Request $request, Response $response, 
         ->withStatus(200);
 });
 
-$app->get('/getcompanypassbyid/{id}', function(Request $request, Response $response, array $args){
+$app->get('/getcompanypassbyid/{id}', function (Request $request, Response $response, array $args) {
     $db = new DbCompanyOperations();
     $id = $args['id'];
     $password = $db->getCompanyPasswordById($id);
 
-    if($password == NULL_RETURNED){
+    if ($password == NULL_RETURNED) {
         $response_data = array();
         $response_data['error'] = true;
         $response_data['message'] = 'No Data Returned';
@@ -362,7 +362,7 @@ $app->get('/getcompanypassbyid/{id}', function(Request $request, Response $respo
         return $response
             ->withHeader('Content-type', 'application/json')
             ->withStatus(200);
-    }else {
+    } else {
         $response_data = array();
         $response_data['error'] = false;
         $response_data['companypassword'] = $password;
@@ -374,7 +374,7 @@ $app->get('/getcompanypassbyid/{id}', function(Request $request, Response $respo
     }
 });
 
-$app->post('/createuser', function(Request $request, Response $response){
+$app->post('/createuser', function (Request $request, Response $response) {
     //Check for empty parameters
     if (!haveEmptyParameters(array('admin', 'firstname', 'lastname', 'calendar_id', 'Company_id'), $request, $response)) {
         //Put the requested data(parameters) in a variable(array) and put them in seperate variables
@@ -427,7 +427,7 @@ $app->get('/getallusers', function (Request $request, Response $response) {
     $db = new DbUserOperations();
     $users = $db->getAllUsers();
 
-    $response_data =array();
+    $response_data = array();
     $response_data['error'] = false;
     $response_data['users'] = $users;
     $response->getBody()->write(json_encode($response_data));
@@ -438,15 +438,14 @@ $app->get('/getallusers', function (Request $request, Response $response) {
 });
 
 //deleteuser
-$app->delete('/deleteuser/{id}', function (Request $request, Response $response, array $args){
+$app->delete('/deleteuser/{id}', function (Request $request, Response $response, array $args) {
     $id = $args['id'];
     $db = new DbUserOperations();
     $response_data = array();
-    if($db->deleteUser($id)){
+    if ($db->deleteUser($id)) {
         $response_data['error'] = false;
         $response_data['message'] = 'User has been deleted';
-    }
-    else{
+    } else {
         $response_data['error'] = true;
         $response_data['message'] = 'Please try again later';
     }
@@ -458,10 +457,10 @@ $app->delete('/deleteuser/{id}', function (Request $request, Response $response,
 });
 
 //updateuser
-$app->put('/updateuser/{id}', function (Request $request, Response $response, array $args){
+$app->put('/updateuser/{id}', function (Request $request, Response $response, array $args) {
     $id = $args['id'];
 
-    if(!haveEmptyParameters(array('admin', 'firstname', 'lastname', 'calendar_id', 'Company_id'), $request, $response)){
+    if (!haveEmptyParameters(array('admin', 'firstname', 'lastname', 'calendar_id', 'Company_id'), $request, $response)) {
         $request_data = $request->getParsedBody();
         $admin = $request_data['admin'];
         $firstname = $request_data['firstname'];
@@ -470,7 +469,7 @@ $app->put('/updateuser/{id}', function (Request $request, Response $response, ar
         $Company_id = $request_data['Company_id'];
 
         $db = new DbUserOperations();
-        if($db->updateUser($admin, $firstname, $lastname, $calendar_id, $Company_id, $id)){
+        if ($db->updateUser($admin, $firstname, $lastname, $calendar_id, $Company_id, $id)) {
             $response_data = array();
             $response_data['error'] = false;
             $response_data['message'] = 'User Updated Successfully';
@@ -481,7 +480,7 @@ $app->put('/updateuser/{id}', function (Request $request, Response $response, ar
                 ->withHeader('Content-type', 'application/json')
                 ->withStatus(200);
 
-        }else{
+        } else {
             $response_data = array();
             $response_data['error'] = true;
             $response_data['message'] = 'Please try again later';
@@ -499,12 +498,12 @@ $app->put('/updateuser/{id}', function (Request $request, Response $response, ar
 });
 
 //getuserbyid
-$app->get('/getuserbyid/{id}', function(Request $request, Response $response, array $args){
+$app->get('/getuserbyid/{id}', function (Request $request, Response $response, array $args) {
     $db = new DbUserOperations();
     $id = $args['id'];
     $user = $db->getUserById($id);
 
-    if($user == NULL_RETURNED){
+    if ($user == NULL_RETURNED) {
         $response_data = array();
         $response_data['error'] = true;
         $response_data['message'] = 'No Data Returned';
@@ -525,7 +524,7 @@ $app->get('/getuserbyid/{id}', function(Request $request, Response $response, ar
 });
 
 //creatcalendar
-$app->post('/createcalendar', function(Request $request, Response $response){
+$app->post('/createcalendar', function (Request $request, Response $response) {
     if (!haveEmptyParameters(array('name', 'appointment'), $request, $response)) {
         //Put the requested data(parameters) in a variable(array) and put them in seperate variables
         $request_data = $request->getParsedBody();
@@ -566,14 +565,14 @@ $app->post('/createcalendar', function(Request $request, Response $response){
 });
 
 //getallcalendars
-$app->get('/getallcalendars', function(Request $request, Response $response){
-   $db = new DbCalendarOperations();
-   $calendars = $db->getAllCalendars();
-   $response_data = array();
-   $response_data['error'] = "false";
-   $response_data['calendars'] = $calendars;
+$app->get('/getallcalendars', function (Request $request, Response $response) {
+    $db = new DbCalendarOperations();
+    $calendars = $db->getAllCalendars();
+    $response_data = array();
+    $response_data['error'] = "false";
+    $response_data['calendars'] = $calendars;
 
-   $response->getBody()->write(json_encode($response_data));
+    $response->getBody()->write(json_encode($response_data));
 
     return $response
         ->withHeader('Content-Type', 'application/json')
@@ -581,15 +580,14 @@ $app->get('/getallcalendars', function(Request $request, Response $response){
 });
 
 //deletecalendar
-$app->delete('/deletecalendar/{id}', function (Request $request, Response $response, array $args){
+$app->delete('/deletecalendar/{id}', function (Request $request, Response $response, array $args) {
     $id = $args['id'];
     $db = new DbCalendarOperations();
     $response_data = array();
-    if($db->deleteCalendar($id)){
+    if ($db->deleteCalendar($id)) {
         $response_data['error'] = false;
         $response_data['message'] = 'Company has been deleted';
-    }
-    else{
+    } else {
         $response_data['error'] = true;
         $response_data['message'] = 'Please try again later';
     }
@@ -601,16 +599,16 @@ $app->delete('/deletecalendar/{id}', function (Request $request, Response $respo
 });
 
 //updatecalendar
-$app->put('/updatecalendar/{id}', function (Request $request, Response $response, array $args){
+$app->put('/updatecalendar/{id}', function (Request $request, Response $response, array $args) {
     $id = $args['id'];
 
-    if(!haveEmptyParameters(array('name', 'appointment'), $request, $response)){
+    if (!haveEmptyParameters(array('name', 'appointment'), $request, $response)) {
         $request_data = $request->getParsedBody();
         $name = $request_data['name'];
         $appointment = $request_data['appointment'];
 
         $db = new DbCalendarOperations();
-        if($db->updateCalendar($name, $appointment, $id)){
+        if ($db->updateCalendar($name, $appointment, $id)) {
             $response_data = array();
             $response_data['error'] = false;
             $response_data['message'] = 'Calendar Updated Successfully';
@@ -621,7 +619,7 @@ $app->put('/updatecalendar/{id}', function (Request $request, Response $response
                 ->withHeader('Content-type', 'application/json')
                 ->withStatus(200);
 
-        }else{
+        } else {
             $response_data = array();
             $response_data['error'] = true;
             $response_data['message'] = 'Please try again later';
@@ -640,12 +638,12 @@ $app->put('/updatecalendar/{id}', function (Request $request, Response $response
 });
 
 //getcalendarbyid
-$app->get('/getcalendarbyid/{id}', function(Request $request, Response $response, array $args){
+$app->get('/getcalendarbyid/{id}', function (Request $request, Response $response, array $args) {
     $db = new DbCalendarOperations();
     $id = $args['id'];
     $calendar = $db->getCalendarById($id);
 
-    if($calendar == NULL_RETURNED){
+    if ($calendar == NULL_RETURNED) {
         $response_data = array();
         $response_data['error'] = true;
         $response_data['message'] = 'No Data Returned';
@@ -655,37 +653,72 @@ $app->get('/getcalendarbyid/{id}', function(Request $request, Response $response
             ->withHeader('Content-type', 'application/json')
             ->withStatus(200);
     }
-        $response_data = array();
+    $response_data = array();
+    $response_data['error'] = false;
+    $response_data['calendar'] = $calendar;
+    $response->getBody()->write(json_encode($response_data));
+
+    return $response
+        ->withHeader('Content-type', 'application/json')
+        ->withStatus(200);
+
+});
+
+
+
+$app->post('/verifyidtoken', function (Request $request, Response $response) {
+
+    //Put the requested data(parameters) in a variable(array) and put them in seperate variables
+    $request_data = $request->getParsedBody();
+
+    $id_token = $request_data['id_token'];
+    $CLIENT_ID = "627510897874-46pejgnail9p51tkib5hg9d58nv9r85p.apps.googleusercontent.com";
+
+    $client = new Google_Client(['client_id' => $CLIENT_ID]);  // Specify the CLIENT_ID of the app that accesses the backend
+    $payload = $client->verifyIdToken($id_token);
+    $response_data = array();
+
+    if ($payload) {
+        echo "I am in the good if";
+        $user_id = $payload['sub'];
         $response_data['error'] = false;
-        $response_data['calendar'] = $calendar;
+        $response_data['userID'] = $user_id;
         $response->getBody()->write(json_encode($response_data));
 
         return $response
             ->withHeader('Content-type', 'application/json')
             ->withStatus(200);
-
-});
-
-$app->post('/tokensignin', function (Request $request, Response $response){
-    include_once dirname(__FILE__)  . '/Constants.php';
-    //$client = new Google_Client(['client_id' => $CLIENT_ID]);
-    $verify = new Google_AccessToken_Verify();
-    $request_data = $request->getParsedBody();
-    $id_token = $request_data['id_token'];
-    // $client->setScopes('email');  
-    // $client->setRedirectUri('/tokensignin');
-    // $client->setAccessType('offline');
-    // $client->setApprovalPrompt('force');
-    $payload = $verify->verifyIdToken($id_token);
-    if ($payload) {
-        $userid = $payload['sub'];
-        $username = $payload['name'];
-        print($username);
-    } else {
-        // Invalidsss ID token
     }
+    echo "I reached the bottom";
+    $response_data['error'] = true;
+    $response_data['message'] = 'Invalid ID token';
+    $response->getBody()->write(json_encode($response_data));
+
+    return $response
+        ->withHeader('Content-type', 'application/json')
+        ->withStatus(200);
 });
 
+
+//$app->post('/tokensignin', function (Request $request, Response $response){
+//    include_once dirname(__FILE__)  . '/Constants.php';
+//    //$client = new Google_Client(['client_id' => $CLIENT_ID]);
+//    $verify = new Google_AccessToken_Verify();
+//    $request_data = $request->getParsedBody();
+//    $id_token = $request_data['id_token'];
+//    // $client->setScopes('email');
+//    // $client->setRedirectUri('/tokensignin');
+//    // $client->setAccessType('offline');
+//    // $client->setApprovalPrompt('force');
+//    $payload = $verify->verifyIdToken($id_token);
+//    if ($payload) {
+//        $userid = $payload['sub'];
+//        $username = $payload['name'];
+//        print($username);
+//    } else {
+//        // Invalidsss ID token
+//    }
+//});
 
 
 //Checks if the parameters are empty or not and returns json object with the missing parameters
@@ -719,4 +752,5 @@ function haveEmptyParameters($required_params, $request, $response)
     //Can be true or false.
     return $error;
 }
+
 $app->run();
