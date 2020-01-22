@@ -4,7 +4,7 @@ use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Slim\Factory\AppFactory;
 
-require __DIR__ . '/../vendor/autoload.php';
+require  '../vendor/autoload.php';
 
 require '../includes/DbConnect.php';
 require '../includes/DbProjectOperations.php';
@@ -668,6 +668,7 @@ $app->get('/getcalendarbyid/{id}', function(Request $request, Response $response
 
 $app->post('/tokensignin', function (Request $request, Response $response){
     include_once dirname(__FILE__)  . '/Constants.php';
+   // require_once 'google-api-php-client/vendor/autoload.php';
     //$client = new Google_Client(['client_id' => $CLIENT_ID]);
     $verify = new Google_AccessToken_Verify();
     $request_data = $request->getParsedBody();

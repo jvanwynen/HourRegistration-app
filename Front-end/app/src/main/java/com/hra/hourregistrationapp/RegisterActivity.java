@@ -3,6 +3,8 @@ package com.hra.hourregistrationapp;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -24,30 +26,34 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-public class RegisterActivity extends AppCompatActivity  {
+public class RegisterActivity extends AppCompatActivity implements View.OnClickListener {
 
     private static final int RC_SIGN_IN = 6969;
     private static final String TAG = "tag";
-    LoginInterface loginInterface ;
+    LoginInterface loginInterface;
+    private Button mLoginButton;
+    private GoogleSignInClient mGoogleSignInClient;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_registration);
 
+        findViewById(R.id.sign_in_button).setOnClickListener(this);
+
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestIdToken(getString(R.string.server_client_id))
                 .requestEmail()
                 .build();
 
-        GoogleSignInClient googleSignInClient = GoogleSignIn.getClient(this, gso);
-        //check if user can sign in silently
-        googleSignInClient.silentSignIn().addOnCompleteListener(this, new OnCompleteListener<GoogleSignInAccount>() {
-            @Override
-            public void onComplete(@NonNull Task<GoogleSignInAccount> task) {
-                handleSignInResult(task);
-            }
-        });
+//        GoogleSignInClient googleSignInClient = GoogleSignIn.getClient(this, gso);
+//        //check if user can sign in silently
+//        googleSignInClient.silentSignIn().addOnCompleteListener(this, new OnCompleteListener<GoogleSignInAccount>() {
+//            @Override
+//            public void onComplete(@NonNull Task<GoogleSignInAccount> task) {
+//                handleSignInResult(task);
+//            }
+//        });
 
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl("http://192.168.1.187/")
@@ -55,9 +61,10 @@ public class RegisterActivity extends AppCompatActivity  {
                 .build();
 
         loginInterface = retrofit.create(LoginInterface.class);
+        mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
     }
 
-    protected void onStart(){
+    protected void onStart() {
         super.onStart();
         // Check for existing Google Sign In account, if the user is already signed in
         // the GoogleSignInAccount will be non-null.
@@ -83,12 +90,13 @@ public class RegisterActivity extends AppCompatActivity  {
             String idToken = account.getIdToken();
 
             Login login = new Login(idToken);
+            Log.d("token: ", idToken);
 
             Call<Login> call = loginInterface.CreatePost(login);
             call.enqueue(new Callback<Login>() {
                 @Override
                 public void onResponse(Call<Login> call, Response<Login> response) {
-                    if(!response.isSuccessful()){
+                    if (!response.isSuccessful()) {
                         Log.d("HTTP", "No succesfull response" + response.code());
                         return;
                     }
@@ -114,10 +122,28 @@ public class RegisterActivity extends AppCompatActivity  {
 //               }
 //           }).execute(strings);
 
-           // updateUI(account);
+            // updateUI(account);
         } catch (ApiException e) {
             Log.w(TAG, "handleSignInResult:error", e);
-          //  updateUI(null);
+            //  updateUI(null);
+        }
+    }
+
+    private void getIdToken() {
+        // Show an account picker to let the user choose a Google account from the device.
+        // If the GoogleSignInOptions only asks for IDToken and/or profile and/or email then no
+        // consent screen will be shown here.
+        Intent signInIntent = mGoogleSignInClient.getSignInIntent();
+        startActivityForResult(signInIntent, RC_SIGN_IN);
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.sign_in_button:
+                getIdToken();
+                break;
+
         }
     }
 }
