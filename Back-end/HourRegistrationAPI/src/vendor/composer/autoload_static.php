@@ -22,7 +22,6 @@ class ComposerStaticInitb791d0d0c5d8c04cde4222dafd9a8688
         ),
         'S' => 
         array (
-            'Slim\\Tests\\' => 11,
             'Slim\\Psr7\\' => 10,
             'Slim\\' => 5,
         ),
@@ -57,10 +56,6 @@ class ComposerStaticInitb791d0d0c5d8c04cde4222dafd9a8688
         'phpseclib\\' => 
         array (
             0 => __DIR__ . '/..' . '/phpseclib/phpseclib/phpseclib',
-        ),
-        'Slim\\Tests\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/slim/slim/tests',
         ),
         'Slim\\Psr7\\' => 
         array (

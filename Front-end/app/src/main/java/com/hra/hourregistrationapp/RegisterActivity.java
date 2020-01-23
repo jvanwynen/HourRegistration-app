@@ -18,12 +18,12 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.hra.hourregistrationapp.Controller.LoginInterface;
 import com.hra.hourregistrationapp.Model.Login;
+import com.hra.hourregistrationapp.Retrofit.RetrofitClient;
 
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
 
 public class RegisterActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -45,21 +45,15 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
                 .requestEmail()
                 .build();
 
-//        GoogleSignInClient googleSignInClient = GoogleSignIn.getClient(this, gso);
-//        //check if user can sign in silently
-//        googleSignInClient.silentSignIn().addOnCompleteListener(this, new OnCompleteListener<GoogleSignInAccount>() {
-//            @Override
-//            public void onComplete(@NonNull Task<GoogleSignInAccount> task) {
-//                handleSignInResult(task);
-//            }
-//        });
+        GoogleSignInClient googleSignInClient = GoogleSignIn.getClient(this, gso);
+        //check if user can sign in silently
+        googleSignInClient.silentSignIn().addOnCompleteListener(this, new OnCompleteListener<GoogleSignInAccount>() {
+            @Override
+            public void onComplete(@NonNull Task<GoogleSignInAccount> task) {
+                handleSignInResult(task);
+            }
+        });
 
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("http://192.168.1.187/")
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
-
-        loginInterface = retrofit.create(LoginInterface.class);
         mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
     }
 
@@ -88,38 +82,24 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
             GoogleSignInAccount account = completedTask.getResult(ApiException.class);
             String idToken = account.getIdToken();
 
-            Login login = new Login(idToken);
+            Log.d("token: ", idToken);
 
-            Call<Login> call = loginInterface.CreatePost(login);
-            call.enqueue(new Callback<Login>() {
-                @Override
-                public void onResponse(Call<Login> call, Response<Login> response) {
-                    if (!response.isSuccessful()) {
-                        Log.d("HTTP", "No succesfull response" + response.code());
-                        return;
-                    }
-                }
+            Call<ResponseBody> call = RetrofitClient
+                    .getInstance()
+                    .getInterface()
+                    .CreatePost(idToken);
 
-                @Override
-                public void onFailure(Call<Login> call, Throwable t) {
-                    Log.d("HTTPFailure", t.getMessage());
-                }
-            });
+            call.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                Log.d("http", response.message());
+            }
 
-//            String[] strings = new String[1];
-//            strings[0] = idToken;
-//
-//           new LoginController(new LoginController.AsyncResponse() {
-//               @Override
-//               public void processFinish(boolean output) {
-//                   if(output){
-//                       Log.w(TAG, "Jippie1");
-//                   } else {
-//                       Log.w(TAG, "Nope1");
-//                   }
-//               }
-//           }).execute(strings);
-
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                Log.d("httpFailure", t.getMessage());
+            }
+        });
             // updateUI(account);
         } catch (ApiException e) {
             Log.w(TAG, "handleSignInResult:error", e);
