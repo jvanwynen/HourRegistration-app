@@ -23,7 +23,7 @@ public class LogoutFragment extends Fragment {
         sendViewModel =
                 ViewModelProviders.of(this).get(LogoutViewModel.class);
         View root = inflater.inflate(R.layout.fragment_logout, container, false);
-        final TextView textView = root.findViewById(R.id.text_send);
+        final TextView textView = root.findViewById(R.id.text_tools);
         sendViewModel.getText().observe(this, new Observer<String>() {
             @Override
             public void onChanged(@Nullable String s) {
