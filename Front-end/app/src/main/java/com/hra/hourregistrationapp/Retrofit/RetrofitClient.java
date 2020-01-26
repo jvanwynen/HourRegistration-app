@@ -1,7 +1,8 @@
 package com.hra.hourregistrationapp.Retrofit;
 
-import com.google.android.gms.common.api.Api;
-import com.hra.hourregistrationapp.Controller.LoginInterface;
+import com.hra.hourregistrationapp.Controller.CompanyService;
+import com.hra.hourregistrationapp.Controller.LoginService;
+import com.hra.hourregistrationapp.Controller.ProjectService;
 
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
@@ -26,8 +27,16 @@ public class RetrofitClient {
         return mInstance;
     }
 
-    public LoginInterface getInterface(){
-        return retrofit.create(LoginInterface.class);
+    public LoginService getLoginService(){
+        return retrofit.create(LoginService.class);
+    }
+
+    public ProjectService getProjectService() {
+        return retrofit.create( ProjectService.class);
+    }
+
+    public CompanyService getCompanyService(){
+        return retrofit.create(CompanyService.class);
     }
 
 }

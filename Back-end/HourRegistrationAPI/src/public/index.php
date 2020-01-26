@@ -31,7 +31,6 @@ $app->get('/hello/{name}', function (Request $request, Response $response, array
     method: POST
 */
 $app->post('/createproject', function (Request $request, Response $response) {
-
     //Check for empty parameters
     if (!haveEmptyParameters(array('name', 'hours', 'tag'), $request, $response)) {
 
@@ -91,10 +90,7 @@ $app->get('/getallprojects', function (Request $request, Response $response) {
 
     $projects = $db->getAllProjects();
 
-    $response_data = array();
-    $response_data['error'] = false;
-    $response_data['projects'] = $projects;
-    $response->getBody()->write(json_encode($response_data));
+    $response->getBody()->write(json_encode($projects));
 
     return $response
         ->withHeader('Content-type', 'application/json')
@@ -254,10 +250,12 @@ $app->get('/getallcompanies', function (Request $request, Response $response) {
     $db = new DbCompanyOperations();
     $companies = $db->getAllCompanies();
 
-    $response_data = array();
-    $response_data['error'] = false;
-    $response_data['companies'] = $companies;
-    $response->getBody()->write(json_encode($response_data));
+    $response->getBody()->write(json_encode($companies));
+
+    // $response_data = array();
+    // // $response_data['error'] = false;
+    // $response_data['companies'] = $companies;
+    // $response->getBody()->write(json_encode($response_data));
 
     return $response
         ->withHeader('Content-type', 'application/json')
@@ -677,7 +675,6 @@ $app->post('/verifyidtoken', function (Request $request, Response $response) {
     $response_data = array();
 
     if ($payload) {
-        echo "I am in the good if";
         $user_id = $payload['sub'];
         $firstname = $payload['given_name'];
         $lastname = $payload['family_name'];
@@ -703,7 +700,7 @@ $app->post('/verifyidtoken', function (Request $request, Response $response) {
             ->withHeader('Content-type', 'application/json')
             ->withStatus(200);
     }
-    echo "I reached the bottom";
+
     $response_data['error'] = true;
     $response_data['message'] = 'Invalid ID token';
     $response->getBody()->write(json_encode($response_data));

@@ -2,13 +2,13 @@
 
 class DbConnect
 {
-//
-//        $host = "localhost";
-//        $port = 3306;
-//        $socket = "";
-//        $user = "root";
-//        $password = "lappie";
-//        $dbname = "hourregistration";
+
+    //    $host = "localhost";
+    //    $port = 3306;
+    //    $socket = "";
+    //    $user = "root";
+    //    $password = "root";
+    //    $dbname = "mydb";
 
         private $con;
 

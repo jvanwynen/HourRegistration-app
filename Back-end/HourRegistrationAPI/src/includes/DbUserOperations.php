@@ -17,6 +17,7 @@ class DbUserOperations
 
     public function createUser($admin, $firstname, $lastname, $calendar_id, $Company_id)
     {
+        
             $statement = $this->con->prepare("INSERT INTO user (admin, firstname, lastname, calendar_id, Company_id) VALUES (?, ?, ?, ?, ?);");
             $statement->bind_param("issii", $admin, $firstname, $lastname, $calendar_id, $Company_id);
 
