@@ -1,4 +1,4 @@
-package com.hra.hourregistrationapp.ui.projects;
+package com.hra.hourregistrationapp.Adapter;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -17,8 +17,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 // Create the basic adapter extending from RecyclerView.Adapter
 // Note that we specify the custom ViewHolder which gives us access to our views
-public class ProjectsAdapter extends
-        RecyclerView.Adapter<ProjectsAdapter.ViewHolder> {
+public class ProjectAdapter extends
+        RecyclerView.Adapter<ProjectAdapter.ViewHolder> {
 
      // Provide a direct reference to each of the views within a data item
     // Used to cache the views within the item layout for fast access
@@ -41,7 +41,7 @@ public class ProjectsAdapter extends
 
     private List<Project> mProjects;
 
-    public ProjectsAdapter(FragmentActivity activity, List<Project> mProjects) {
+    public ProjectAdapter(FragmentActivity activity, List<Project> mProjects) {
         this.mProjects = mProjects;
     }
 
