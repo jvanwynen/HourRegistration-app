@@ -2,20 +2,15 @@ package com.hra.hourregistrationapp;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.provider.Settings;
 import android.util.Log;
 import android.view.View;
-import android.widget.Adapter;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.Spinner;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelProviders;
 
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
@@ -25,11 +20,9 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
-import com.hra.hourregistrationapp.Controller.LoginService;
 import com.hra.hourregistrationapp.Model.Company;
 import com.hra.hourregistrationapp.Retrofit.RetrofitClient;
 import com.hra.hourregistrationapp.ViewModel.CompanyViewModel;
-import com.hra.hourregistrationapp.ViewModel.ProjectViewModel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -56,8 +49,9 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_registration);
 
-        findViewById(R.id.sign_in_button).setOnClickListener(this);
-        spinner = (Spinner) findViewById(R.id.companylist_spinner_login);
+        findViewById(R.id.registration_button_signin).setOnClickListener(this);
+        spinner = (Spinner) findViewById(R.id.registration_spinner_companylist);
+        findViewById(R.id.registration_text_add).setOnClickListener(this);
         //spinner.setOnClickListener(this);
 
 
@@ -79,31 +73,31 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(adapter);
 
-//        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-//                .requestIdToken(getString(R.string.server_client_id))
-//                .requestEmail()
-//                .build();
-//
-//        GoogleSignInClient googleSignInClient = GoogleSignIn.getClient(this, gso);
-//
-//        //check if user can sign in silently
-//        googleSignInClient.silentSignIn().addOnCompleteListener(this, new OnCompleteListener<GoogleSignInAccount>() {
-//            @Override
-//            public void onComplete(@NonNull Task<GoogleSignInAccount> task) {
-//                handleSignInResult(task);
-//            }
-//        });
-//
-//        mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
+        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestIdToken(getString(R.string.server_client_id))
+                .requestEmail()
+                .build();
+
+        GoogleSignInClient googleSignInClient = GoogleSignIn.getClient(this, gso);
+
+        //check if user can sign in silently
+        googleSignInClient.silentSignIn().addOnCompleteListener(this, new OnCompleteListener<GoogleSignInAccount>() {
+            @Override
+            public void onComplete(@NonNull Task<GoogleSignInAccount> task) {
+                handleSignInResult(task);
+            }
+        });
+
+        mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
     }
 
-//    protected void onStart() {
-//        super.onStart();
-//        // Check for existing Google Sign In account, if the user is already signed in
-//        // the GoogleSignInAccount will be non-null.
-//        GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(this);
-//        //updateUI(account);
-//    }
+    protected void onStart() {
+        super.onStart();
+        // Check for existing Google Sign In account, if the user is already signed in
+        // the GoogleSignInAccount will be non-null.
+        GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(this);
+        //updateUI(account);
+    }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -139,10 +133,12 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.sign_in_button:
+            case R.id.registration_button_signin:
                 getIdToken();
                 break;
-
+            case R.id.registration_text_add:
+                Intent intent = new Intent(getApplicationContext(), AddCompanyActivity.class);
+                startActivity(intent);
         }
     }
 
@@ -150,7 +146,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         Call<ResponseBody> call = RetrofitClient
                 .getInstance()
                 .getLoginService()
-                .CreatePost(idToken);
+                .verifyToken(idToken);
 
         call.enqueue(new Callback<ResponseBody>() {
             @Override

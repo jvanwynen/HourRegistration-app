@@ -2,8 +2,8 @@
 
 define('DB_HOST', 'localhost');
 define('DB_USER', 'root');
-define('DB_PASSWORD', 'lappie');
-define('DB_NAME', 'hourregistration');
+define('DB_PASSWORD', 'root');
+define('DB_NAME', 'mydb');
 
 /* Constants for creating something */
 define('CREATED', 101);

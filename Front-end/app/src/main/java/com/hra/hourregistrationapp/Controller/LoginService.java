@@ -13,6 +13,6 @@ public interface LoginService {
 
     @FormUrlEncoded
     @POST("verifyidtoken")
-    Call<ResponseBody> CreatePost(
+    Call<ResponseBody> verifyToken(
             @Field("id_token") String token);
 }

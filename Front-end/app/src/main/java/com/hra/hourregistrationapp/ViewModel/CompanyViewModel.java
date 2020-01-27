@@ -25,12 +25,14 @@ public class CompanyViewModel extends AndroidViewModel {
     public CompanyViewModel(@NonNull Application application) {
         super(application);
         mRepository = new CompanyRepository();
-        mRepository.getCompanies();
-        mCompanyList = mRepository.giveLiveResponses();
-
+//        mRepository.getCompanies();
+//        mCompanyList = mRepository.giveLiveResponses();
     }
 
+
     public LiveData<List<Company>> getAllCompanies() {
+        mRepository.getCompanies();
+        mCompanyList = mRepository.giveLiveResponses();
         return mCompanyList;
     }
 }
