@@ -250,10 +250,12 @@ $app->get('/getallcompanies', function (Request $request, Response $response) {
     $db = new DbCompanyOperations();
     $companies = $db->getAllCompanies();
 
-    $response_data = array();
-    $response_data['error'] = false;
-    $response_data['companies'] = $companies;
-    $response->getBody()->write(json_encode($response_data));
+    $response->getBody()->write(json_encode($companies));
+
+    // $response_data = array();
+    // // $response_data['error'] = false;
+    // $response_data['companies'] = $companies;
+    // $response->getBody()->write(json_encode($response_data));
 
     return $response
         ->withHeader('Content-type', 'application/json')
@@ -661,8 +663,6 @@ $app->get('/getcalendarbyid/{id}', function (Request $request, Response $respons
 
 });
 
-
-
 $app->post('/verifyidtoken', function (Request $request, Response $response) {
 
     //Put the requested data(parameters) in a variable(array) and put them in seperate variables
@@ -670,16 +670,31 @@ $app->post('/verifyidtoken', function (Request $request, Response $response) {
 
     $id_token = $request_data['id_token'];
     $CLIENT_ID = "627510897874-46pejgnail9p51tkib5hg9d58nv9r85p.apps.googleusercontent.com";
-
     $client = new Google_Client(['client_id' => $CLIENT_ID]);  // Specify the CLIENT_ID of the app that accesses the backend
     $payload = $client->verifyIdToken($id_token);
     $response_data = array();
 
     if ($payload) {
         $user_id = $payload['sub'];
+        $firstname = $payload['given_name'];
+        $lastname = $payload['family_name'];
         $response_data['error'] = false;
         $response_data['userID'] = $user_id;
         $response->getBody()->write(json_encode($response_data));
+        //new Object of DbProjectOperations class
+        $db = new DbUserOperations();
+        //Put the return value of the createUser operation in a variable
+        $result = $db->createUser("0", $firstname, $lastname, "1", "1");
+
+        if ($result == CREATED) {
+            echo "yippie";
+        }
+        else if ($result == FAILURE) {
+            $message = array();
+            $message['error'] = true;
+            $message['message'] = 'Some error occurred';
+            echo "fout"; 
+        }
 
         return $response
             ->withHeader('Content-type', 'application/json')
@@ -692,30 +707,8 @@ $app->post('/verifyidtoken', function (Request $request, Response $response) {
 
     return $response
         ->withHeader('Content-type', 'application/json')
-        ->withStatus(200);
+        ->withStatus(500);
 });
-
-
-//$app->post('/tokensignin', function (Request $request, Response $response){
-//    include_once dirname(__FILE__)  . '/Constants.php';
-//    //$client = new Google_Client(['client_id' => $CLIENT_ID]);
-//    $verify = new Google_AccessToken_Verify();
-//    $request_data = $request->getParsedBody();
-//    $id_token = $request_data['id_token'];
-//    // $client->setScopes('email');
-//    // $client->setRedirectUri('/tokensignin');
-//    // $client->setAccessType('offline');
-//    // $client->setApprovalPrompt('force');
-//    $payload = $verify->verifyIdToken($id_token);
-//    if ($payload) {
-//        $userid = $payload['sub'];
-//        $username = $payload['name'];
-//        print($username);
-//    } else {
-//        // Invalidsss ID token
-//    }
-//});
-
 
 //Checks if the parameters are empty or not and returns json object with the missing parameters
 function haveEmptyParameters($required_params, $request, $response)

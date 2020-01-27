@@ -1,15 +1,16 @@
-package com.hra.hourregistrationapp.ui.projects;
+package com.hra.hourregistrationapp.ViewModel;
 
+import com.hra.hourregistrationapp.Adapter.ProjectAdapter;
 import com.hra.hourregistrationapp.Model.Project;
 import com.hra.hourregistrationapp.Repository.ProjectRepository;
 import java.util.List;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-public class ProjectsViewModel extends ViewModel {
+public class ProjectViewModel extends ViewModel {
 
     private static ProjectRepository projectRepository = new ProjectRepository();
-    private ProjectsAdapter projectsAdapter;
+    private ProjectAdapter projectAdapter;
 
     public void sendGetProjectRequest(){
         projectRepository.getProjects();

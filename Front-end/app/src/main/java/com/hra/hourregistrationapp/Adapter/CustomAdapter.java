@@ -8,7 +8,7 @@
 //
 //import com.hra.hourregistrationapp.Model.Project;
 //import com.hra.hourregistrationapp.R;
-//import com.hra.hourregistrationapp.ui.projects.ProjectsAdapter;
+//import com.hra.hourregistrationapp.Adapter.ProjectAdapter;
 //
 //import java.util.List;
 //
@@ -73,7 +73,7 @@
 //
 //import com.hra.hourregistrationapp.Model.Project;
 //import com.hra.hourregistrationapp.R;
-//import com.hra.hourregistrationapp.ui.projects.ProjectsAdapter;
+//import com.hra.hourregistrationapp.Adapter.ProjectAdapter;
 //
 //import java.util.List;
 //

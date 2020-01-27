@@ -4,7 +4,7 @@ import com.google.gson.annotations.SerializedName;
 
 public class Login {
 
-    @SerializedName("body")
+    @SerializedName("id_token")
     String Token;
 
     public Login(String token) {

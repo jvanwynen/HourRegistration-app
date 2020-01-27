@@ -1,7 +1,6 @@
 package com.hra.hourregistrationapp.ui.projects;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,8 +13,12 @@ import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.hra.hourregistrationapp.Adapter.ProjectAdapter;
 import com.hra.hourregistrationapp.Model.Project;
 import com.hra.hourregistrationapp.R;
+import com.hra.hourregistrationapp.ViewModel.ProjectViewModel;
+
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,22 +26,23 @@ import java.util.List;
 
 public class ProjectsFragment extends Fragment {
 
-    private ProjectsViewModel projectsViewModel;
-    private ProjectsAdapter projectsAdapter;
+    private ProjectViewModel projectViewModel;
+    private ProjectAdapter projectAdapter;
     private RecyclerView rvProjects;
     private ProgressBar projectProgressBar;
 
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        projectsViewModel =
-                ViewModelProviders.of(this).get(ProjectsViewModel.class);
+
+        projectViewModel = ViewModelProviders.of(this).get(ProjectViewModel.class);
         View root = inflater.inflate(R.layout.fragment_projects, container, false);
         projectProgressBar = root.findViewById(R.id.projectProgressBar);
 
         rvProjects = root.findViewById(R.id.rvProjects);
-        projectsViewModel.sendGetProjectRequest();
-        projectsViewModel.getResponse().observe(getActivity(), new Observer<List<Project>>() {
+        projectViewModel.sendGetProjectRequest();
+
+        projectViewModel.getResponse().observe(getActivity(), new Observer<List<Project>>() {
             @Override
             public void onChanged(List<Project> projects) {
                 setupRecyclerView(projects);
@@ -49,9 +53,8 @@ public class ProjectsFragment extends Fragment {
         return root;
     }
 //
-//        Retrofit retrofit = RetrofitClientInstance.getRetrofitInstance();
+
 //
-//        GetProjectsService api = retrofit.create(GetProjectsService.class);
 //
 //        Call<List<Project>> call = api.getProjects();
 //
@@ -79,17 +82,17 @@ public class ProjectsFragment extends Fragment {
 
 
         if(projects != null) {
-            if (projectsAdapter == null) {
+            if (projectAdapter == null) {
                 projectProgressBar.setVisibility(View.INVISIBLE);
                 rvProjects.setVisibility(View.VISIBLE);
-                projectsAdapter = new ProjectsAdapter(getActivity(), projects);
+                projectAdapter = new ProjectAdapter(getActivity(), projects);
                 rvProjects.setLayoutManager(new LinearLayoutManager(getActivity()));
-                rvProjects.setAdapter(projectsAdapter);
+                rvProjects.setAdapter(projectAdapter);
                 rvProjects.setItemAnimator(new DefaultItemAnimator());
             } else {
                 projectProgressBar.setVisibility(View.INVISIBLE);
                 rvProjects.setVisibility(View.VISIBLE);
-                projectsAdapter.notifyDataSetChanged();
+                projectAdapter.notifyDataSetChanged();
             }
         }else{
             projectProgressBar.setVisibility(View.VISIBLE);
@@ -97,7 +100,7 @@ public class ProjectsFragment extends Fragment {
             projectProgressBar.setOnClickListener(new ProgressBar.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    projectsViewModel.sendGetProjectRequest();
+                    projectViewModel.sendGetProjectRequest();
                 }
             });
         }
