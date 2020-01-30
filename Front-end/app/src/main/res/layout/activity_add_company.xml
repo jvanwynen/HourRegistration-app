@@ -19,7 +19,7 @@
         android:textAlignment="center"
         android:textSize="18sp"
         android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@+id/registration_input_password"
+        app:layout_constraintBottom_toTopOf="@+id/addcompany_input_password"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -56,10 +56,10 @@
         app:layout_constraintBottom_toTopOf="@+id/addcompany_input_name"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/registration_input_password" />
+        app:layout_constraintTop_toBottomOf="@+id/addcompany_input_password" />
 
     <androidx.appcompat.widget.AppCompatEditText
-        android:id="@+id/registration_input_password"
+        android:id="@+id/addcompany_input_password"
         android:layout_width="300dp"
         android:layout_height="50dp"
         android:layout_marginStart="180dp"

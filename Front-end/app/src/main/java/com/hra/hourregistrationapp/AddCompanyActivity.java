@@ -26,7 +26,7 @@ public class AddCompanyActivity extends AppCompatActivity implements View.OnClic
         mCompanyViewModel = ViewModelProviders.of(this).get(CompanyViewModel.class);
 
         nameInput = findViewById(R.id.addcompany_input_name);
-        passwordInput = findViewById(R.id.add);
+        passwordInput = findViewById(R.id.addcompany_input_password);
 
         findViewById(R.id.addcompany_button_save).setOnClickListener(this);
     }
