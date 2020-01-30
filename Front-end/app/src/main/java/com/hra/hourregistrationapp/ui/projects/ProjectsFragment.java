@@ -19,6 +19,8 @@ import com.hra.hourregistrationapp.Model.Project;
 import com.hra.hourregistrationapp.R;
 import com.hra.hourregistrationapp.ViewModel.ProjectViewModel;
 
+
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -76,6 +78,9 @@ public class ProjectsFragment extends Fragment {
 //    }
 
     private void setupRecyclerView(List<Project> projects) {
+
+
+
         if(projects != null) {
             if (projectAdapter == null) {
                 projectProgressBar.setVisibility(View.INVISIBLE);

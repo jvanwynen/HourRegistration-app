@@ -4,7 +4,9 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.Spinner;
 
 import androidx.annotation.NonNull;
@@ -17,12 +19,14 @@ import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.hra.hourregistrationapp.Model.Company;
 import com.hra.hourregistrationapp.Retrofit.RetrofitClient;
 import com.hra.hourregistrationapp.ViewModel.CompanyViewModel;
+import com.hra.hourregistrationapp.ViewModel.LoginViewModel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -40,8 +44,10 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
     private GoogleSignInClient mGoogleSignInClient;
     private ArrayList<String> mCompaniesnames;
     private CompanyViewModel mCompanyViewModel;
+    private LoginViewModel mLoginViewModel;
     private ArrayAdapter adapter;
     private Spinner spinner;
+    private SignInButton signInButton;
 
 
     @Override
@@ -53,10 +59,11 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         spinner = (Spinner) findViewById(R.id.registration_spinner_companylist);
         findViewById(R.id.registration_text_add).setOnClickListener(this);
         //spinner.setOnClickListener(this);
-
+        signInButton = findViewById(R.id.registration_button_signin);
 
         mCompaniesnames = new ArrayList<>();
         mCompanyViewModel = ViewModelProviders.of(this).get(CompanyViewModel.class);
+        mLoginViewModel = ViewModelProviders.of(this).get(LoginViewModel.class);
 
             mCompanyViewModel.getAllCompanies()
                     .observe(this, new Observer<List<Company>>() {
@@ -73,30 +80,31 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(adapter);
 
-        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                .requestIdToken(getString(R.string.server_client_id))
-                .requestEmail()
-                .build();
 
-        GoogleSignInClient googleSignInClient = GoogleSignIn.getClient(this, gso);
-
-        //check if user can sign in silently
-        googleSignInClient.silentSignIn().addOnCompleteListener(this, new OnCompleteListener<GoogleSignInAccount>() {
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
-            public void onComplete(@NonNull Task<GoogleSignInAccount> task) {
-                handleSignInResult(task);
+            public void onItemSelected(AdapterView<?> adapterView, View view, int position, long id) {
+                spinner.setSelection(position);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
             }
         });
 
-        mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
-    }
+        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestIdToken(getString(R.string.server_client_id))
+                .build();
 
-    protected void onStart() {
-        super.onStart();
-        // Check for existing Google Sign In account, if the user is already signed in
-        // the GoogleSignInAccount will be non-null.
-        GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(this);
-        //updateUI(account);
+        mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
+
+        //check if user can sign in silently
+        mGoogleSignInClient.silentSignIn().addOnCompleteListener(this, new OnCompleteListener<GoogleSignInAccount>() {
+            @Override
+            public void onComplete(@NonNull Task<GoogleSignInAccount> task) {
+                handleSilentSignInResult(task);
+            }
+        });
     }
 
     @Override
@@ -115,10 +123,22 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         try {
             GoogleSignInAccount account = completedTask.getResult(ApiException.class);
             String idToken = account.getIdToken();
-            sendToken(idToken);
+            mLoginViewModel.verifyIdToken(idToken);
+            signInButton.setVisibility(View.GONE);
         } catch (ApiException e) {
             Log.w(TAG, "handleSignInResult:error", e);
-            //  updateUI(null);
+        }
+    }
+
+    private void handleSilentSignInResult(@NonNull Task<GoogleSignInAccount> completedTask) {
+        try {
+            GoogleSignInAccount account = completedTask.getResult(ApiException.class);
+            String idToken = account.getIdToken();
+            mLoginViewModel.verifyIdToken(idToken);
+            Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+            startActivity(intent);
+        } catch (ApiException e) {
+            Log.w(TAG, "handleSilentSignInResult:error", e);
         }
     }
 
@@ -140,26 +160,5 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
                 Intent intent = new Intent(getApplicationContext(), AddCompanyActivity.class);
                 startActivity(intent);
         }
-    }
-
-    private void sendToken(String idToken){
-        Call<ResponseBody> call = RetrofitClient
-                .getInstance()
-                .getLoginService()
-                .verifyToken(idToken);
-
-        call.enqueue(new Callback<ResponseBody>() {
-            @Override
-            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                Log.d("http", response.message());
-            }
-
-            @Override
-            public void onFailure(Call<ResponseBody> call, Throwable t) {
-                Log.d("httpFailure", t.getMessage());
-            }
-        });
-        // updateUI(account);
-
     }
 }

@@ -23,9 +23,6 @@ public class ProjectRepository {
             public void onResponse(Call<List<Project>> call, Response<List<Project>> response) {
                 if(response.isSuccessful()){
                     projects.setValue(response.body());
-//                    List<Project> projectData = response.body();
-//                    Log.i("1234", "hij doet t");
-//                    setupRecyclerView(projectData);
                 }
             }
 

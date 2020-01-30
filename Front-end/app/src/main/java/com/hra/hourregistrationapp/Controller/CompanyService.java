@@ -15,14 +15,14 @@ import retrofit2.http.POST;
 
 public interface CompanyService {
 
-        @GET("getallcompanies")
-        Call<List<Company>> getAllCompanies();
+    @GET("getallcompanies")
+    Call<List<Company>> getAllCompanies();
 
-        @FormUrlEncoded
-        @POST("createcompany")
-        Call<ResponseBody> CreateCompany(
-                @Field("name") String token,
-                @Field("password") String password
-        );
+    @FormUrlEncoded
+    @POST("createcompany")
+    Call<ResponseBody> CreateCompany(
+            @Field("name") String token,
+            @Field("password") String password
+    );
 }
 
