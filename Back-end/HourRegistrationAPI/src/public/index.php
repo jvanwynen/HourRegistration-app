@@ -237,6 +237,7 @@ $app->post('/createcompany', function (Request $request, Response $response, arr
                 ->withStatus(422);
         }
     }
+
     //If this code is reached the response comes from haveEmptyParameters function
     return $response
         ->withHeader('Content-type', 'application/json')

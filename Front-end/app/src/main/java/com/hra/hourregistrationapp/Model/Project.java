@@ -9,6 +9,12 @@ public class Project {
     private int hours;
     private int tag;
 
+    public Project(String name, int hours, int tag) {
+        this.name = name;
+        this.hours = hours;
+        this.tag = tag;
+    }
+
     public Project(int id, String name, int hours, int tag) {
         this.id = id;
         this.name = name;

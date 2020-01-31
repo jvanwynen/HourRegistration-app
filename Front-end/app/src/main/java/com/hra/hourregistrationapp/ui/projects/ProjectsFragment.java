@@ -1,10 +1,19 @@
 package com.hra.hourregistrationapp.ui.projects;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
+
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.hra.hourregistrationapp.Adapter.ProjectAdapter;
+import com.hra.hourregistrationapp.Model.Project;
+import com.hra.hourregistrationapp.R;
+import com.hra.hourregistrationapp.ViewModel.Project.ProjectViewModel;
+
+import java.util.List;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -13,15 +22,6 @@ import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
-import com.hra.hourregistrationapp.Adapter.ProjectAdapter;
-import com.hra.hourregistrationapp.Model.Project;
-import com.hra.hourregistrationapp.R;
-import com.hra.hourregistrationapp.ViewModel.ProjectViewModel;
-
-
-import java.util.ArrayList;
-import java.util.List;
 
 
 public class ProjectsFragment extends Fragment {
@@ -37,11 +37,18 @@ public class ProjectsFragment extends Fragment {
 
         projectViewModel = ViewModelProviders.of(this).get(ProjectViewModel.class);
         View root = inflater.inflate(R.layout.fragment_projects, container, false);
+        FloatingActionButton myFab = (FloatingActionButton) root.findViewById(R.id.project_btn_fab);
+        myFab.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), AddProjectActivity.class);
+                startActivity(intent);
+            }
+        });
         projectProgressBar = root.findViewById(R.id.projectProgressBar);
 
         rvProjects = root.findViewById(R.id.rvProjects);
         projectViewModel.sendGetProjectRequest();
-
+        setupRecyclerView(projectViewModel.getResponse().getValue());
         projectViewModel.getResponse().observe(getActivity(), new Observer<List<Project>>() {
             @Override
             public void onChanged(List<Project> projects) {
@@ -52,36 +59,9 @@ public class ProjectsFragment extends Fragment {
         //setupRecyclerView()
         return root;
     }
-//
-
-//
-//
-//        Call<List<Project>> call = api.getProjects();
-//
-//        call.enqueue(new Callback<List<Project>>() {
-//            @Override
-//            public void onResponse(Call<List<Project>> call, Response<List<Project>> response) {
-//                if(response.isSuccessful()){
-//                    List<Project> projectData = response.body();
-//                    Log.i("1234", "hij doet t");
-//                    setupRecyclerView(projectData);
-//                }
-//            }
-//
-//            @Override
-//            public void onFailure(Call<List<Project>> call, Throwable t) {
-//                List<Project> projectData = null;
-//            }
-//        });
-//
-//        return root;
-//    }
 
     private void setupRecyclerView(List<Project> projects) {
-
-
-
-        if(projects != null) {
+        if (projects != null) {
             if (projectAdapter == null) {
                 projectProgressBar.setVisibility(View.INVISIBLE);
                 rvProjects.setVisibility(View.VISIBLE);
@@ -94,7 +74,7 @@ public class ProjectsFragment extends Fragment {
                 rvProjects.setVisibility(View.VISIBLE);
                 projectAdapter.notifyDataSetChanged();
             }
-        }else{
+        } else {
             projectProgressBar.setVisibility(View.VISIBLE);
             rvProjects.setVisibility(View.INVISIBLE);
             projectProgressBar.setOnClickListener(new ProgressBar.OnClickListener() {

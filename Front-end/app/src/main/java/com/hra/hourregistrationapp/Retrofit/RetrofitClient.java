@@ -1,15 +1,15 @@
 package com.hra.hourregistrationapp.Retrofit;
 
-import com.hra.hourregistrationapp.Controller.CompanyService;
-import com.hra.hourregistrationapp.Controller.LoginService;
-import com.hra.hourregistrationapp.Controller.ProjectService;
+import com.hra.hourregistrationapp.Services.CompanyService;
+import com.hra.hourregistrationapp.Services.LoginService;
+import com.hra.hourregistrationapp.Services.ProjectService;
 
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class RetrofitClient {
 
-    private static String BASE_URL = "http://192.168.1.187/";
+    private static String BASE_URL = "http://145.109.175.137/";
     private static RetrofitClient mInstance;
     private Retrofit retrofit;
 

@@ -33,8 +33,8 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        Intent intent = new Intent(getApplicationContext(), RegisterActivity.class);
-        startActivity(intent);
+//        Intent intent = new Intent(getApplicationContext(), RegisterActivity.class);
+//        startActivity(intent);
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         NavigationView navigationView = findViewById(R.id.nav_view);

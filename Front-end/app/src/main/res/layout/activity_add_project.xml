@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:theme="@style/Theme.AppCompat.Light.DarkActionBar"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.projects.AddProjectActivity">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/addProjectToolbar"
+        android:layout_width="match_parent"
+        android:layout_height="55dp"
+        android:background="?attr/colorPrimary"
+        android:minHeight="?attr/actionBarSize"
+        android:theme="?attr/actionBarTheme"
+        app:title="Add project"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:subtitleTextColor="#FFFFFF" />
+
+    <androidx.appcompat.widget.AppCompatEditText
+        android:id="@+id/AddProjectNameEditText"
+        android:layout_width="300dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="100dp"
+        android:hint="@string/projectname"
+        android:textAlignment="center"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.495"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/addProjectToolbar" />
+
+    <androidx.appcompat.widget.AppCompatEditText
+        android:id="@+id/AddProjectTagEditText"
+        android:layout_width="300dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="16dp"
+        android:hint="@string/tag"
+        android:textAlignment="center"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="@+id/AddProjectNameEditText"
+        app:layout_constraintTop_toBottomOf="@+id/AddProjectNameEditText" />
+
+    <Button
+        android:id="@+id/AddProjectSaveBtn"
+        android:layout_width="107dp"
+        android:layout_height="52dp"
+        android:layout_marginTop="48dp"
+        android:background="@color/BlueAccent"
+        android:text="@string/save_project"
+        app:layout_constraintEnd_toEndOf="@+id/AddProjectTagEditText"
+        app:layout_constraintHorizontal_bias="0.502"
+        app:layout_constraintStart_toStartOf="@+id/AddProjectTagEditText"
+        app:layout_constraintTop_toBottomOf="@+id/AddProjectTagEditText" />
+</androidx.constraintlayout.widget.ConstraintLayout>

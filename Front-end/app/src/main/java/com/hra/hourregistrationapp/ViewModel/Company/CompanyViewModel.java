@@ -1,4 +1,4 @@
-package com.hra.hourregistrationapp.ViewModel;
+package com.hra.hourregistrationapp.ViewModel.Company;
 
 import android.app.Application;
 

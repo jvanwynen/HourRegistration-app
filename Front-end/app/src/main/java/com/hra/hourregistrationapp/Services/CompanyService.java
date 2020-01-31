@@ -1,7 +1,6 @@
-package com.hra.hourregistrationapp.Controller;
+package com.hra.hourregistrationapp.Services;
 
 import com.hra.hourregistrationapp.Model.Company;
-import com.hra.hourregistrationapp.Model.Project;
 
 import java.util.List;
 
