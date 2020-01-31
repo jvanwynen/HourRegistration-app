@@ -8,6 +8,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -48,6 +49,8 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
     private ArrayAdapter adapter;
     private Spinner spinner;
     private SignInButton signInButton;
+    private Button mSaveButton;
+    private TextView mPasswordTextView;
 
 
     @Override
@@ -56,10 +59,12 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         setContentView(R.layout.activity_registration);
 
         findViewById(R.id.registration_button_signin).setOnClickListener(this);
-        spinner = (Spinner) findViewById(R.id.registration_spinner_companylist);
+        spinner = findViewById(R.id.registration_spinner_companylist);
         findViewById(R.id.registration_text_add).setOnClickListener(this);
-        //spinner.setOnClickListener(this);
         signInButton = findViewById(R.id.registration_button_signin);
+        mSaveButton = findViewById(R.id.registration_save_button);
+        mPasswordTextView = findViewById(R.id.registration_input_password);
+        mSaveButton.setOnClickListener(this);
 
         mCompaniesnames = new ArrayList<>();
         mCompanyViewModel = ViewModelProviders.of(this).get(CompanyViewModel.class);
@@ -119,14 +124,15 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         }
     }
 
-    private void handleSignInResult(@NonNull Task<GoogleSignInAccount> completedTask) {
+    private String handleSignInResult(@NonNull Task<GoogleSignInAccount> completedTask) {
         try {
             GoogleSignInAccount account = completedTask.getResult(ApiException.class);
             String idToken = account.getIdToken();
             mLoginViewModel.verifyIdToken(idToken);
             signInButton.setVisibility(View.GONE);
+            return idToken;
         } catch (ApiException e) {
-            Log.w(TAG, "handleSignInResult:error", e);
+            return ("handleSignInResult:error" + e);
         }
     }
 
@@ -150,14 +156,23 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         startActivityForResult(signInIntent, RC_SIGN_IN);
     }
 
+    private void createUser(){
+
+    }
+
     @Override
     public void onClick(View v) {
+        Intent intent = new Intent();
         switch (v.getId()) {
             case R.id.registration_button_signin:
                 getIdToken();
                 break;
             case R.id.registration_text_add:
-                Intent intent = new Intent(getApplicationContext(), AddCompanyActivity.class);
+                intent = new Intent(getApplicationContext(), AddCompanyActivity.class);
+                startActivity(intent);
+            case R.id.registration_save_button:
+                //createUser();
+                intent = new Intent(getApplicationContext(), MainActivity.class);
                 startActivity(intent);
         }
     }

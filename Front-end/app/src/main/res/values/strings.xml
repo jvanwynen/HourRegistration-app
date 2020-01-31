@@ -24,4 +24,5 @@
     <string name="registration_text_name">Fill in Company name</string>
     <string name="registration_button_save">Save and back</string>
     <string name="registration_text_registration">Or add a company by clicking here</string>
+    <string name="registration_save_button">Save And Continue</string>
 </resources>
