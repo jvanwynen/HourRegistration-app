@@ -21,6 +21,7 @@ class DbProjectOperations
         if (!$this->isProjectExist($name)) {
             $statement = $this->con->prepare("INSERT INTO project (name, hours, tag) VALUES (?, ?, ?)");
             $statement->bind_param("sss", $name, $hours, $tag);
+
             if ($statement->execute()) {
                 return CREATED;
             }

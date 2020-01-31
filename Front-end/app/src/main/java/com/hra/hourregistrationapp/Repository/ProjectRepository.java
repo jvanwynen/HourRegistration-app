@@ -28,7 +28,6 @@ public class ProjectRepository {
 
             @Override
             public void onFailure(Call<List<Project>> call, Throwable t) {
-//                List<Project> projectData = null;
                 projects.setValue(null);
             }
         });
