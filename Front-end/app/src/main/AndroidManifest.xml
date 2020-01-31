@@ -13,17 +13,17 @@
         android:networkSecurityConfig="@xml/network_security_config"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".MainActivity"
+            android:name=".ui.home.MainActivity"
             android:label="@string/title_activity_main"
             android:theme="@style/AppTheme.NoActionBar">
         </activity>
         <activity
-            android:name=".RegisterActivity" android:exported="true">
+            android:name=".ui.registration.RegisterActivity" android:exported="true">
         <intent-filter>
             <action android:name="android.intent.action.MAIN" />
             <category android:name="android.intent.category.LAUNCHER" />
         </intent-filter>
         </activity>
-        <activity android:name=".AddCompanyActivity" android:exported="true"/>
+        <activity android:name=".ui.registration.AddCompanyActivity" android:exported="true"/>
     </application>
 </manifest>

@@ -1,4 +1,4 @@
-package com.hra.hourregistrationapp;
+package com.hra.hourregistrationapp.ui.registration;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -24,18 +24,14 @@ import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.hra.hourregistrationapp.ui.home.MainActivity;
 import com.hra.hourregistrationapp.Model.Company;
-import com.hra.hourregistrationapp.Retrofit.RetrofitClient;
+import com.hra.hourregistrationapp.R;
 import com.hra.hourregistrationapp.ViewModel.CompanyViewModel;
 import com.hra.hourregistrationapp.ViewModel.LoginViewModel;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import okhttp3.ResponseBody;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 public class RegisterActivity extends AppCompatActivity implements View.OnClickListener {
 

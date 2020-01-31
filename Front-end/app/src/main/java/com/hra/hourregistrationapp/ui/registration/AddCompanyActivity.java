@@ -1,4 +1,4 @@
-package com.hra.hourregistrationapp;
+package com.hra.hourregistrationapp.ui.registration;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -9,7 +9,9 @@ import androidx.appcompat.widget.AppCompatEditText;
 import androidx.lifecycle.ViewModelProviders;
 
 import com.hra.hourregistrationapp.Model.Company;
+import com.hra.hourregistrationapp.R;
 import com.hra.hourregistrationapp.ViewModel.CompanyViewModel;
+import com.hra.hourregistrationapp.ui.registration.RegisterActivity;
 
 public class AddCompanyActivity extends AppCompatActivity implements View.OnClickListener{
 

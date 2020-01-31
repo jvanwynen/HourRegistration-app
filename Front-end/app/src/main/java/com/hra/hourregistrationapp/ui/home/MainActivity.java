@@ -1,4 +1,4 @@
-package com.hra.hourregistrationapp;
+package com.hra.hourregistrationapp.ui.home;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -14,6 +14,7 @@ import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
 import com.google.android.material.navigation.NavigationView;
+import com.hra.hourregistrationapp.R;
 
 import androidx.drawerlayout.widget.DrawerLayout;
 
