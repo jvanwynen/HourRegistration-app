@@ -14,5 +14,15 @@
     <string name="menu_settings">Settings</string>
     <string name="menu_logout">Logout</string>
     <string name="title_activity_main">MainActivity</string>
+    <string name="title_activity_addcompany">Add Company</string>
     <string name="server_client_id">627510897874-46pejgnail9p51tkib5hg9d58nv9r85p.apps.googleusercontent.com</string>
+    <string name="Kies_text_registration">Choose a Company</string>
+    <string name="registration_hint_password">Fill in a password</string>
+    <string name="registration_text_password">Fill in password</string>
+    <string name="registration_hint_name">Enter Company name</string>
+    <string name="registration_text_info">The company password is used for new memberd of the Company. They get access by filling in the right password.</string>
+    <string name="registration_text_name">Fill in Company name</string>
+    <string name="registration_button_save">Save and back</string>
+    <string name="registration_text_registration">Or add a company by clicking here</string>
+    <string name="registration_save_button">Save And Continue</string>
 </resources>

@@ -1,4 +1,4 @@
-package com.hra.hourregistrationapp;
+package com.hra.hourregistrationapp.ui.home;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -14,6 +14,7 @@ import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
 import com.google.android.material.navigation.NavigationView;
+import com.hra.hourregistrationapp.R;
 
 import androidx.drawerlayout.widget.DrawerLayout;
 
@@ -33,8 +34,8 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        Intent intent = new Intent(getApplicationContext(), RegisterActivity.class);
-        startActivity(intent);
+//        Intent intent = new Intent(getApplicationContext(), RegisterActivity.class);
+//        startActivity(intent);
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         NavigationView navigationView = findViewById(R.id.nav_view);

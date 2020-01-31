@@ -37,14 +37,15 @@ class DbCompanyOperations
     }
 
     public function getAllCompanies(){
-        $stmt = $this->con->prepare("SELECT id, name FROM company;");
+        $stmt = $this->con->prepare("SELECT id, name, password FROM company;");
         $stmt->execute();
-        $stmt->bind_result($id, $name);
+        $stmt->bind_result($id, $name, $password);
         $companies = array();
         while($stmt->fetch()){
             $company = array();
             $company['id'] = $id;
             $company['name']=$name;
+            $company['password']=$password;
             array_push($companies, $company);
         }
         return $companies;
