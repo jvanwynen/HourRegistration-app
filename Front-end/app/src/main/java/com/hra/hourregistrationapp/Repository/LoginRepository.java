@@ -30,6 +30,5 @@ public class LoginRepository {
             }
         });
         // updateUI(account);
-
     }
 }

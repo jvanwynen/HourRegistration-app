@@ -49,7 +49,7 @@ public class CompanyRepository {
 
     public void createCompany(Company company) {
 
-        retrofitClient.getCompanyService().CreateCompany(company.getName(), company.getPassword()).enqueue(new Callback<ResponseBody>() {
+        retrofitClient.getCompanyService().createCompany(company.getName(), company.getPassword()).enqueue(new Callback<ResponseBody>() {
 
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
@@ -62,4 +62,22 @@ public class CompanyRepository {
             }
         });
     }
+
+    public void verifyCompanyToken(Company company){
+
+        retrofitClient.getCompanyService().verifyCompanyPassword(company.getName(), company.getPassword()).enqueue(new Callback<ResponseBody>(){
+
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                Log.d("http", response.message());
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                Log.d("httpFailure", t.getMessage());
+            }
+        });
+    }
+
+
 }

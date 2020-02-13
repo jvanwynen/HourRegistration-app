@@ -39,12 +39,12 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
     private static final String TAG = "tag";
 
     private GoogleSignInClient mGoogleSignInClient;
-    private ArrayList<String> mCompaniesnames;
+    private ArrayList<String> mCompanyNames;
     private CompanyViewModel mCompanyViewModel;
     private LoginViewModel mLoginViewModel;
-    private ArrayAdapter adapter;
-    private Spinner spinner;
-    private SignInButton signInButton;
+    private ArrayAdapter mAdapter;
+    private Spinner mSpinner;
+    private SignInButton mSignInButton;
     private Button mSaveButton;
     private TextView mPasswordTextView;
 
@@ -55,14 +55,14 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         setContentView(R.layout.activity_registration);
 
         findViewById(R.id.registration_button_signin).setOnClickListener(this);
-        spinner = findViewById(R.id.registration_spinner_companylist);
+        mSpinner = findViewById(R.id.registration_spinner_companylist);
         findViewById(R.id.registration_text_add).setOnClickListener(this);
-        signInButton = findViewById(R.id.registration_button_signin);
+        mSignInButton = findViewById(R.id.registration_button_signin);
         mSaveButton = findViewById(R.id.registration_save_button);
         mPasswordTextView = findViewById(R.id.registration_input_password);
         mSaveButton.setOnClickListener(this);
 
-        mCompaniesnames = new ArrayList<>();
+        mCompanyNames = new ArrayList<>();
         mCompanyViewModel = ViewModelProviders.of(this).get(CompanyViewModel.class);
         mLoginViewModel = ViewModelProviders.of(this).get(LoginViewModel.class);
 
@@ -71,21 +71,21 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
                 @Override
                 public void onChanged(@Nullable final List<Company> companies) {
                     for (Company company : companies) {
-                        mCompaniesnames.add(company.getName());
+                        mCompanyNames.add(company.getName());
                     }
                 }
             });
 
 
-        adapter = new ArrayAdapter(this,android.R.layout.simple_spinner_item, mCompaniesnames);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinner.setAdapter(adapter);
+        mAdapter = new ArrayAdapter(this,android.R.layout.simple_spinner_item, mCompanyNames);
+        mAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        mSpinner.setAdapter(mAdapter);
 
 
-        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        mSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int position, long id) {
-                spinner.setSelection(position);
+                mSpinner.setSelection(position);
             }
 
             @Override
@@ -120,12 +120,36 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         }
     }
 
+    @Override
+    public void onStart() {
+        super.onStart();
+        //check if user can sign in silently
+        mGoogleSignInClient.silentSignIn().addOnCompleteListener(this, new OnCompleteListener<GoogleSignInAccount>() {
+            @Override
+            public void onComplete(@NonNull Task<GoogleSignInAccount> task) {
+                handleSilentSignInResult(task);
+            }
+        });
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        //check if user can sign in silently
+        mGoogleSignInClient.silentSignIn().addOnCompleteListener(this, new OnCompleteListener<GoogleSignInAccount>() {
+            @Override
+            public void onComplete(@NonNull Task<GoogleSignInAccount> task) {
+                handleSilentSignInResult(task);
+            }
+        });
+    }
+
     private String handleSignInResult(@NonNull Task<GoogleSignInAccount> completedTask) {
         try {
             GoogleSignInAccount account = completedTask.getResult(ApiException.class);
             String idToken = account.getIdToken();
             mLoginViewModel.verifyIdToken(idToken);
-            signInButton.setVisibility(View.GONE);
+            mSignInButton.setVisibility(View.GONE);
             return idToken;
         } catch (ApiException e) {
             return ("handleSignInResult:error" + e);

@@ -20,8 +20,15 @@ public interface CompanyService {
 
     @FormUrlEncoded
     @POST("createcompany")
-    Call<ResponseBody> CreateCompany(
-            @Field("name") String token,
+    Call<ResponseBody> createCompany(
+            @Field("name") String name,
+            @Field("password") String password
+    );
+
+    @FormUrlEncoded
+    @POST("createcompany")
+    Call<ResponseBody> verifyCompanyPassword(
+            @Field("name") String name,
             @Field("password") String password
     );
 }
