@@ -38,7 +38,6 @@ public class MainActivity extends AppCompatActivity  {
     private SignInButton mSignInButton;
     private MainViewModel mMainViewModel;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,6 +46,7 @@ public class MainActivity extends AppCompatActivity  {
         if (!isNetworkAvailable()) {
             showPopUp();
         }
+
 
         mMainViewModel = ViewModelProviders.of(this).get(MainViewModel.class);
 

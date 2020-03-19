@@ -53,7 +53,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
 
         LocalDatabase localDatabase = LocalDatabase.getInstance(this);
 
-        findViewById(R.id.setup_button_signin).setOnClickListener(this);
+//        findViewById(R.id.setup_button_signin).setOnClickListener(this);
         mSpinner = findViewById(R.id.registration_spinner_companylist);
         findViewById(R.id.registration_text_add).setOnClickListener(this);
         mSaveButton = findViewById(R.id.registration_save_button);

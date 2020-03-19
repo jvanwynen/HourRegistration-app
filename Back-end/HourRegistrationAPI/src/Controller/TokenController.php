@@ -2,7 +2,7 @@
 
 namespace App\Controller;
 
-require_once 'C:\xampp\htdocs\API\vendor\autoload.php';
+require_once 'C:\Users\joost\Documents\projects\HourRegistration-app\Back-end\HourRegistrationAPI\vendor\autoload.php';
 
 use Google_Client;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;

@@ -30,7 +30,9 @@ public class MainViewModel extends AndroidViewModel {
         projectRepository = new ProjectRepository();
         localDatabase = LocalDatabase.getInstance(application.getApplicationContext());
         loadDataFromRemote();
-        insertCompaniesInLocalDB(companies.toArray(new Company[1]));
+        if(!companies.isEmpty()) {
+            insertCompaniesInLocalDB(companies.toArray(new Company[1]));
+        }
     }
 
     private void loadDataFromRemote()  {
