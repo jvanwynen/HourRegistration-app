@@ -69,6 +69,34 @@ class CompaniesController extends AbstractController
     }
 
     /**
+     * @Route("/company/allcompanies")
+     * @param CompanyRepository $companyRepository
+     * @return JsonResponse
+     */
+    function getAllCompanies(CompanyRepository $companyRepository)
+    {
+        $response = new JsonResponse(['error' => "No companies has been found"]);
+        $companies = $companyRepository->findAll();
+        if ($companies != null) {
+            $companyArray = array();
+            foreach ($companies as $item) {
+                $companyArray[] = array(
+                    'id' => $item->getId(),
+                    'companyname' => $item->getCompanyname(),
+                );
+            }
+            $response = new JsonResponse($companyArray);
+            $response->setStatusCode(Response::HTTP_OK);
+            $response->headers->set('Content-Type', 'application/json');
+            return $response;
+        }
+        $response->setStatusCode(Response::HTTP_NOT_FOUND);
+        $response->headers->set('Content-Type', 'application/json');
+        return $response;
+    }
+
+
+    /**
      * @Route("/company/deletebyid")
      * @param Request $request
      * @param CompanyRepository $companyRepository
