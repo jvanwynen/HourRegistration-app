@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.hra.hourregistrationapp">
+
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
 
     <application
@@ -13,17 +15,18 @@
         android:networkSecurityConfig="@xml/network_security_config"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".ui.home.MainActivity"
+            android:name=".Ui.home.HomeActivity"
             android:label="@string/title_activity_main"
             android:theme="@style/AppTheme.NoActionBar">
         </activity>
+        <activity android:name=".Ui.registration.RegisterActivity" android:exported="true"/>
         <activity
-            android:name=".ui.registration.RegisterActivity" android:exported="true">
-        <intent-filter>
-            <action android:name="android.intent.action.MAIN" />
-            <category android:name="android.intent.category.LAUNCHER" />
-        </intent-filter>
+            android:name=".Ui.setup.MainActivity" android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
-        <activity android:name=".ui.registration.AddCompanyActivity" android:exported="true"/>
+        <activity android:name=".Ui.registration.AddCompanyActivity" android:exported="true"/>
     </application>
 </manifest>

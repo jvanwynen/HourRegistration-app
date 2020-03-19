@@ -1,4 +1,4 @@
-package com.hra.hourregistrationapp.ui.home;
+package com.hra.hourregistrationapp.Ui.hours;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -14,17 +14,17 @@ import androidx.lifecycle.ViewModelProviders;
 
 import com.hra.hourregistrationapp.R;
 
-public class HomeFragment extends Fragment {
+public class HourFragment extends Fragment {
 
-    private HomeViewModel homeViewModel;
+    private HoursViewModel hoursViewModel;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        homeViewModel =
-                ViewModelProviders.of(this).get(HomeViewModel.class);
-        View root = inflater.inflate(R.layout.fragment_home, container, false);
-        final TextView textView = root.findViewById(R.id.text_home);
-        homeViewModel.getText().observe(this, new Observer<String>() {
+        hoursViewModel =
+                ViewModelProviders.of(this).get(HoursViewModel.class);
+        View root = inflater.inflate(R.layout.fragment_hours, container, false);
+        final TextView textView = root.findViewById(R.id.text_send);
+        hoursViewModel.getText().observe(this, new Observer<String>() {
             @Override
             public void onChanged(@Nullable String s) {
                 textView.setText(s);

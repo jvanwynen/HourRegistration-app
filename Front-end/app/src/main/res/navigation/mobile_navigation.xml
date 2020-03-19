@@ -7,37 +7,37 @@
 
     <fragment
         android:id="@+id/nav_home"
-        android:name="com.hra.hourregistrationapp.ui.home.HomeFragment"
+        android:name="com.hra.hourregistrationapp.Ui.home.HomeFragment"
         android:label="@string/menu_home"
         tools:layout="@layout/fragment_home" />
 
     <fragment
         android:id="@+id/nav_calendar"
-        android:name="com.hra.hourregistrationapp.ui.calendar.CalendarFragment"
+        android:name="com.hra.hourregistrationapp.Ui.calendar.CalendarFragment"
         android:label="@string/menu_calendar"
         tools:layout="@layout/fragment_calendar" />
 
     <fragment
         android:id="@+id/nav_hours"
-        android:name="com.hra.hourregistrationapp.ui.hours.HourFragment"
+        android:name="com.hra.hourregistrationapp.Ui.hours.HourFragment"
         android:label="@string/menu_hours"
         tools:layout="@layout/fragment_hours" />
 
     <fragment
         android:id="@+id/nav_projects"
-        android:name="com.hra.hourregistrationapp.ui.projects.ProjectsFragment"
+        android:name="com.hra.hourregistrationapp.Ui.projects.ProjectsFragment"
         android:label="@string/menu_projects"
         tools:layout="@layout/fragment_projects" />
 
     <fragment
         android:id="@+id/nav_settings"
-        android:name="com.hra.hourregistrationapp.ui.settings.SettingsFragment"
+        android:name="com.hra.hourregistrationapp.Ui.settings.SettingsFragment"
         android:label="@string/menu_settings"
         tools:layout="@layout/fragment_settings" />
 
     <fragment
         android:id="@+id/nav_logout"
-        android:name="com.hra.hourregistrationapp.ui.logout.LogoutFragment"
+        android:name="com.hra.hourregistrationapp.Ui.logout.LogoutFragment"
         android:label="@string/menu_logout"
         tools:layout="@layout/fragment_logout" />
 </navigation>

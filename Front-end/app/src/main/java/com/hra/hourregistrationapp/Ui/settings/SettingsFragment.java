@@ -1,4 +1,4 @@
-package com.hra.hourregistrationapp.ui.settings;
+package com.hra.hourregistrationapp.Ui.settings;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -13,6 +13,7 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
 import com.hra.hourregistrationapp.R;
+import com.hra.hourregistrationapp.ViewModel.SettingsViewModel;
 
 public class SettingsFragment extends Fragment {
 

@@ -15,7 +15,5 @@ public class LoginViewModel extends AndroidViewModel {
         super(application);
     }
 
-    public void verifyIdToken(String idToken){
-        mLoginRepository.sendToken(idToken);
-    }
+
 }

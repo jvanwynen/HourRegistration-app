@@ -1,4 +1,4 @@
-package com.hra.hourregistrationapp.ui.calendar;
+package com.hra.hourregistrationapp.Ui.home;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -13,18 +13,19 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
 import com.hra.hourregistrationapp.R;
+import com.hra.hourregistrationapp.ViewModel.HomeViewModel;
 
-public class CalendarFragment extends Fragment {
+public class HomeFragment extends Fragment {
 
-    private CalendarViewModel calendarViewModel;
+    private HomeViewModel homeViewModel;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        calendarViewModel =
-                ViewModelProviders.of(this).get(CalendarViewModel.class);
-        View root = inflater.inflate(R.layout.fragment_calendar, container, false);
-        final TextView textView = root.findViewById(R.id.text_gallery);
-        calendarViewModel.getText().observe(this, new Observer<String>() {
+        homeViewModel =
+                ViewModelProviders.of(this).get(HomeViewModel.class);
+        View root = inflater.inflate(R.layout.fragment_home, container, false);
+        final TextView textView = root.findViewById(R.id.text_home);
+        homeViewModel.getText().observe(this, new Observer<String>() {
             @Override
             public void onChanged(@Nullable String s) {
                 textView.setText(s);

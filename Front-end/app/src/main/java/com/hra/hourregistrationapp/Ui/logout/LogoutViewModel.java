@@ -1,16 +1,16 @@
-package com.hra.hourregistrationapp.ui.settings;
+package com.hra.hourregistrationapp.Ui.logout;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-public class SettingsViewModel extends ViewModel {
+public class LogoutViewModel extends ViewModel {
 
     private MutableLiveData<String> mText;
 
-    public SettingsViewModel() {
+    public LogoutViewModel() {
         mText = new MutableLiveData<>();
-        mText.setValue("This is Settings fragment");
+        mText.setValue("This is Logout fragment");
     }
 
     public LiveData<String> getText() {

@@ -23,7 +23,7 @@ import androidx.recyclerview.widget.RecyclerView;
 public class ProjectAdapter extends
         RecyclerView.Adapter<ProjectAdapter.ViewHolder> {
 
-     // Provide a direct reference to each of the views within a data item
+    // Provide a direct reference to each of the views within a data item
     // Used to cache the views within the item layout for fast access
     public class ViewHolder extends RecyclerView.ViewHolder {
         // Your holder should contain a member variable
@@ -39,7 +39,7 @@ public class ProjectAdapter extends
             super(itemView);
 
             int colorCounter;
-            projectNameTextView = (TextView) itemView.findViewById(R.id.projectNameTextView);
+            projectNameTextView = itemView.findViewById(R.id.projectNameTextView);
             layoutItemView = itemView.findViewById(R.id.projectItemLayout);
         }
     }
@@ -79,8 +79,6 @@ public class ProjectAdapter extends
         }else{
             holder.layoutItemView.setBackground(blue);
         }
-
-
 
         //Get the data model based on position
         Project project = mProjects.get(position);

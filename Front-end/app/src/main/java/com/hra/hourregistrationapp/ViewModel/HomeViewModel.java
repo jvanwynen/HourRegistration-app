@@ -1,4 +1,4 @@
-package com.hra.hourregistrationapp.ui.home;
+package com.hra.hourregistrationapp.ViewModel;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;

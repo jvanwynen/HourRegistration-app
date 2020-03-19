@@ -1,8 +1,14 @@
 package com.hra.hourregistrationapp.Model;
 
+import androidx.room.Entity;
+import androidx.room.PrimaryKey;
+
+@Entity
 public class Company {
 
     String name, password;
+
+    @PrimaryKey
     int id;
 
     public Company(String name, String password) {
