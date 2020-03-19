@@ -1,4 +1,4 @@
-package com.hra.hourregistrationapp.ui.hours;
+package com.hra.hourregistrationapp.Ui.logout;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -14,17 +14,17 @@ import androidx.lifecycle.ViewModelProviders;
 
 import com.hra.hourregistrationapp.R;
 
-public class HourFragment extends Fragment {
+public class LogoutFragment extends Fragment {
 
-    private HoursViewModel hoursViewModel;
+    private LogoutViewModel sendViewModel;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        hoursViewModel =
-                ViewModelProviders.of(this).get(HoursViewModel.class);
-        View root = inflater.inflate(R.layout.fragment_hours, container, false);
-        final TextView textView = root.findViewById(R.id.text_send);
-        hoursViewModel.getText().observe(this, new Observer<String>() {
+        sendViewModel =
+                ViewModelProviders.of(this).get(LogoutViewModel.class);
+        View root = inflater.inflate(R.layout.fragment_logout, container, false);
+        final TextView textView = root.findViewById(R.id.text_tools);
+        sendViewModel.getText().observe(this, new Observer<String>() {
             @Override
             public void onChanged(@Nullable String s) {
                 textView.setText(s);

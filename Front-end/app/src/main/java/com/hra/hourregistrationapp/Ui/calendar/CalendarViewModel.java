@@ -1,16 +1,16 @@
-package com.hra.hourregistrationapp.ui.logout;
+package com.hra.hourregistrationapp.Ui.calendar;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-public class LogoutViewModel extends ViewModel {
+public class CalendarViewModel extends ViewModel {
 
     private MutableLiveData<String> mText;
 
-    public LogoutViewModel() {
+    public CalendarViewModel() {
         mText = new MutableLiveData<>();
-        mText.setValue("This is Logout fragment");
+        mText.setValue("This is Calendar fragment");
     }
 
     public LiveData<String> getText() {

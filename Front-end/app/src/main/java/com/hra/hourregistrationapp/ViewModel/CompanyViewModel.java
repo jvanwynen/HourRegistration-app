@@ -1,6 +1,7 @@
 package com.hra.hourregistrationapp.ViewModel;
 
 import android.app.Application;
+import android.content.Context;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
@@ -21,12 +22,16 @@ public class CompanyViewModel extends AndroidViewModel {
         mCompanyRepository = new CompanyRepository();
     }
 
+//    public LiveData<List<Company>> getAllCompanies() {
+//        mCompanyRepository.getCompanies();
+//        mCompanyList = mCompanyRepository.giveLiveResponses();
+//        return mCompanyList;
+//    }
 
-    public LiveData<List<Company>> getAllCompanies() {
-        mCompanyRepository.getCompanies();
-        mCompanyList = mCompanyRepository.giveLiveResponses();
-        return mCompanyList;
-    }
+
+//    public List<Company> getAllCompanies(){
+//        mCompanyRepository = new
+//    }
 
     public void createNewCompany(Company company){
         mCompanyRepository.createCompany(company);

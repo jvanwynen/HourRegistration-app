@@ -1,4 +1,4 @@
-package com.hra.hourregistrationapp.ui.projects;
+package com.hra.hourregistrationapp.Ui.projects;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -20,7 +20,6 @@ import com.hra.hourregistrationapp.R;
 import com.hra.hourregistrationapp.ViewModel.ProjectViewModel;
 
 
-import java.util.ArrayList;
 import java.util.List;
 
 

@@ -1,8 +1,14 @@
 package com.hra.hourregistrationapp.Model;
 
+import androidx.room.Entity;
+import androidx.room.PrimaryKey;
+
+@Entity
 public class User {
 
-    private int id, admin, calendarID, companyID;
+    @PrimaryKey
+    private int id;
+    private int admin, calendarID, companyID;
     private String firstname, lastname;
 
     public User(int id, int admin, int calendarID, int companyID, String firstname, String lastname) {

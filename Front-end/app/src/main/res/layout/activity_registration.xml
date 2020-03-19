@@ -5,7 +5,7 @@
     android:id="@+id/registration_constraintlayout_constraint"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.registration.RegisterActivity">
+    tools:context=".Ui.registration.RegisterActivity">
 
 
     <ImageView
@@ -23,26 +23,16 @@
         android:id="@+id/registration_button_Login"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="32dp"
         android:background="@android:color/white"
         android:text="Login"
-        app:layout_constraintBottom_toTopOf="@+id/registration_button_signin"
+        app:layout_constraintBottom_toTopOf="@+id/registration_text_company"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/registration_image_background" />
 
-    <com.google.android.gms.common.SignInButton
-        android:id="@+id/registration_button_signin"
-        android:layout_width="205dp"
-        android:layout_height="50dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginBottom="30dp"
-        app:layout_constraintBottom_toTopOf="@+id/registration_text_company"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/registration_button_Login">
 
-    </com.google.android.gms.common.SignInButton>
 
     <ImageView
         android:id="@+id/registration_image_clock"
@@ -75,14 +65,13 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="180dp"
-        android:layout_marginTop="5dp"
         android:layout_marginEnd="180dp"
         android:text="@string/Kies_text_registration"
         android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/registration_spinner_companylist"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/registration_button_signin" />
+        app:layout_constraintTop_toBottomOf="@+id/registration_button_Login" />
 
     <Spinner
         android:id="@+id/registration_spinner_companylist"
