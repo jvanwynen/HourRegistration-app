@@ -77,7 +77,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
 //                }
 //            });
 
-        mCompanies = mCompanyRepository.getCompaniesLocalDB();
+       // mCompanies = mCompanyRepository.getCompaniesLocalDB();
 
         for(Company c : mCompanies ){
             mCompanyNames.add(c.getName());
