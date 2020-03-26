@@ -1,27 +1,38 @@
 package com.hra.hourregistrationapp.Model;
 
+import androidx.room.ColumnInfo;
 import androidx.room.Entity;
+import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
+
+import com.google.gson.annotations.SerializedName;
 
 @Entity
 public class Company {
 
-    String name, password;
+    @ColumnInfo(name = "name")
+    String companyname;
+
+    @Ignore
+    String password;
 
     @PrimaryKey
     int id;
 
-    public Company(String name, String password) {
-        this.name = name;
+    public Company(String companyname, String password) {
+        this.companyname = companyname;
         this.password = password;
     }
-
-    public String getName() {
-        return name;
+    public Company(String companyname) {
+        this.companyname = companyname;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public String getCompanyname() {
+        return companyname;
+    }
+
+    public void setCompanyname(String companyname) {
+        this.companyname = companyname;
     }
 
     public String getPassword() {

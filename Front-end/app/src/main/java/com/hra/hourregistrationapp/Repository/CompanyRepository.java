@@ -2,16 +2,13 @@ package com.hra.hourregistrationapp.Repository;
 
 import android.content.Context;
 import android.util.Log;
-import android.widget.Toast;
 
 import androidx.lifecycle.MutableLiveData;
 
-import com.hra.hourregistrationapp.Controller.CompanyService;
 import com.hra.hourregistrationapp.Model.Company;
 import com.hra.hourregistrationapp.Persistence.LocalDatabase;
 import com.hra.hourregistrationapp.Retrofit.RetrofitClient;
-import com.hra.hourregistrationapp.Ui.popup.Popup;
-import com.hra.hourregistrationapp.Ui.setup.MainActivity;
+import com.hra.hourregistrationapp.Retrofit.RetrofitResponseListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,12 +18,16 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+/*
+this class is responsible for sending the requests and receiving responses from remote server
+ */
 public class CompanyRepository  {
 
    // Context context;
     private RetrofitClient retrofitClient;
     private LocalDatabase localDatabase ;
-    private List<Company> companies = new ArrayList<>();
+   private List<Company> companielist = new ArrayList<>();
+    private final MutableLiveData<List<Company>> companies = new MutableLiveData<>();
 
     public CompanyRepository(Context context) {
         this.retrofitClient = RetrofitClient.getInstance();
@@ -36,38 +37,36 @@ public class CompanyRepository  {
         this.retrofitClient = RetrofitClient.getInstance();
     }
 
-    public List<Company> getCompanies() {
+    public void getCompanies(RetrofitResponseListener retrofitResponseListener) {
         retrofitClient.getCompanyService().getAllCompanies().enqueue(new Callback<List<Company>>()  {
             @Override
             public void onResponse(Call<List<Company>> call, Response<List<Company>> response) {
                 if (response.isSuccessful()) {
                     if (response.body() != null) {
-                        companies.addAll(response.body());
-                        companies.get(1);
+                        //companies.setValue(response.body());
+                        companielist.addAll(response.body());
+                        retrofitResponseListener.onSuccess();
                     }
-                    //insertCompaniesInLocalDB(companies.toArray(new Company[1]));
-                    // retrofitResponseListener.onSuccess();
+
                 } else {
-                    //  retrofitResponseListener.onFailure();
-                    System.out.println("failure");
+                    retrofitResponseListener.onFailure();
                 }
             }
 
             @Override
             public void onFailure(Call<List<Company>> call, Throwable t){
-                companies = null;
+                retrofitResponseListener.onFailure();
             }
         });
-        return companies;
     }
 
-    public List<Company> giveLiveResponses() {
+    public MutableLiveData<List<Company>> giveLiveResponses() {
         return companies;
     }
 
     public void createCompany(Company company) {
 
-        retrofitClient.getCompanyService().createCompany(company.getName(), company.getPassword()).enqueue(new Callback<ResponseBody>() {
+        retrofitClient.getCompanyService().createCompany(company.getCompanyname(), company.getPassword()).enqueue(new Callback<ResponseBody>() {
 
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
@@ -83,7 +82,7 @@ public class CompanyRepository  {
 
     public void verifyCompanyToken(Company company){
 
-        retrofitClient.getCompanyService().verifyCompanyPassword(company.getName(), company.getPassword()).enqueue(new Callback<ResponseBody>(){
+        retrofitClient.getCompanyService().verifyCompanyPassword(company.getCompanyname(), company.getPassword()).enqueue(new Callback<ResponseBody>(){
 
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
@@ -97,10 +96,7 @@ public class CompanyRepository  {
         });
     }
 
-
-
-    public List<Company> getCompaniesLocalDB(){
-        return localDatabase.companyDao().getAll();
+    public List<Company> getCompanielist() {
+        return companielist;
     }
-
 }
