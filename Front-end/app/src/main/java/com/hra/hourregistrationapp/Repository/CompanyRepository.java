@@ -6,6 +6,7 @@ import android.widget.Toast;
 
 import androidx.lifecycle.MutableLiveData;
 
+import com.hra.hourregistrationapp.Controller.CompanyService;
 import com.hra.hourregistrationapp.Model.Company;
 import com.hra.hourregistrationapp.Persistence.LocalDatabase;
 import com.hra.hourregistrationapp.Retrofit.RetrofitClient;
@@ -20,7 +21,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class CompanyRepository {
+public class CompanyRepository  {
 
    // Context context;
     private RetrofitClient retrofitClient;
@@ -42,11 +43,13 @@ public class CompanyRepository {
                 if (response.isSuccessful()) {
                     if (response.body() != null) {
                         companies.addAll(response.body());
+                        companies.get(1);
                     }
                     //insertCompaniesInLocalDB(companies.toArray(new Company[1]));
                     // retrofitResponseListener.onSuccess();
                 } else {
                     //  retrofitResponseListener.onFailure();
+                    System.out.println("failure");
                 }
             }
 
@@ -99,6 +102,5 @@ public class CompanyRepository {
     public List<Company> getCompaniesLocalDB(){
         return localDatabase.companyDao().getAll();
     }
-
 
 }

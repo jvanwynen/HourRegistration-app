@@ -73,6 +73,7 @@ public class MainActivity extends AppCompatActivity  {
         try {
             GoogleSignInAccount account = completedTask.getResult(ApiException.class);
             String idToken = account.getIdToken();
+            System.out.println(idToken);
             mMainViewModel.verifyIdToken(idToken);
             Intent intent = new Intent(getApplicationContext(), RegisterActivity.class);
             startActivity(intent);
