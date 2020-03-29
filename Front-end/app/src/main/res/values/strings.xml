@@ -26,11 +26,12 @@
     <string name="registration_text_registration">Or add a company by clicking here</string>
     <string name="registration_save_button">Save And Continue</string>
     <string name="setup_string_title">Log in with your Google account</string>
-    <string name="Popup_tile">Geen melding</string>
-    <string name="popup_text">Geen melding</string>
+    <string name="Popup_tile">No error title</string>
+    <string name="popup_text">No error message</string>
     <string name="popup_button_text">OK</string>
     <string name="popup_title_text">text</string>
-    <string name="popup_message_text">Dit is de foutmelding</string>
-    <string name="main_popup_text">Het is niet mogelijk deze applicatie zonder Internet verbinding te gebruiken</string>
-    <string name="main_popup_title">Fout!</string>
+    <string name="popup_message_text">This is the error</string>
+    <string name="main_popup_text">It is not possible to start this application without internet connection</string>
+    <string name="main_popup_title">Error!</string>
+    <string name="registration_popup_body">Loggin in your Google Account was not successful, please try again</string>
 </resources>

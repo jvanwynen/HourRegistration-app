@@ -27,6 +27,7 @@ public class MainViewModel extends AndroidViewModel {
    private List<Company> companies = new ArrayList<>();
    private LocalDatabase localDatabase;
    private Application application;
+   private boolean isVerified;
 
 
     public MainViewModel(Application application) {
@@ -49,13 +50,25 @@ public class MainViewModel extends AndroidViewModel {
 
             @Override
             public void onFailure() {
+                
             }
         });
         projectRepository.getProjects();
     }
 
-    public void verifyIdToken(String idToken){
-        LoginRepository.sendToken(idToken);
+    public boolean verifyIdToken(String idToken){
+        LoginRepository.sendToken(idToken, new RetrofitResponseListener() {
+            @Override
+            public void onSuccess() {
+                isVerified = true;
+            }
+
+            @Override
+            public void onFailure() {
+                isVerified = false;
+            }
+        });
+        return isVerified;
     }
 
 

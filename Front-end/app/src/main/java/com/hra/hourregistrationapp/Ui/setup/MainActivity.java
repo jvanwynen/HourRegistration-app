@@ -44,7 +44,7 @@ public class MainActivity extends AppCompatActivity  {
         setContentView(R.layout.activity_setup);
 
         if (!isNetworkAvailable()) {
-            showPopUp();
+            showPopUp(getString(R.string.main_popup_title), getString(R.string.main_popup_text));
         }
 
 
@@ -74,11 +74,15 @@ public class MainActivity extends AppCompatActivity  {
             GoogleSignInAccount account = completedTask.getResult(ApiException.class);
             String idToken = account.getIdToken();
             System.out.println(idToken);
-            mMainViewModel.verifyIdToken(idToken);
-            Intent intent = new Intent(getApplicationContext(), RegisterActivity.class);
-            startActivity(intent);
+            if(mMainViewModel.verifyIdToken(idToken)) {
+                Intent intent = new Intent(getApplicationContext(), RegisterActivity.class);
+                startActivity(intent);
+            } else{
+                showPopUp(getString(R.string.main_popup_title), getString(R.string.registration_popup_body));
+            }
         } catch (ApiException e) {
             System.out.println("handleSignInResult:error" + e);
+            showPopUp(getString(R.string.main_popup_title), e.getMessage());
         }
     }
 
@@ -115,11 +119,11 @@ public class MainActivity extends AppCompatActivity  {
     }
 
     //method that puts title and body in bundle and start the pop-up activity
-    private void showPopUp(){
+    private void showPopUp(String title, String body){
         Bundle extras = new Bundle();
         Intent intent =  new Intent(this, Popup.class);
-        extras.putString("help_title", getString(R.string.main_popup_title));
-        extras.putString("help_text", getString(R.string.main_popup_text));
+        extras.putString("help_title", title);
+        extras.putString("help_text", body);
         intent.putExtras(extras);
         startActivity(intent);
     }

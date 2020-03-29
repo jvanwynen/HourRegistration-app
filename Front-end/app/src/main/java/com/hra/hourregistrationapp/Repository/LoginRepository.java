@@ -3,6 +3,7 @@ package com.hra.hourregistrationapp.Repository;
 import android.util.Log;
 
 import com.hra.hourregistrationapp.Retrofit.RetrofitClient;
+import com.hra.hourregistrationapp.Retrofit.RetrofitResponseListener;
 
 import okhttp3.ResponseBody;
 import retrofit2.Call;
@@ -13,7 +14,7 @@ public class LoginRepository {
 
     RetrofitClient retrofitClient = RetrofitClient.getInstance();
 
-    public void sendToken(String idToken){
+    public void sendToken(String idToken, RetrofitResponseListener retrofitResponseListener){
         Call<ResponseBody> call = retrofitClient
                 .getLoginService()
                 .verifyToken(idToken);
@@ -21,12 +22,17 @@ public class LoginRepository {
         call.enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                Log.d("http", response.message());
+                if (response.isSuccessful()) {
+                    Log.d("http", response.message());
+                    retrofitResponseListener.onSuccess();
+                }
+                retrofitResponseListener.onFailure();
             }
 
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
                 Log.d("httpFailure", t.getMessage());
+                retrofitResponseListener.onFailure();
             }
         });
         // updateUI(account);

@@ -11,7 +11,9 @@ import androidx.sqlite.db.SupportSQLiteDatabase;
 import com.hra.hourregistrationapp.Model.Company;
 import com.hra.hourregistrationapp.Model.User;
 
-
+/*
+this class defines the local database, and its migrations to newer versions
+ */
 @Database(entities = {User.class, Company.class}, version = 2, exportSchema = false)
 public abstract class LocalDatabase extends RoomDatabase {
 

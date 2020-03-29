@@ -13,6 +13,9 @@ import com.hra.hourregistrationapp.Model.User;
 import java.util.ArrayList;
 import java.util.List;
 
+/*
+This DAO is responsible for communication with local database for all Company related queries
+ */
 @Dao
 public abstract class CompanyDao implements BaseDAO<Company>{
 

@@ -41,37 +41,20 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
 
         LocalDatabase localDatabase = LocalDatabase.getInstance(this);
 
-//        findViewById(R.id.setup_button_signin).setOnClickListener(this);
         mSpinner = findViewById(R.id.registration_spinner_companylist);
         findViewById(R.id.registration_text_add).setOnClickListener(this);
         mSaveButton = findViewById(R.id.registration_save_button);
         mPasswordTextView = findViewById(R.id.registration_input_password);
         mSaveButton.setOnClickListener(this);
-        CompanyRepository mCompanyRepository = new CompanyRepository(this);
 
         mCompanyNames = new ArrayList<>();
         mCompanies = localDatabase.companyDao().getAll();
-
-
-
-
-//            mCompanyViewModel.getAllCompanies()
-//                    .observe(this, new Observer<List<Company>>() {
-//                @Override
-//                public void onChanged(@Nullable final List<Company> companies) {
-//                    for (Company company : companies) {
-//                        mCompanyNames.add(company.getCompanyname());
-//                    }
-//                }
-//            });
-
-       // mCompanies = mCompanyRepository.getCompaniesLocalDB();
 
         for(Company c : mCompanies ){
             mCompanyNames.add(c.getCompanyname());
         }
 
-        mAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, mCompanyNames);
+        mAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, mCompanyNames);
         mAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         mSpinner.setAdapter(mAdapter);
 
