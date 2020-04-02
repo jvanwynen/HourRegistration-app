@@ -8,6 +8,7 @@ import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProviders;
 
 import com.hra.hourregistrationapp.Persistence.LocalDatabase;
@@ -41,9 +42,7 @@ public class RegisterActivity extends Activity implements View.OnClickListener {
         if(!mLoginViewModel.userLoggedInSuccessful()){
             showPopUp(getString(R.string.main_popup_title), getString(R.string.registration_popup_body));
         }
-
-        LocalDatabase localDatabase = LocalDatabase.getInstance(this);
-
+        
         mSpinner = findViewById(R.id.registration_spinner_companylist);
         findViewById(R.id.registration_text_add).setOnClickListener(this);
         mSaveButton = findViewById(R.id.registration_save_button);
@@ -63,7 +62,7 @@ public class RegisterActivity extends Activity implements View.OnClickListener {
             //mLoginViewModel.createUser();
         }
         else{
-            showPopUp(getString(R.string.main_popup_title), "Incorrect password");
+//            showPopUp(getString(R.string.main_popup_title), "Incorrect password");
         }
     }
 

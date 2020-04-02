@@ -18,6 +18,9 @@ import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.Task;
 import com.hra.hourregistrationapp.R;
 import com.hra.hourregistrationapp.Ui.Activity;
+import com.hra.hourregistrationapp.Ui.home.HomeActivity;
+import com.hra.hourregistrationapp.Ui.popup.Popup;
+import com.hra.hourregistrationapp.Ui.projects.ProjectsFragment;
 import com.hra.hourregistrationapp.Ui.registration.RegisterActivity;
 import com.hra.hourregistrationapp.ViewModel.MainViewModel;
 
