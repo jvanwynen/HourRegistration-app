@@ -12,12 +12,6 @@
         tools:layout="@layout/fragment_home" />
 
     <fragment
-        android:id="@+id/nav_calendar"
-        android:name="com.hra.hourregistrationapp.Ui.calendar.CalendarFragment"
-        android:label="@string/menu_calendar"
-        tools:layout="@layout/fragment_calendar" />
-
-    <fragment
         android:id="@+id/nav_hours"
         android:name="com.hra.hourregistrationapp.Ui.hours.HourFragment"
         android:label="@string/menu_hours"

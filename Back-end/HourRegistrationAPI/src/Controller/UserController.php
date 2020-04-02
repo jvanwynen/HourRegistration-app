@@ -5,41 +5,89 @@ namespace App\Controller;
 use App\Entity\User;
 use App\Repository\CompanyRepository;
 use App\Repository\UserRepository;
+use Google_Client;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Routing\Annotation\Route;
 
 class UserController extends AbstractController
 {
     /**
-     * @Route("/user/insert", name="insertuser")
+     * @Route("/token/verify", name="token")
+     * @param Request $request
+     * @return JsonResponse
+     */
+    public function validateAndInsertUser(Request $request, CompanyRepository $companyRepository)
+    {
+        $CLIENT_ID = "464191253383-qul702tqv9r4j5k185d64o3ehn75v87q.apps.googleusercontent.com";
+        $entityManager = $this->getDoctrine()->getManager();
+        $response = new JsonResponse();
+        $id_token = $request->request->get('id_token');
+// Get $id_token via HTTPS POST.
+
+        $client = new Google_Client(['client_id' => $CLIENT_ID]);  // Specify the CLIENT_ID of the app that accesses the backend
+
+        $payload = $client->verifyIdToken($id_token);
+        if ($payload) {
+            $user_id = $payload['sub'];
+            $firstname_and_lastname = $payload['name'];
+
+            $pieces = explode(" ", $firstname_and_lastname);
+            $firstname = $pieces[0]; // firstname
+            $lastname =  $pieces[1]; // lastname
+
+            $user = new User();
+            $user->setAdmin(0);
+            $user->setFirstname($firstname);
+            $user->setLastname($lastname);
+            $user->setId((int)$user_id);
+
+            if($user != null){
+                // tell Doctrine you want to (eventually) save the User (no queries yet)
+                $entityManager->persist($user);
+                // actually executes the queries (i.e. the INSERT query)
+                $entityManager->flush();// tell Doctrine you want to (eventually) save the Product (no queries yet)
+                $response->setStatusCode(Response::HTTP_OK);
+                // sets a HTTP response header
+                $response->headers->set('Content-Type', 'text/html');
+                return $response;
+            }
+
+
+            $response->setStatusCode(Response::HTTP_NO_CONTENT);
+            // sets a HTTP response header
+            $response->headers->set('Content-Type', 'text/html');
+            return $response;
+        } else {
+            // Invalid ID token
+            $response->setStatusCode(Response::HTTP_OK);
+            $response = new JsonResponse("Invalid Id Token");
+            return $response;
+        }
+    }
+
+     /**
+     * @Route("/user/insertcompany", name="insertcompany")
      * @param Request $request
      * @param CompanyRepository $companyRepository
      * @return Response
      */
-    function insertUser(Request $request, CompanyRepository $companyRepository)
-    {
+    function addCompanyToUser(Request $request, UserRepository $userRepository, CompanyRepository $companyRepository){
         $entityManager = $this->getDoctrine()->getManager();
-        $response = new Response();
-        // the URI being requested (e.g. /about) minus any query parameters
-        $admin = $request->request->get('admin');
-        $firstname = $request->request->get('firstname');
-        $lastname = $request->request->get('lastname');
+        $response = new JsonResponse();
+
+        $userid = $request->request->get('userid');
         $companyid = $request->request->get('companyid');
-        //Query the database to find the corrosponding company object based on the ID
+
+        $user = $userRepository->find($userid);
         $company = $companyRepository->find($companyid);
 
-        $user = new User();
-        $user->setAdmin($admin);
-        $user->setFirstname($firstname);
-        $user->setLastname($lastname);
-        //set the users company by setting the right company
         $user->setCompany($company);
 
         if($user != null){
-            // tell Doctrine you want to (eventually) save the Product (no queries yet)
+            // tell Doctrine you want to (eventually) save the User (no queries yet)
             $entityManager->persist($user);
             // actually executes the queries (i.e. the INSERT query)
             $entityManager->flush();// tell Doctrine you want to (eventually) save the Product (no queries yet)
@@ -48,11 +96,60 @@ class UserController extends AbstractController
             $response->headers->set('Content-Type', 'text/html');
             return $response;
         }
+
         $response->setStatusCode(Response::HTTP_NO_CONTENT);
         // sets a HTTP response header
         $response->headers->set('Content-Type', 'text/html');
         return $response;
+
+
+
+
+
     }
+
+
+//    /**
+//     * @Route("/user/insert", name="insertuser")
+//     * @param Request $request
+//     * @param CompanyRepository $companyRepository
+//     * @return Response
+//     */
+//    function insertUser(Request $request, CompanyRepository $companyRepository)
+//    {
+//        $entityManager = $this->getDoctrine()->getManager();
+//        $response = new Response();
+//        // the URI being requested (e.g. /about) minus any query parameters
+//        $admin = $request->request->get('admin');
+//        $firstname = $request->request->get('firstname');
+//        $lastname = $request->request->get('lastname');
+//        $companyid = $request->request->get('companyid');
+//        //Query the database to find the corrosponding company object based on the ID
+//        $company = $companyRepository->find($companyid);
+//
+//        $user = new User();
+//        $user->setAdmin($admin);
+//        $user->setFirstname($firstname);
+//        $user->setLastname($lastname);
+//        //set the users company by setting the right company
+//        $user->setCompany($company);
+//
+//        if($user != null){
+//            // tell Doctrine you want to (eventually) save the User (no queries yet)
+//            $entityManager->persist($user);
+//            // actually executes the queries (i.e. the INSERT query)
+//            $entityManager->flush();// tell Doctrine you want to (eventually) save the Product (no queries yet)
+//            $response->setStatusCode(Response::HTTP_OK);
+//            // sets a HTTP response header
+//            $response->headers->set('Content-Type', 'text/html');
+//            return $response;
+//        }
+//
+//        $response->setStatusCode(Response::HTTP_NO_CONTENT);
+//        // sets a HTTP response header
+//        $response->headers->set('Content-Type', 'text/html');
+//        return $response;
+//    }
 
 
     /**
@@ -96,7 +193,7 @@ class UserController extends AbstractController
                     'id' => $item->getId(),
                     'firstname' => $item->getFirstname(),
                     'lastname' => $item->getLastname(),
-                    'company' => $item->getCompany()->getCompanyname(),
+                    'company' => $item->getCompany()->getName(),
                     'admin' => $item->getAdmin()
                 );
             }

@@ -64,9 +64,6 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         mCompanyNames = new ArrayList<>();
         mCompanies = localDatabase.companyDao().getAll();
 
-
-
-
 //            mCompanyViewModel.getAllCompanies()
 //                    .observe(this, new Observer<List<Company>>() {
 //                @Override
@@ -86,7 +83,6 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         mAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, mCompanyNames);
         mAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         mSpinner.setAdapter(mAdapter);
-
 
         mSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override

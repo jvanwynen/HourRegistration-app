@@ -10,7 +10,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-class CompaniesController extends AbstractController
+class CompanyController extends AbstractController
 {
     /**
      * @Route("/company/insert", name="companies")
@@ -21,12 +21,12 @@ class CompaniesController extends AbstractController
         $entityManager = $this->getDoctrine()->getManager();
         $response = new Response();
         // the URI being requested (e.g. /about) minus any query parameters
-        $companyname = $request->request->get('companyname');
-        $companypassword = $request->request->get('companypassword');
+        $companyname = $request->request->get('name');
+        $companypassword = $request->request->get('password');
         //Query the database to find the corrosponding company object based on the ID
         $company = new Company();
-        $company->setCompanyname($companyname);
-        $company->setCompanypassword(password_hash($companypassword, PASSWORD_DEFAULT));
+        $company->setName($companyname);
+        $company->setPassword(password_hash($companypassword, PASSWORD_DEFAULT));
 
         if($company != null){
             // tell Doctrine you want to (eventually) save the Product (no queries yet)
@@ -56,7 +56,7 @@ class CompaniesController extends AbstractController
         $company = $companyRepository->find($companyid);
         if ($company != null) {
             // the data to send when creating the response
-            $response = new JsonResponse(['id' => $company->getId(), 'companyname' => $company->getCompanyname()]);
+            $response = new JsonResponse(['id' => $company->getId(), 'name' => $company->getName()]);
             $response->setStatusCode(Response::HTTP_OK);
             // sets a HTTP response header
             $response->headers->set('Content-Type', 'application/json');
@@ -82,7 +82,7 @@ class CompaniesController extends AbstractController
             foreach ($companies as $item) {
                 $companyArray[] = array(
                     'id' => $item->getId(),
-                    'companyname' => $item->getCompanyname(),
+                    'companyname' => $item->getName(),
                 );
             }
             $response = new JsonResponse($companyArray);
@@ -138,12 +138,12 @@ class CompaniesController extends AbstractController
         $companypassword = $request->request->get('companypassword');
         $company = $companyRepository->find($id);
         if($company != null) {
-            $company->setCompanyname($companyname);
-            $company->setCompanypassword(password_hash($companypassword, PASSWORD_DEFAULT));
+            $company->setName($companyname);
+            $company->setPassword(password_hash($companypassword, PASSWORD_DEFAULT));
             $entityManager->persist($company);
             $entityManager->flush();
             $responseCompany = $companyRepository->find($id);
-            $response = new JsonResponse(['id' => $responseCompany->getId(), 'companyname' => $responseCompany->getCompanyname()]);
+            $response = new JsonResponse(['id' => $responseCompany->getId(), 'companyname' => $responseCompany->getName()]);
             $response->setStatusCode(Response::HTTP_OK);
             // sets a HTTP response header
             $response->headers->set('Content-Type', 'text/html');
@@ -167,7 +167,7 @@ class CompaniesController extends AbstractController
         $companyid = $request->request->get('id');
         $insertedCompanyPassword = $request->request->get('companypassword');
         $company = $companyRepository->find($companyid);
-        $companypassword = $company->getCompanypassword();
+        $companypassword = $company->getPassword();
         if (password_verify($insertedCompanyPassword, $companypassword)) {
             // the data to send when creating the response
             $response = new JsonResponse("success");

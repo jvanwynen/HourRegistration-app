@@ -19,74 +19,73 @@ class Hour
     /**
      * @ORM\Column(type="integer", nullable=true)
      */
-    private $workedhours;
+    private $hours;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="hours")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\Column(type="datetime")
      */
-    private $user;
+    private $date_added;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Project", inversedBy="hours")
+     * @ORM\ManyToOne(targetEntity="App\Entity\project", inversedBy="hours")
      * @ORM\JoinColumn(nullable=false)
      */
     private $project;
 
     /**
-     * @ORM\Column(type="datetime")
+     * @ORM\ManyToOne(targetEntity="App\Entity\user", inversedBy="hours")
      */
-    private $DateAndTime;
+    private $user;
 
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function getWorkedhours(): ?int
+    public function getHours(): ?int
     {
-        return $this->workedhours;
+        return $this->hours;
     }
 
-    public function setWorkedhours(?int $workedhours): self
+    public function setHours(?int $hours): self
     {
-        $this->workedhours = $workedhours;
+        $this->hours = $hours;
 
         return $this;
     }
 
-    public function getUser(): ?USer
+    public function getDateAdded(): ?\DateTimeInterface
     {
-        return $this->user;
+        return $this->date_added;
     }
 
-    public function setUser(?USer $user): self
+    public function setDateAdded(\DateTimeInterface $date_added): self
     {
-        $this->user = $user;
+        $this->date_added = $date_added;
 
         return $this;
     }
 
-    public function getProject(): ?Project
+    public function getProject(): ?project
     {
         return $this->project;
     }
 
-    public function setProject(?Project $project): self
+    public function setProject(?project $project): self
     {
         $this->project = $project;
 
         return $this;
     }
 
-    public function getDateAndTime(): ?\DateTimeInterface
+    public function getUser(): ?user
     {
-        return $this->DateAndTime;
+        return $this->user;
     }
 
-    public function setDateAndTime(\DateTimeInterface $DateAndTime): self
+    public function setUser(?user $user): self
     {
-        $this->DateAndTime = $DateAndTime;
+        $this->user = $user;
 
         return $this;
     }
