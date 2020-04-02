@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Company;
 use App\Repository\CompanyRepository;
+use App\Repository\UserRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -12,15 +13,17 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class CompanyController extends AbstractController
 {
+
     /**
-     * @Route("/company/insert", name="companies")
-     * @param Request $request
-     * @return Response
-     */
-    function insertCompany(Request $request){
+ * @Route("/company/insert", name="companies")
+ * @param Request $request
+ * @return Response
+ */
+    function insertCompany(Request $request, UserRepository $userRepository, CompanyRepository $companyRepository){
         $entityManager = $this->getDoctrine()->getManager();
         $response = new Response();
         // the URI being requested (e.g. /about) minus any query parameters
+        $userid = $request->request->get('user_id');
         $companyname = $request->request->get('name');
         $companypassword = $request->request->get('password');
         //Query the database to find the corrosponding company object based on the ID
@@ -33,6 +36,18 @@ class CompanyController extends AbstractController
             $entityManager->persist($company);
             // actually executes the queries (i.e. the INSERT query)
             $entityManager->flush();// tell Doctrine you want to (eventually) save the Product (no queries yet)
+
+            $user = $userRepository->find($userid);
+            $company = $companyRepository->find($company->getId());
+
+            $user->setCompany($company);
+            $user->setAdmin(1);
+
+            // tell Doctrine you want to (eventually) save the Product (no queries yet)
+            $entityManager->persist($user);
+            // actually executes the queries (i.e. the INSERT query)
+            $entityManager->flush();// tell Doctrine you want to (eventually) save the Product (no queries yet)
+
             $response->setStatusCode(Response::HTTP_OK);
             // sets a HTTP response header
             $response->headers->set('Content-Type', 'text/html');
@@ -43,7 +58,6 @@ class CompanyController extends AbstractController
         $response->headers->set('Content-Type', 'text/html');
         return $response;
     }
-
     /**
      * @Route("/company/getbyid")
      * @param Request $request

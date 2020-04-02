@@ -8,6 +8,7 @@ import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProviders;
 
 import com.hra.hourregistrationapp.Persistence.LocalDatabase;
@@ -20,7 +21,7 @@ import com.hra.hourregistrationapp.ViewModel.LoginViewModel;
 import java.util.ArrayList;
 import java.util.List;
 
-public class RegisterActivity extends Activity implements View.OnClickListener {
+public class RegisterActivity extends AppCompatActivity implements View.OnClickListener {
 
     private ArrayList<String> mCompanyNames;
     private List<Company> mCompanies;
@@ -64,7 +65,7 @@ public class RegisterActivity extends Activity implements View.OnClickListener {
             //mLoginViewModel.createUser();
         }
         else{
-            showPopUp(getString(R.string.main_popup_title), "Incorrect password");
+//            showPopUp(getString(R.string.main_popup_title), "Incorrect password");
         }
     }
 
