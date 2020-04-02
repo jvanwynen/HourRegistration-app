@@ -26,11 +26,12 @@ import com.hra.hourregistrationapp.R;
 import com.hra.hourregistrationapp.Ui.Activity;
 import com.hra.hourregistrationapp.Ui.home.HomeActivity;
 import com.hra.hourregistrationapp.Ui.popup.Popup;
+import com.hra.hourregistrationapp.Ui.projects.ProjectsFragment;
 import com.hra.hourregistrationapp.Ui.registration.RegisterActivity;
 import com.hra.hourregistrationapp.ViewModel.LoginViewModel;
 import com.hra.hourregistrationapp.ViewModel.MainViewModel;
 
-public class MainActivity extends Activity {
+public class MainActivity extends AppCompatActivity  {
 
     private static final int RC_SIGN_IN = 6969;
     private static final String TAG = "tag";
@@ -44,14 +45,17 @@ public class MainActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_setup);
 
+        Intent intent = new Intent(this, HomeActivity.class);
+        startActivity(intent);
+
         if (!isNetworkAvailable()) {
-            showPopUp(getString(R.string.main_popup_title), getString(R.string.main_popup_text));
+//            showPopUp(getString(R.string.main_popup_title), getString(R.string.main_popup_text));
         }
 
         mMainViewModel = ViewModelProviders.of(this).get(MainViewModel.class);
 
         if(!mMainViewModel.loadDataFromRemote()){
-            showPopUp(getString(R.string.main_popup_title), getString(R.string.main_popup_companyerrrortext));
+//            showPopUp(getString(R.string.main_popup_title), getString(R.string.main_popup_companyerrrortext));
         }
 
         mSignInButton = findViewById(R.id.setup_button_signin);
@@ -77,11 +81,11 @@ public class MainActivity extends Activity {
                 Intent intent = new Intent(getApplicationContext(), RegisterActivity.class);
                 startActivity(intent);
             } else{
-                showPopUp(getString(R.string.main_popup_title), getString(R.string.registration_popup_body));
+//                showPopUp(getString(R.string.main_popup_title), getString(R.string.registration_popup_body));
             }
         } catch (ApiException e) {
             System.out.println("handleSignInResult:error" + e);
-            showPopUp(getString(R.string.main_popup_title), e.getMessage());
+//            showPopUp(getString(R.string.main_popup_title), e.getMessage());
         }
     }
 

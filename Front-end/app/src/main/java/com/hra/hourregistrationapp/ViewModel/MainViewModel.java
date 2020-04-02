@@ -48,7 +48,6 @@ public class MainViewModel extends AndroidViewModel {
             @Override
             public void onFailure() {
                 isSuccessful = false;
-
             }
         });
         projectRepository.getProjects();

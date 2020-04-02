@@ -19,7 +19,7 @@ class UserController extends AbstractController
      * @param Request $request
      * @return JsonResponse
      */
-    public function validateAndInsertUser(Request $request, CompanyRepository $companyRepository)
+    public function validateAndInsertUser(Request $request)
     {
         $CLIENT_ID = "464191253383-qul702tqv9r4j5k185d64o3ehn75v87q.apps.googleusercontent.com";
         $entityManager = $this->getDoctrine()->getManager();
@@ -101,13 +101,7 @@ class UserController extends AbstractController
         // sets a HTTP response header
         $response->headers->set('Content-Type', 'text/html');
         return $response;
-
-
-
-
-
     }
-
 
 //    /**
 //     * @Route("/user/insert", name="insertuser")

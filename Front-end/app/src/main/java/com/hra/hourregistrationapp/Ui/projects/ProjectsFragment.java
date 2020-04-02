@@ -45,7 +45,6 @@ public class ProjectsFragment extends Fragment {
             @Override
             public void onChanged(List<Project> projects) {
                 setupRecyclerView(projects);
-
             }
         });
         //setupRecyclerView()
