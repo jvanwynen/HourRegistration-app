@@ -23,13 +23,14 @@ import com.google.android.gms.tasks.Task;
 import com.hra.hourregistrationapp.Model.Company;
 import com.hra.hourregistrationapp.Persistence.LocalDatabase;
 import com.hra.hourregistrationapp.R;
+import com.hra.hourregistrationapp.Ui.Activity;
 import com.hra.hourregistrationapp.Ui.home.HomeActivity;
 import com.hra.hourregistrationapp.Ui.popup.Popup;
 import com.hra.hourregistrationapp.Ui.registration.RegisterActivity;
 import com.hra.hourregistrationapp.ViewModel.LoginViewModel;
 import com.hra.hourregistrationapp.ViewModel.MainViewModel;
 
-public class MainActivity extends AppCompatActivity  {
+public class MainActivity extends Activity {
 
     private static final int RC_SIGN_IN = 6969;
     private static final String TAG = "tag";
@@ -47,8 +48,11 @@ public class MainActivity extends AppCompatActivity  {
             showPopUp(getString(R.string.main_popup_title), getString(R.string.main_popup_text));
         }
 
-
         mMainViewModel = ViewModelProviders.of(this).get(MainViewModel.class);
+
+        if(!mMainViewModel.loadDataFromRemote()){
+            showPopUp(getString(R.string.main_popup_title), getString(R.string.main_popup_companyerrrortext));
+        }
 
         mSignInButton = findViewById(R.id.setup_button_signin);
 
@@ -61,19 +65,14 @@ public class MainActivity extends AppCompatActivity  {
         mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
 
         //check if user can sign in silently
-        mGoogleSignInClient.silentSignIn().addOnCompleteListener(this, new OnCompleteListener<GoogleSignInAccount>() {
-            @Override
-            public void onComplete(@NonNull Task<GoogleSignInAccount> task) {
-                handleSignInResult(task);
-            }
-        });
+        mGoogleSignInClient.silentSignIn().addOnCompleteListener(this, this::handleSignInResult);
     }
 
     private void handleSignInResult(@NonNull Task<GoogleSignInAccount> completedTask) {
         try {
             GoogleSignInAccount account = completedTask.getResult(ApiException.class);
             String idToken = account.getIdToken();
-            System.out.println(idToken);
+            //System.out.println(idToken);
             if(mMainViewModel.verifyIdToken(idToken)) {
                 Intent intent = new Intent(getApplicationContext(), RegisterActivity.class);
                 startActivity(intent);
@@ -119,13 +118,6 @@ public class MainActivity extends AppCompatActivity  {
     }
 
     //method that puts title and body in bundle and start the pop-up activity
-    private void showPopUp(String title, String body){
-        Bundle extras = new Bundle();
-        Intent intent =  new Intent(this, Popup.class);
-        extras.putString("help_title", title);
-        extras.putString("help_text", body);
-        intent.putExtras(extras);
-        startActivity(intent);
-    }
+
 
 }

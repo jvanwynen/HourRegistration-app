@@ -8,11 +8,10 @@ import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.TextView;
 
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProviders;
 
 import com.hra.hourregistrationapp.Persistence.LocalDatabase;
-import com.hra.hourregistrationapp.Repository.CompanyRepository;
+import com.hra.hourregistrationapp.Ui.Activity;
 import com.hra.hourregistrationapp.Ui.home.HomeActivity;
 import com.hra.hourregistrationapp.Model.Company;
 import com.hra.hourregistrationapp.R;
@@ -21,7 +20,7 @@ import com.hra.hourregistrationapp.ViewModel.LoginViewModel;
 import java.util.ArrayList;
 import java.util.List;
 
-public class RegisterActivity extends AppCompatActivity implements View.OnClickListener {
+public class RegisterActivity extends Activity implements View.OnClickListener {
 
     private ArrayList<String> mCompanyNames;
     private List<Company> mCompanies;
@@ -60,24 +59,30 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
 
     }
 
-    private void createUser(){
-
+    private void createUser(String CompanyName, String CompanyPassword){
+        if(!validatePassword(CompanyName, CompanyPassword)){
+            //mLoginViewModel.createUser();
+        }
+        else{
+            showPopUp(getString(R.string.main_popup_title), "Incorrect password");
+        }
     }
 
-    private void validatePassword(){
-
+    private boolean validatePassword(String CompanyName, String CompanyPassword){
+    return false;
     }
 
     @Override
     public void onClick(View v) {
-        Intent intent = new Intent();
+        Intent intent;
         switch (v.getId()) {
             case R.id.registration_text_add:
                 intent = new Intent(getApplicationContext(), AddCompanyActivity.class);
                 startActivity(intent);
             case R.id.registration_save_button:
-                validatePassword();
-                //createUser();
+
+               // createUser();
+
                 intent = new Intent(getApplicationContext(), HomeActivity.class);
                 startActivity(intent);
         }
