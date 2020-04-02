@@ -19,25 +19,24 @@ class Company
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=50)
+     * @ORM\Column(type="string", length=55)
      */
-    private $companyname;
+    private $name;
 
     /**
-     * @ORM\Column(type="string", length=50)
+     * @ORM\Column(type="string", length=80)
      */
-    private $companypassword;
+    private $password;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\User", mappedBy="company", orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity="App\Entity\User", mappedBy="Company")
      */
     private $users;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Project", mappedBy="company", orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity="App\Entity\Project", mappedBy="Company", orphanRemoval=true)
      */
     private $projects;
-
 
     public function __construct()
     {
@@ -50,32 +49,32 @@ class Company
         return $this->id;
     }
 
-    public function getCompanyname(): ?string
+    public function getName(): ?string
     {
-        return $this->companyname;
+        return $this->name;
     }
 
-    public function setCompanyname(string $companyname): self
+    public function setName(string $name): self
     {
-        $this->companyname = $companyname;
+        $this->name = $name;
 
         return $this;
     }
 
-    public function getCompanypassword(): ?string
+    public function getPassword(): ?string
     {
-        return $this->companypassword;
+        return $this->password;
     }
 
-    public function setCompanypassword(string $companypassword): self
+    public function setPassword(string $password): self
     {
-        $this->companypassword = $companypassword;
+        $this->password = $password;
 
         return $this;
     }
 
     /**
-     * @return Collection|user[]
+     * @return Collection|User[]
      */
     public function getUsers(): Collection
     {

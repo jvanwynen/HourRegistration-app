@@ -8,6 +8,6 @@ import retrofit2.http.GET;
 import com.hra.hourregistrationapp.Model.Project;
 
 public interface ProjectService {
-    @GET("getallprojects")
+    @GET("project/allprojects")
     Call<List<Project>> getProjects();
 }

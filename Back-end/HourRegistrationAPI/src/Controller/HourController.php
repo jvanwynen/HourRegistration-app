@@ -13,17 +13,8 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-class HoursController extends AbstractController
+class HourController extends AbstractController
 {
-/**TODO:
- * InsertHours()
- * GetHoursByUserId()
- * GetHoursByProjectId()
- * GetAllHours()
- * UpdateHours()
- * DeleteHours()
-**/
-
     /**
      * @Route("/hours/insert", name="hours")
      * @param Request $request
@@ -47,12 +38,12 @@ class HoursController extends AbstractController
         $project = $projectRepository->find($projectId);
 
         $hour = new Hour();
-        $hour->setWorkedhours($workedHours);
+        $hour->setHours($workedHours);
         $hour->setUser($user);
         $hour->setProject($project);
 
         $date = new DateTime($dateAndTime);
-        $hour->setDateAndTime( $date);
+        $hour->setDateAdded( $date);
 
         if($hour != null){
             // tell Doctrine you want to (eventually) save the Product (no queries yet)
@@ -82,7 +73,7 @@ class HoursController extends AbstractController
         $hour = $hourRepository->find($userid);
         if ($hour != null) {
             // the data to send when creating the response
-            $response = new JsonResponse(['id' => $hour->getId(), 'workedhours' => $hour->getWorkedhours(), 'dateandtime' => $hour->getDateAndTime()->format('Y-m-d H:i'),
+            $response = new JsonResponse(['id' => $hour->getId(), 'workedhours' => $hour->getHours(), 'dateandtime' => $hour->getDateAdded()->format('Y-m-d H:i'),
                 "userid" => $hour->getUser()->getId(), "projectid" => $hour->getProject()->getId()]);
             $response->setStatusCode(Response::HTTP_OK);
             // sets a HTTP response header
@@ -181,12 +172,12 @@ class HoursController extends AbstractController
             foreach ($hours as $item) {
                 $hoursArray[] = array(
                     'id' => $item->getId(),
-                    'workedhours' => $item->getWorkedhours(),
+                    'workedhours' => $item->getHours(),
                     'userid' => $item->getUser()->getId(),
                     'firstname' => $item->getUser()->getFirstname(),
                     'projectid' => $item->getProject()->getId(),
-                    'projectname' => $item->getProject()->getProjectname(),
-                    'dateandtime' => $item->getDateAndTime()->format('Y-m-d H:i')
+                    'projectname' => $item->getProject()->getName(),
+                    'dateandtime' => $item->getDateAdded()->format('Y-m-d H:i')
                 );
             }
             $response = new JsonResponse($hoursArray);
@@ -241,14 +232,14 @@ class HoursController extends AbstractController
         $dateAndTime = $request->request->get('dateandtime');
         $hour = $hourRepository->find($id);
         if($hour != null) {
-            $hour->setWorkedhours($workedhours);
+            $hour->setHours($workedhours);
             $date = new DateTime($dateAndTime);
-            $hour->setDateAndTime( $date);
+            $hour->setDateAdded( $date);
             $entityManager->persist($hour);
             $entityManager->flush();
             $responseHour = $hourRepository->find($id);
-            $response = new JsonResponse(['id' => $responseHour->getId(), 'workedhours' => $responseHour->getWorkedhours(), 'projectid' => $responseHour->getProject()->getId(),
-                'projectname' => $responseHour->getProject()->getProjectname(), 'dateandtime' => $responseHour->getDateAndTime()->format('Y-m-d H:i')]);
+            $response = new JsonResponse(['id' => $responseHour->getId(), 'workedhours' => $responseHour->getHours(), 'projectid' => $responseHour->getProject()->getId(),
+                'projectname' => $responseHour->getProject()->getName(), 'dateandtime' => $responseHour->getDateAdded()->format('Y-m-d H:i')]);
             $response->setStatusCode(Response::HTTP_OK);
             // sets a HTTP response header
             $response->headers->set('Content-Type', 'text/html');

@@ -77,9 +77,6 @@ public class ProjectsFragment extends Fragment {
 //    }
 
     private void setupRecyclerView(List<Project> projects) {
-
-
-
         if(projects != null) {
             if (projectAdapter == null) {
                 projectProgressBar.setVisibility(View.INVISIBLE);
