@@ -31,8 +31,8 @@ class ProjectsController extends AbstractController
         $company = $companyRepository->find($companyid);
 
         $project = new Project();
-        $project->setProjectname($projectname);
-        $project->setProjectTag($project_tag);
+        $project->setName($projectname);
+        $project->setTag($project_tag);
         $project->setCompany($company);
 
         if($project != null){
@@ -63,7 +63,7 @@ class ProjectsController extends AbstractController
         $project = $projectRepository->find($projectid);
         if ($project != null) {
             // the data to send when creating the response
-            $response = new JsonResponse(['id' => $project->getId(), 'projectname' => $project->getProjectname(), 'projecttag' => $project->getProjectTag(),
+            $response = new JsonResponse(['id' => $project->getId(), 'projectname' => $project->getName(), 'projecttag' => $project->getTag(),
                 'companyid' => $project->getCompany()->getId()]);
             $response->setStatusCode(Response::HTTP_OK);
             // sets a HTTP response header
@@ -91,8 +91,8 @@ class ProjectsController extends AbstractController
             foreach ($projects as $item) {
                 $usersArray[] = array(
                     'id' => $item->getId(),
-                    'projectname' => $item->getProjectname(),
-                    'project_tag' => $item->getProjectTag(),
+                    'projectname' => $item->getName(),
+                    'project_tag' => $item->getTag(),
                     'company_id' => $item->getCompany()->getId()
                 );
             }
@@ -151,12 +151,12 @@ class ProjectsController extends AbstractController
         $project_tag = $request->request->get('project_tag');
         $project = $projectRepository->find($id);
         if($project != null) {
-            $project->setProjectname($project_name);
-            $project->setProjectTag($project_tag);
+            $project->setName($project_name);
+            $project->setTag($project_tag);
             $entityManager->persist($project);
             $entityManager->flush();
             $responseProject = $projectRepository->find($id);
-            $response = new JsonResponse(['id' => $responseProject->getId(), 'projectname' => $responseProject->getProjectname(), 'project_tag' => $responseProject->getProjectTag()]);
+            $response = new JsonResponse(['id' => $responseProject->getId(), 'projectname' => $responseProject->getName(), 'project_tag' => $responseProject->getTag()]);
             $response->setStatusCode(Response::HTTP_OK);
             // sets a HTTP response header
             $response->headers->set('Content-Type', 'text/html');

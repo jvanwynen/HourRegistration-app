@@ -25,15 +25,15 @@ public class ProjectAdapter extends
 
     // Provide a direct reference to each of the views within a data item
     // Used to cache the views within the item layout for fast access
-    public class ViewHolder extends RecyclerView.ViewHolder {
+    static class ViewHolder extends RecyclerView.ViewHolder {
         // Your holder should contain a member variable
         // for any view that will be set as you render a row
-        public TextView projectNameTextView;
-        public LinearLayout layoutItemView;
+        TextView projectNameTextView;
+        LinearLayout layoutItemView;
 
         // We also create a constructor that accepts the entire item row
         // and does the view lookups to find each subview
-        public ViewHolder(View itemView) {
+        ViewHolder(View itemView) {
             // Stores the itemView in a public final member variable that can be used
             // to access the context from any ViewHolder instance.
             super(itemView);
@@ -58,28 +58,13 @@ public class ProjectAdapter extends
         //inflate the custom layout
         View projectView = inflater.inflate(R.layout.project_item, parent, false);
         //return a new holder instance
-        ViewHolder viewHolder = new ViewHolder(projectView);
 
-        return viewHolder;
+        return new ViewHolder(projectView);
     }
 
     //Involves populating the data into the item through holder
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
-        List itemcolors = new ArrayList();
-//        if()
-        itemcolors.add("@drawable/border_yellow");
-        itemcolors.add("YellowAccent");
-
-        Drawable yellow = holder.layoutItemView.getContext().getResources().getDrawable(R.drawable.border_yellow);
-        Drawable blue = holder.layoutItemView.getContext().getResources().getDrawable(R.drawable.border_blue);
-
-        if(holder.layoutItemView.getBackground() ==  blue){
-            holder.layoutItemView.setBackground(yellow);
-        }else{
-            holder.layoutItemView.setBackground(blue);
-        }
-
         //Get the data model based on position
         Project project = mProjects.get(position);
 

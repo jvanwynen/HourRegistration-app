@@ -47,7 +47,6 @@ public class MainActivity extends AppCompatActivity  {
             showPopUp();
         }
 
-
         mMainViewModel = ViewModelProviders.of(this).get(MainViewModel.class);
 
         mSignInButton = findViewById(R.id.setup_button_signin);

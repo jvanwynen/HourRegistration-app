@@ -13,34 +13,32 @@ class User
 {
     /**
      * @ORM\Id()
-     * @ORM\GeneratedValue()
-     * @ORM\Column(type="integer")
+     * @ORM\Column(type="bigint")
      */
     private $id;
 
     /**
-     * @ORM\Column(type="boolean", nullable=true)
+     * @ORM\Column(type="boolean")
      */
     private $admin;
 
     /**
-     * @ORM\Column(type="string", length=50)
+     * @ORM\Column(type="string", length=55)
      */
     private $firstname;
 
     /**
-     * @ORM\Column(type="string", length=50)
+     * @ORM\Column(type="string", length=55)
      */
     private $lastname;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Company", inversedBy="users")
-     * @ORM\JoinColumn(nullable=false)
      */
     private $company;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Hour", mappedBy="user", orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity="App\Entity\Hour", mappedBy="user")
      */
     private $hours;
 
@@ -54,12 +52,22 @@ class User
         return $this->id;
     }
 
+    /**
+     * @param mixed $id
+     */
+    public function setId($id) :self
+    {
+        $this->id = $id;
+
+        return $this;
+    }
+
     public function getAdmin(): ?bool
     {
         return $this->admin;
     }
 
-    public function setAdmin(?bool $admin): self
+    public function setAdmin(bool $admin): self
     {
         $this->admin = $admin;
 
@@ -90,12 +98,12 @@ class User
         return $this;
     }
 
-    public function getCompany(): ?Company
+    public function getCompany(): ?company
     {
         return $this->company;
     }
 
-    public function setCompany(?Company $company): self
+    public function setCompany(?company $company): self
     {
         $this->company = $company;
 
@@ -132,4 +140,5 @@ class User
 
         return $this;
     }
+
 }

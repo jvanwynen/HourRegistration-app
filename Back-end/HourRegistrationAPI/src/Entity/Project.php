@@ -19,14 +19,14 @@ class Project
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=50)
+     * @ORM\Column(type="string", length=55)
      */
-    private $projectname;
+    private $name;
 
     /**
-     * @ORM\Column(type="string", length=50)
+     * @ORM\Column(type="string", length=55)
      */
-    private $project_tag;
+    private $tag;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Company", inversedBy="projects")
@@ -49,36 +49,36 @@ class Project
         return $this->id;
     }
 
-    public function getProjectname(): ?string
+    public function getName(): ?string
     {
-        return $this->projectname;
+        return $this->name;
     }
 
-    public function setProjectname(string $projectname): self
+    public function setName(string $name): self
     {
-        $this->projectname = $projectname;
+        $this->name = $name;
 
         return $this;
     }
 
-    public function getProjectTag(): ?string
+    public function getTag(): ?string
     {
-        return $this->project_tag;
+        return $this->tag;
     }
 
-    public function setProjectTag(string $project_tag): self
+    public function setTag(string $tag): self
     {
-        $this->project_tag = $project_tag;
+        $this->tag = $tag;
 
         return $this;
     }
 
-    public function getCompany(): ?Company
+    public function getCompany(): ?company
     {
         return $this->company;
     }
 
-    public function setCompany(?Company $company): self
+    public function setCompany(?company $company): self
     {
         $this->company = $company;
 
@@ -99,6 +99,7 @@ class Project
             $this->hours[] = $hour;
             $hour->setProject($this);
         }
+
         return $this;
     }
 
@@ -111,6 +112,7 @@ class Project
                 $hour->setProject(null);
             }
         }
+
         return $this;
     }
 }
