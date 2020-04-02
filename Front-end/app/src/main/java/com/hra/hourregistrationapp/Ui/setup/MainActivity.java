@@ -5,11 +5,8 @@ import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.View;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProviders;
 
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
@@ -18,22 +15,15 @@ import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.ApiException;
-import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
-import com.hra.hourregistrationapp.Model.Company;
-import com.hra.hourregistrationapp.Persistence.LocalDatabase;
 import com.hra.hourregistrationapp.R;
 import com.hra.hourregistrationapp.Ui.Activity;
-import com.hra.hourregistrationapp.Ui.home.HomeActivity;
-import com.hra.hourregistrationapp.Ui.popup.Popup;
 import com.hra.hourregistrationapp.Ui.registration.RegisterActivity;
-import com.hra.hourregistrationapp.ViewModel.LoginViewModel;
 import com.hra.hourregistrationapp.ViewModel.MainViewModel;
 
 public class MainActivity extends Activity {
 
     private static final int RC_SIGN_IN = 6969;
-    private static final String TAG = "tag";
 
     private GoogleSignInClient mGoogleSignInClient;
     private SignInButton mSignInButton;
@@ -50,9 +40,7 @@ public class MainActivity extends Activity {
 
         mMainViewModel = ViewModelProviders.of(this).get(MainViewModel.class);
 
-        if(!mMainViewModel.loadDataFromRemote()){
-            showPopUp(getString(R.string.main_popup_title), getString(R.string.main_popup_companyerrrortext));
-        }
+        mMainViewModel.loadDataFromRemote();
 
         mSignInButton = findViewById(R.id.setup_button_signin);
 
@@ -72,16 +60,13 @@ public class MainActivity extends Activity {
         try {
             GoogleSignInAccount account = completedTask.getResult(ApiException.class);
             String idToken = account.getIdToken();
-            //System.out.println(idToken);
-            if(mMainViewModel.verifyIdToken(idToken)) {
-                Intent intent = new Intent(getApplicationContext(), RegisterActivity.class);
-                startActivity(intent);
-            } else{
-                showPopUp(getString(R.string.main_popup_title), getString(R.string.registration_popup_body));
-            }
+            System.out.println(idToken);
+            mMainViewModel.verifyIdToken(idToken);
+            Intent intent = new Intent(getApplicationContext(), RegisterActivity.class);
+            startActivity(intent);
         } catch (ApiException e) {
             System.out.println("handleSignInResult:error" + e);
-            showPopUp(getString(R.string.main_popup_title), e.getMessage());
+            showPopUp(getString(R.string.main_popup_title), e.toString());
         }
     }
 
@@ -107,7 +92,6 @@ public class MainActivity extends Activity {
     }
 
     /**
-     *
      * @return true if any network is available otherwise false
      */
     private boolean isNetworkAvailable() {
@@ -116,8 +100,4 @@ public class MainActivity extends Activity {
         NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
         return activeNetworkInfo != null && activeNetworkInfo.isConnected();
     }
-
-    //method that puts title and body in bundle and start the pop-up activity
-
-
 }

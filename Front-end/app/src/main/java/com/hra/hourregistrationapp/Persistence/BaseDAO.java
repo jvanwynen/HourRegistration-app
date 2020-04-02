@@ -18,6 +18,9 @@ public interface BaseDAO<T> {
     public abstract List<Long> insert(List<T> obj);
 
     @Update
+    public abstract void update(T obj);
+
+    @Update
     public abstract void update(List<T> obj);
 
     @Transaction

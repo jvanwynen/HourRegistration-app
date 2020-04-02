@@ -40,7 +40,7 @@ public class Popup extends Activity {
         Bundle extras = intent.getExtras();
 
         //assert extras != null;
-        if (extras.getString("help_title") != null || extras.getString("help_text") != null) {
+        if (extras.getString("help_title") != null && extras.getString("help_text") != null) {
             helpTitle.setText(extras.getString("help_title"));
             helpText.setText(extras.getString("help_text"));
         } else {

@@ -26,13 +26,9 @@ public class CompanyRepository  {
    // Context context;
     private RetrofitClient retrofitClient;
     private LocalDatabase localDatabase ;
-   private List<Company> companielist = new ArrayList<>();
+    private List<Company> companielist = new ArrayList<>();
     private final MutableLiveData<List<Company>> companies = new MutableLiveData<>();
 
-    public CompanyRepository(Context context) {
-        this.retrofitClient = RetrofitClient.getInstance();
-        this.localDatabase = LocalDatabase.getInstance(context);;
-    }
     public CompanyRepository() {
         this.retrofitClient = RetrofitClient.getInstance();
     }

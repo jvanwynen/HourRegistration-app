@@ -5,6 +5,7 @@ import android.app.Application;
 import androidx.lifecycle.AndroidViewModel;
 
 import com.hra.hourregistrationapp.Model.Company;
+import com.hra.hourregistrationapp.Model.User;
 import com.hra.hourregistrationapp.Persistence.LocalDatabase;
 import com.hra.hourregistrationapp.Repository.CompanyRepository;
 import com.hra.hourregistrationapp.Repository.LoginRepository;
@@ -18,56 +19,53 @@ public class MainViewModel extends AndroidViewModel {
 
    private LoginRepository LoginRepository;
    private CompanyRepository companyRepository;
+   private LoginRepository loginRepository;
    private ProjectRepository projectRepository;
    private List<Company> companies = new ArrayList<>();
    private LocalDatabase localDatabase;
-   private Application application;
-   private boolean isSuccessful;
+
 
 
     public MainViewModel(Application application) {
         super(application);
-        this.application = application;
         LoginRepository = new LoginRepository();
         companyRepository = new CompanyRepository();
         projectRepository = new ProjectRepository();
-        isSuccessful = false;
+        loginRepository = new LoginRepository();
         localDatabase = LocalDatabase.getInstance(application.getApplicationContext());
-
+        localDatabase.userDao().deleteAllFromTable();
     }
 
-    public boolean loadDataFromRemote()  {
+    public void loadDataFromRemote()  {
         companyRepository.getCompanies(new RetrofitResponseListener(){
             @Override
             public void onSuccess() {
                 companies = companyRepository.getCompanielist();
                 localDatabase.companyDao().upsert(companies);
-                isSuccessful = true;
+
             }
 
             @Override
             public void onFailure() {
-                isSuccessful = false;
 
             }
         });
         projectRepository.getProjects();
-        return isSuccessful;
     }
 
-    public boolean verifyIdToken(String idToken){
+    public void verifyIdToken(String idToken){
         LoginRepository.sendToken(idToken, new RetrofitResponseListener() {
             @Override
             public void onSuccess() {
-                isSuccessful = true;
+                User user = new User(loginRepository.getId());
+                localDatabase.userDao().upsert(user);
             }
 
             @Override
             public void onFailure() {
-                isSuccessful = false;
+
             }
         });
-        return isSuccessful;
     }
 
 

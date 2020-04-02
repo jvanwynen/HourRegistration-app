@@ -22,7 +22,7 @@ import java.util.List;
 
 public class RegisterActivity extends Activity implements View.OnClickListener {
 
-    private ArrayList<String> mCompanyNames;
+    private ArrayList<String> mCompanyNames = new ArrayList<>();
     private List<Company> mCompanies;
     private ArrayAdapter<String> mAdapter;
     private Spinner mSpinner;
@@ -38,6 +38,10 @@ public class RegisterActivity extends Activity implements View.OnClickListener {
 
         mLoginViewModel = ViewModelProviders.of(this).get(LoginViewModel.class);
 
+        if(!mLoginViewModel.userLoggedInSuccessful()){
+            showPopUp(getString(R.string.main_popup_title), getString(R.string.registration_popup_body));
+        }
+
         LocalDatabase localDatabase = LocalDatabase.getInstance(this);
 
         mSpinner = findViewById(R.id.registration_spinner_companylist);
@@ -46,14 +50,9 @@ public class RegisterActivity extends Activity implements View.OnClickListener {
         mPasswordTextView = findViewById(R.id.registration_input_password);
         mSaveButton.setOnClickListener(this);
 
-        mCompanyNames = new ArrayList<>();
-        mCompanies = localDatabase.companyDao().getAll();
+        mCompanies = mLoginViewModel.getLocalCompanies();
 
-        for(Company c : mCompanies ){
-            mCompanyNames.add(c.getCompanyname());
-        }
-
-        mAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, mCompanyNames);
+        mAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, getmCompanyNames());
         mAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         mSpinner.setAdapter(mAdapter);
 
@@ -86,5 +85,17 @@ public class RegisterActivity extends Activity implements View.OnClickListener {
                 intent = new Intent(getApplicationContext(), HomeActivity.class);
                 startActivity(intent);
         }
+    }
+
+    private ArrayList<String> getmCompanyNames(){
+        mCompanies = mLoginViewModel.getLocalCompanies();
+        if(!mCompanies.isEmpty()){
+            for(Company c : mCompanies ){
+                mCompanyNames.add(c.getCompanyname());
+            }
+        } else {
+            showPopUp(getString(R.string.main_popup_title), getString(R.string.main_popup_companyerrrortext));
+        }
+        return mCompanyNames;
     }
 }
