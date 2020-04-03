@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
+import android.view.View;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.ViewModelProviders;
@@ -17,12 +18,15 @@ import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.Task;
 import com.hra.hourregistrationapp.R;
+import com.hra.hourregistrationapp.Retrofit.RetrofitResponseListener;
 import com.hra.hourregistrationapp.Ui.Activity;
 import com.hra.hourregistrationapp.Ui.home.HomeActivity;
 import com.hra.hourregistrationapp.Ui.popup.Popup;
 import com.hra.hourregistrationapp.Ui.projects.ProjectsFragment;
 import com.hra.hourregistrationapp.Ui.registration.RegisterActivity;
 import com.hra.hourregistrationapp.ViewModel.MainViewModel;
+
+import butterknife.internal.ListenerClass;
 
 public class MainActivity extends Activity {
 
@@ -43,7 +47,17 @@ public class MainActivity extends Activity {
 
         mMainViewModel = ViewModelProviders.of(this).get(MainViewModel.class);
 
-        mMainViewModel.loadDataFromRemote();
+        mMainViewModel.loadDataFromRemote(new RetrofitResponseListener() {
+            @Override
+            public void onSuccess() {
+                mMainViewModel.upsertCompaniesLocally();
+            }
+
+            @Override
+            public void onFailure() {
+                showPopUp(getString(R.string.main_popup_title), getString(R.string.main_popup_companyerrrortext));
+            }
+        });
 
         mSignInButton = findViewById(R.id.setup_button_signin);
 
@@ -63,10 +77,21 @@ public class MainActivity extends Activity {
         try {
             GoogleSignInAccount account = completedTask.getResult(ApiException.class);
             String idToken = account.getIdToken();
-            System.out.println(idToken);
-            mMainViewModel.verifyIdToken(idToken);
-            Intent intent = new Intent(getApplicationContext(), RegisterActivity.class);
-            startActivity(intent);
+
+            mMainViewModel.verifyIdToken(idToken, new RetrofitResponseListener() {
+                @Override
+                public void onSuccess() {
+                    mMainViewModel.setSignedInUser();
+                    Intent intent = new Intent(getApplicationContext(), RegisterActivity.class);
+                    startActivity(intent);
+                }
+
+                @Override
+                public void onFailure() {
+                    showPopUp(getString(R.string.main_popup_title), getString(R.string.registration_popup_body));
+                }
+            });
+
         } catch (ApiException e) {
             System.out.println("handleSignInResult:error" + e);
             showPopUp(getString(R.string.main_popup_title), e.toString());
@@ -77,6 +102,7 @@ public class MainActivity extends Activity {
         // Show an account picker to let the user choose a Google account from the device.
         // If the GoogleSignInOptions only asks for IDToken and/or profile and/or email then no
         // consent screen will be shown here.
+        mSignInButton.setVisibility(View.GONE);
         Intent signInIntent = mGoogleSignInClient.getSignInIntent();
         startActivityForResult(signInIntent, RC_SIGN_IN);
     }

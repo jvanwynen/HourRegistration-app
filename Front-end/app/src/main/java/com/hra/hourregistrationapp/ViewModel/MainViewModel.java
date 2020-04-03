@@ -1,6 +1,7 @@
 package com.hra.hourregistrationapp.ViewModel;
 
 import android.app.Application;
+import android.content.Intent;
 
 import androidx.lifecycle.AndroidViewModel;
 
@@ -11,6 +12,7 @@ import com.hra.hourregistrationapp.Repository.CompanyRepository;
 import com.hra.hourregistrationapp.Repository.LoginRepository;
 import com.hra.hourregistrationapp.Repository.ProjectRepository;
 import com.hra.hourregistrationapp.Retrofit.RetrofitResponseListener;
+import com.hra.hourregistrationapp.Ui.registration.RegisterActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,11 +25,14 @@ public class MainViewModel extends AndroidViewModel {
    private ProjectRepository projectRepository;
    private List<Company> companies = new ArrayList<>();
    private LocalDatabase localDatabase;
+   Application application;
+   SingleLiveEvent singleLiveEvent;
 
 
 
     public MainViewModel(Application application) {
         super(application);
+        this.application= application;
         LoginRepository = new LoginRepository();
         companyRepository = new CompanyRepository();
         projectRepository = new ProjectRepository();
@@ -36,37 +41,20 @@ public class MainViewModel extends AndroidViewModel {
         localDatabase.userDao().deleteAllFromTable();
     }
 
-    public void loadDataFromRemote()  {
-        companyRepository.getCompanies(new RetrofitResponseListener(){
-            @Override
-            public void onSuccess() {
-                companies = companyRepository.getCompanielist();
-                localDatabase.companyDao().upsert(companies);
-
-            }
-
-            @Override
-            public void onFailure() {
-
-            }
-        });
-        projectRepository.getProjects();
+    public void loadDataFromRemote(RetrofitResponseListener retrofitResponseListener){
+        companyRepository.getCompanies(retrofitResponseListener);
     }
 
-    public void verifyIdToken(String idToken){
-        LoginRepository.sendToken(idToken, new RetrofitResponseListener() {
-            @Override
-            public void onSuccess() {
-                User user = new User(loginRepository.getId());
-                localDatabase.userDao().upsert(user);
-            }
-
-            @Override
-            public void onFailure() {
-
-            }
-        });
+    public void upsertCompaniesLocally(){
+        companies = companyRepository.getCompanielist();
+        localDatabase.companyDao().upsert(companies);
     }
 
+    public void verifyIdToken(String idToken, RetrofitResponseListener retrofitResponseListener){
+        LoginRepository.sendToken(idToken, retrofitResponseListener);
+    }
 
+    public void setSignedInUser(){
+        localDatabase.userDao().upsert(new User(loginRepository.getId()));
+    }
 }

@@ -23,8 +23,7 @@ import java.util.List;
 
 public class RegisterActivity extends Activity implements View.OnClickListener {
 
-    private ArrayList<String> mCompanyNames = new ArrayList<>();
-    private List<Company> mCompanies;
+
     private ArrayAdapter<String> mAdapter;
     private Spinner mSpinner;
     private Button mSaveButton;
@@ -49,10 +48,9 @@ public class RegisterActivity extends Activity implements View.OnClickListener {
         mPasswordTextView = findViewById(R.id.registration_input_password);
         mSaveButton.setOnClickListener(this);
 
-        mCompanies = mLoginViewModel.getLocalCompanies();
-
-        mAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, getmCompanyNames());
+        mAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, mLoginViewModel.getCompanyNames());
         mAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
         mSpinner.setAdapter(mAdapter);
 
     }
@@ -86,15 +84,4 @@ public class RegisterActivity extends Activity implements View.OnClickListener {
         }
     }
 
-    private ArrayList<String> getmCompanyNames(){
-        mCompanies = mLoginViewModel.getLocalCompanies();
-        if(!mCompanies.isEmpty()){
-            for(Company c : mCompanies ){
-                mCompanyNames.add(c.getCompanyname());
-            }
-        } else {
-            showPopUp(getString(R.string.main_popup_title), getString(R.string.main_popup_companyerrrortext));
-        }
-        return mCompanyNames;
-    }
 }
