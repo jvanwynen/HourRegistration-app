@@ -22,11 +22,9 @@ public class MainViewModel extends AndroidViewModel {
    private LoginRepository LoginRepository;
    private CompanyRepository companyRepository;
    private LoginRepository loginRepository;
-   private ProjectRepository projectRepository;
    private List<Company> companies = new ArrayList<>();
    private LocalDatabase localDatabase;
    Application application;
-   SingleLiveEvent singleLiveEvent;
 
 
 
@@ -35,7 +33,6 @@ public class MainViewModel extends AndroidViewModel {
         this.application= application;
         LoginRepository = new LoginRepository();
         companyRepository = new CompanyRepository();
-        projectRepository = new ProjectRepository();
         loginRepository = new LoginRepository();
         localDatabase = LocalDatabase.getInstance(application.getApplicationContext());
         localDatabase.userDao().deleteAllFromTable();

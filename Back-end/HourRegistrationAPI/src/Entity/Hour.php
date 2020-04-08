@@ -27,13 +27,13 @@ class Hour
     private $date_added;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\project", inversedBy="hours")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Project", inversedBy="hours")
      * @ORM\JoinColumn(nullable=false)
      */
     private $project;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\user", inversedBy="hours")
+     * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="hours")
      */
     private $user;
 
@@ -66,12 +66,12 @@ class Hour
         return $this;
     }
 
-    public function getProject(): ?project
+    public function getProject(): ?Project
     {
         return $this->project;
     }
 
-    public function setProject(?project $project): self
+    public function setProject(?Project $project): self
     {
         $this->project = $project;
 

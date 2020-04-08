@@ -19,9 +19,17 @@ public interface LoginService {
     @FormUrlEncoded
     @POST("/token/verify")
     Call<String> verifyToken(
-            @Field("id_token") String token);
+            @Field("id_token") String token
+    );
 
     @GET("/getuserbyid/{user_id}")
-    Call<User> getUserById(@Path(value = "user_id", encoded = true) String userId);
+    Call<User> getUserById(@Path(value = "user_id", encoded = true) String userId
+    );
+
+    @POST("/user/createUser")
+    Call<ResponseBody> createUser(
+            @Field("userid") String userId,
+            @Field("companyid") int companyId
+    );
 
 }

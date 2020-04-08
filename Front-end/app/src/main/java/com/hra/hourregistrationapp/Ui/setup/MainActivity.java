@@ -77,7 +77,7 @@ public class MainActivity extends Activity {
         try {
             GoogleSignInAccount account = completedTask.getResult(ApiException.class);
             String idToken = account.getIdToken();
-
+            System.out.println(idToken);
             mMainViewModel.verifyIdToken(idToken, new RetrofitResponseListener() {
                 @Override
                 public void onSuccess() {

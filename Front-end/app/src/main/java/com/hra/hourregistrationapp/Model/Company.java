@@ -19,8 +19,8 @@ public class Company {
     @PrimaryKey
     int id;
 
-    public Company(String companyname, String password) {
-        this.companyname = companyname;
+    public Company(String companyName, String password) {
+        this(companyName);
         this.password = password;
     }
     public Company(String companyname) {
@@ -49,5 +49,12 @@ public class Company {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    @Override
+    public String toString() {
+        return "Company{" +
+                "companyname='" + companyname + '\'' +
+                '}';
     }
 }

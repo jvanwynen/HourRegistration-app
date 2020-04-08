@@ -76,18 +76,23 @@ public class CompanyRepository  {
         });
     }
 
-    public void verifyCompanyToken(Company company){
+    public void verifyCompanyToken(Company company, RetrofitResponseListener retrofitResponseListener){
 
         retrofitClient.getCompanyService().verifyCompanyPassword(company.getCompanyname(), company.getPassword()).enqueue(new Callback<ResponseBody>(){
 
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                Log.d("http", response.message());
+                if(response.isSuccessful()){
+                    retrofitResponseListener.onSuccess();
+                }
+                else {
+                    retrofitResponseListener.onFailure();
+                }
             }
 
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
-                Log.d("httpFailure", t.getMessage());
+                retrofitResponseListener.onFailure();
             }
         });
     }

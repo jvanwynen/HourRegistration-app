@@ -2,6 +2,7 @@ package com.hra.hourregistrationapp.Repository;
 
 import android.util.Log;
 
+import com.hra.hourregistrationapp.Model.Company;
 import com.hra.hourregistrationapp.Model.User;
 import com.hra.hourregistrationapp.Retrofit.RetrofitClient;
 import com.hra.hourregistrationapp.Retrofit.RetrofitResponseListener;
@@ -30,12 +31,28 @@ public class LoginRepository {
                     Id = response.body();
                     retrofitResponseListener.onSuccess();
                 }
-                retrofitResponseListener.onFailure();
+                else{
+                    retrofitResponseListener.onFailure();
+                }
             }
 
             @Override
             public void onFailure(Call<String> call, Throwable t) {
-                retrofitResponseListener.onSuccess();
+                retrofitResponseListener.onFailure();
+            }
+        });
+    }
+
+    public void AddCompanytoUser(User user, Company company){
+        retrofitClient.getLoginService().createUser(user.getId(), company.getId()).enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+
             }
         });
     }
