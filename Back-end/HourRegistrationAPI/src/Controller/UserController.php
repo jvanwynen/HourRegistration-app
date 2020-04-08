@@ -17,23 +17,36 @@ class UserController extends AbstractController
     /**
      * @Route("/token/verify", name="token")
      * @param Request $request
+     * @param $userRepository
      * @return JsonResponse
      */
-    public function validateAndInsertUser(Request $request)
+    public function validateAndInsertUser(Request $request, UserRepository $userRepository)
     {
         $CLIENT_ID = "627510897874-46pejgnail9p51tkib5hg9d58nv9r85p.apps.googleusercontent.com";
         $entityManager = $this->getDoctrine()->getManager();
         $response = new JsonResponse();
         $id_token = $request->request->get('id_token');
-// Get $id_token via HTTPS POST.
+        // Get $id_token via HTTPS POST.
 
         $client = new Google_Client(['client_id' => $CLIENT_ID]);  // Specify the CLIENT_ID of the app that accesses the backend
 
         $payload = $client->verifyIdToken($id_token);
         if ($payload) {
-            $user_id = $payload['sub'];
-            $firstname_and_lastname = $payload['name'];
 
+            $user_id = $payload['sub'];
+
+            //check if user already exists
+            $existing_user = $userRepository->find((int)$user_id);
+
+            if($existing_user->getFirstname() != null){
+                $response = new JsonResponse((int)$user_id);
+                $response->setStatusCode(Response::HTTP_OK);
+                // sets a HTTP response header
+                $response->headers->set('Content-Type', 'application/json');
+                return $response;
+            }
+
+            $firstname_and_lastname = $payload['name'];
             $pieces = explode(" ", $firstname_and_lastname);
             $firstname = $pieces[0]; // firstname
             $lastname =  $pieces[1]; // lastname
@@ -49,16 +62,15 @@ class UserController extends AbstractController
                 $entityManager->persist($user);
                 // actually executes the queries (i.e. the INSERT query)
                 $entityManager->flush();// tell Doctrine you want to (eventually) save the Product (no queries yet)
+                $response = new JsonResponse($user_id);
                 $response->setStatusCode(Response::HTTP_OK);
                 // sets a HTTP response header
-                $response->headers->set('Content-Type', 'text/html');
+                $response->headers->set('Content-Type', 'application/json');
                 return $response;
             }
-
-
             $response->setStatusCode(Response::HTTP_NO_CONTENT);
             // sets a HTTP response header
-            $response->headers->set('Content-Type', 'text/html');
+            $response->headers->set('Content-Type', 'application/json');
             return $response;
         } else {
             // Invalid ID token
@@ -93,13 +105,13 @@ class UserController extends AbstractController
             $entityManager->flush();// tell Doctrine you want to (eventually) save the Product (no queries yet)
             $response->setStatusCode(Response::HTTP_OK);
             // sets a HTTP response header
-            $response->headers->set('Content-Type', 'text/html');
+            $response->headers->set('Content-Type', 'application/json');
             return $response;
         }
 
         $response->setStatusCode(Response::HTTP_NO_CONTENT);
         // sets a HTTP response header
-        $response->headers->set('Content-Type', 'text/html');
+        $response->headers->set('Content-Type', 'application/json');
         return $response;
     }
 
