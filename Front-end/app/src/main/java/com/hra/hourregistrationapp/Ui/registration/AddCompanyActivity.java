@@ -12,7 +12,7 @@ import com.hra.hourregistrationapp.Model.Company;
 import com.hra.hourregistrationapp.R;
 import com.hra.hourregistrationapp.ViewModel.CompanyViewModel;
 
-public class AddCompanyActivity extends AppCompatActivity implements View.OnClickListener{
+public class AddCompanyActivity extends AppCompatActivity{
 
     CompanyViewModel mCompanyViewModel;
     AppCompatEditText nameInput, passwordInput;
@@ -29,10 +29,10 @@ public class AddCompanyActivity extends AppCompatActivity implements View.OnClic
         nameInput = findViewById(R.id.addcompany_input_name);
         passwordInput = findViewById(R.id.addcompany_input_password);
 
-        findViewById(R.id.addcompany_button_save).setOnClickListener(this);
+        //findViewById(R.id.addcompany_button_save).setOnClickListener(this);
     }
 
-    @Override
+  /*  @Override
     public void onClick(View view) {
         switch (view.getId()){
             case R.id.addcompany_button_save:
@@ -42,5 +42,5 @@ public class AddCompanyActivity extends AppCompatActivity implements View.OnClic
                 Intent intent = new Intent(getApplicationContext(), RegisterActivity.class);
                 startActivity(intent);
         }
-    }
+    }*/
 }

@@ -15,6 +15,8 @@ import com.hra.hourregistrationapp.R;
 
 public class Popup extends Activity {
 
+    boolean continueActivity;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,36 +41,32 @@ public class Popup extends Activity {
         Intent intent = getIntent();
         Bundle extras = intent.getExtras();
 
+
         //assert extras != null;
-        if (extras.getString("help_title") != null || extras.getString("help_text") != null) {
+        if (extras != null) {
             helpTitle.setText(extras.getString("help_title"));
             helpText.setText(extras.getString("help_text"));
+            continueActivity = extras.getBoolean("close");
         } else {
             helpTitle.setText(getString(R.string.Popup_tile));
             helpText.setText(getString(R.string.popup_text));
         }
 
-        closeButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                close();
-            }
-        });
+        closeButton.setOnClickListener(view -> closeOrFinish());
 
-        crossButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                close();
-            }
-        });
+        crossButton.setOnClickListener(view -> closeOrFinish());
 
     }
 
 
-    private void close(){
-        Intent homeIntent = new Intent(Intent.ACTION_MAIN);
-        homeIntent.addCategory( Intent.CATEGORY_HOME );
-        homeIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        startActivity(homeIntent);
+    private void closeOrFinish(){
+        if(continueActivity){
+            finish();
+        } else {
+            Intent homeIntent = new Intent(Intent.ACTION_MAIN);
+            homeIntent.addCategory(Intent.CATEGORY_HOME);
+            homeIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            startActivity(homeIntent);
+        }
     }
 }

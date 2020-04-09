@@ -1,20 +1,27 @@
 package com.hra.hourregistrationapp.Persistence;
 
 import androidx.room.Dao;
-import androidx.room.Insert;
 import androidx.room.Query;
+import androidx.room.Transaction;
 
 import com.hra.hourregistrationapp.Model.User;
 
 import java.util.List;
 
 @Dao
-public interface UserDao {
+public abstract class UserDao implements DAO<User> {
 
-    @Query("SELECT * FROM User")
-    List<User> getAll();
+    @Query("DELETE FROM user")
+    public abstract void deleteAllFromTable();
 
-    @Insert
-    void insertAnswers(User... users);
+    @Query("SELECT * FROM user")
+    public abstract List<User> getAll();
 
+    @Transaction
+    public void upsert(User obj) {
+        long id = insert(obj);
+        if (id == -1) {
+            update(obj);
+        }
+    }
 }
