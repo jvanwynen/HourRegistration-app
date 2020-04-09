@@ -13,7 +13,7 @@ class User
 {
     /**
      * @ORM\Id()
-     * @ORM\Column(type="bigint")
+     * @ORM\Column(type="string", length=29)
      */
     private $id;
 
@@ -38,7 +38,7 @@ class User
     private $company;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Hour", mappedBy="user")
+     * @ORM\OneToMany(targetEntity="App\Entity\Hour", mappedBy="user", orphanRemoval=true)
      */
     private $hours;
 
@@ -46,6 +46,10 @@ class User
     {
         $this->hours = new ArrayCollection();
     }
+
+    
+
+   
 
     public function getId(): ?int
     {
@@ -140,5 +144,7 @@ class User
 
         return $this;
     }
+
+ 
 
 }
