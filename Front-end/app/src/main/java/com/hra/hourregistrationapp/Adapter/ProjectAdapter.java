@@ -1,7 +1,6 @@
 package com.hra.hourregistrationapp.Adapter;
 
 import android.content.Context;
-import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,7 +10,6 @@ import android.widget.TextView;
 import com.hra.hourregistrationapp.Model.Project;
 import com.hra.hourregistrationapp.R;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import androidx.annotation.NonNull;
@@ -71,7 +69,7 @@ public class ProjectAdapter extends
         //Set item views based on your views and data model
         TextView ProjectNameTv = holder.projectNameTextView;
 
-        ProjectNameTv.setText(project.getName());
+        ProjectNameTv.setText(project.getProjectname());
     }
 
     @Override

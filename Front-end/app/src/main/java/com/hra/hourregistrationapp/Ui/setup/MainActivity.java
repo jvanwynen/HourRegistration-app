@@ -45,8 +45,8 @@ public class MainActivity extends AppCompatActivity  {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_setup);
 
-        Intent intent = new Intent(this, HomeActivity.class);
-        startActivity(intent);
+//        Intent intent = new Intent(this, HomeActivity.class);
+//        startActivity(intent);
 
         if (!isNetworkAvailable()) {
 //            showPopUp(getString(R.string.main_popup_title), getString(R.string.main_popup_text));

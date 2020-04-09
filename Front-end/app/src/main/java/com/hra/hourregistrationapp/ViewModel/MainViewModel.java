@@ -50,7 +50,6 @@ public class MainViewModel extends AndroidViewModel {
                 isSuccessful = false;
             }
         });
-        projectRepository.getProjects();
         return isSuccessful;
     }
 

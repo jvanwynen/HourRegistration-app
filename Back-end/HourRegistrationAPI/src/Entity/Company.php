@@ -29,12 +29,12 @@ class Company
     private $password;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\User", mappedBy="Company")
+     * @ORM\OneToMany(targetEntity="App\Entity\User", mappedBy="company")
      */
     private $users;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Project", mappedBy="Company", orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity="App\Entity\Project", mappedBy="company", orphanRemoval=true)
      */
     private $projects;
 

@@ -13,12 +13,13 @@ import java.util.List;
 
 public class ProjectRepository {
 
+    //Make instance of retrofit Class
     RetrofitClient retrofitClient = RetrofitClient.getInstance();
 
     final MutableLiveData<List<Project>> projects = new MutableLiveData<>();
 
-    public void getProjects(){
-        retrofitClient.getProjectService().getProjects().enqueue(new Callback<List<Project>>() {
+    public void getProjectsById(){
+        retrofitClient.getProjectService().getProjectsByCompanyId(2).enqueue(new Callback<List<Project>>() {
             @Override
             public void onResponse(Call<List<Project>> call, Response<List<Project>> response) {
                 if(response.isSuccessful()){

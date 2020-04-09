@@ -1,50 +1,47 @@
 package com.hra.hourregistrationapp.Model;
 
-import java.util.ArrayList;
 
 public class Project {
 
     private int id;
-    private String name;
-    private int hours;
-    private int tag;
+    private String projectname;
+    private String project_tag;
+    private int company_id;
 
-    public Project(int id, String name, int hours, int tag) {
-        this.id = id;
-        this.name = name;
-        this.hours = hours;
-        this.tag = tag;
-    }
 
-    public void setId(int id) {
+    public Project(int id, String projectname, String project_tag, int company_id) {
         this.id = id;
+        this.projectname = projectname;
+        this.project_tag = project_tag;
+        this.company_id = company_id;
+
     }
 
     public int getId() {
         return id;
     }
 
-    public String getName() {
-        return name;
+    public String getProjectname() {
+        return projectname;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setProjectname(String projectname) {
+        this.projectname = projectname;
     }
 
-    public int getHours() {
-        return hours;
+    public String getProject_tag() {
+        return project_tag;
     }
 
-    public void setHours(int hours) {
-        this.hours = hours;
+    public void setProject_tag(String project_tag) {
+        this.project_tag = project_tag;
     }
 
-    public int getTag() {
-        return tag;
+    public int getCompany_id() {
+        return company_id;
     }
 
-    public void setTag(int tag) {
-        this.tag = tag;
+    public void setCompany_id(int company_id) {
+        this.company_id = company_id;
     }
 }

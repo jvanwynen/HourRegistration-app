@@ -40,7 +40,7 @@ class UserController extends AbstractController
 
             if($existing_user->getFirstname() != null){
                 $response = new JsonResponse((int)$user_id);
-                $response->setStatusCode(Response::HTTP_OK);
+                $response->setStatusCode(Response::HTTP_);
                 // sets a HTTP response header
                 $response->headers->set('Content-Type', 'application/json');
                 return $response;
