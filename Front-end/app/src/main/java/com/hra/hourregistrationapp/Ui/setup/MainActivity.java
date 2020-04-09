@@ -6,6 +6,7 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.ViewModelProviders;
@@ -34,6 +35,7 @@ public class MainActivity extends Activity {
 
     private GoogleSignInClient mGoogleSignInClient;
     private SignInButton mSignInButton;
+    private TextView mTitle;
     private MainViewModel mMainViewModel;
 
     @Override
@@ -42,7 +44,7 @@ public class MainActivity extends Activity {
         setContentView(R.layout.activity_setup);
 
         if (!isNetworkAvailable()) {
-            showPopUp(getString(R.string.main_popup_title), getString(R.string.main_popup_text));
+            showPopUp(getString(R.string.main_popup_title), getString(R.string.main_popup_text), false);
         }
 
         mMainViewModel = ViewModelProviders.of(this).get(MainViewModel.class);
@@ -55,11 +57,12 @@ public class MainActivity extends Activity {
 
             @Override
             public void onFailure() {
-                showPopUp(getString(R.string.main_popup_title), getString(R.string.main_popup_companyerrrortext));
+                showPopUp(getString(R.string.main_popup_title), getString(R.string.main_popup_companyerrrortext), false);
             }
         });
 
         mSignInButton = findViewById(R.id.setup_button_signin);
+        mTitle = findViewById(R.id.setup_text_title);
 
         mSignInButton.setOnClickListener(view -> getIdToken());
 
@@ -88,13 +91,13 @@ public class MainActivity extends Activity {
 
                 @Override
                 public void onFailure() {
-                    showPopUp(getString(R.string.main_popup_title), getString(R.string.registration_popup_body));
+                    showPopUp(getString(R.string.main_popup_title), getString(R.string.registration_popup_body), true);
                 }
             });
 
         } catch (ApiException e) {
             System.out.println("handleSignInResult:error" + e);
-            showPopUp(getString(R.string.main_popup_title), e.toString());
+            showPopUp(getString(R.string.main_popup_title), e.toString(), false);
         }
     }
 
@@ -103,6 +106,7 @@ public class MainActivity extends Activity {
         // If the GoogleSignInOptions only asks for IDToken and/or profile and/or email then no
         // consent screen will be shown here.
         mSignInButton.setVisibility(View.GONE);
+        mTitle.setVisibility(View.GONE);
         Intent signInIntent = mGoogleSignInClient.getSignInIntent();
         startActivityForResult(signInIntent, RC_SIGN_IN);
     }

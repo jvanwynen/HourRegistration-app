@@ -26,7 +26,8 @@ public interface LoginService {
     Call<User> getUserById(@Path(value = "user_id", encoded = true) String userId
     );
 
-    @POST("/user/createUser")
+    @FormUrlEncoded
+    @POST("/user/insertcompany")
     Call<ResponseBody> createUser(
             @Field("userid") String userId,
             @Field("companyid") int companyId

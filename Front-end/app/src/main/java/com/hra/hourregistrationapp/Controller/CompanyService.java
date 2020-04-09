@@ -26,10 +26,10 @@ public interface CompanyService {
     );
 
     @FormUrlEncoded
-    @POST("company/validateCompanyPassword")
+    @POST("company/validate")
     Call<ResponseBody> verifyCompanyPassword(
-            @Field("name") String name,
-            @Field("password") String password
+            @Field("id") int id,
+            @Field("companypassword") String password
     );
 }
 

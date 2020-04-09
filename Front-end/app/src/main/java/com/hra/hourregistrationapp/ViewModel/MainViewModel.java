@@ -52,6 +52,7 @@ public class MainViewModel extends AndroidViewModel {
     }
 
     public void setSignedInUser(){
-        localDatabase.userDao().upsert(new User(loginRepository.getId()));
+        User user = new User(loginRepository.getUser().getId());
+        localDatabase.userDao().upsert(user);
     }
 }

@@ -24,13 +24,11 @@ import java.util.List;
 
 public class RegisterActivity extends Activity implements View.OnClickListener {
 
-
     private ArrayAdapter<Company> mAdapter;
     private Spinner mSpinner;
     private Button mSaveButton;
     private TextView mPasswordTextView;
     private LoginViewModel mLoginViewModel;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,10 +36,6 @@ public class RegisterActivity extends Activity implements View.OnClickListener {
         setContentView(R.layout.activity_registration);
 
         mLoginViewModel = ViewModelProviders.of(this).get(LoginViewModel.class);
-
-        if (!mLoginViewModel.userLoggedInSuccessful()) {
-            showPopUp(getString(R.string.main_popup_title), getString(R.string.registration_popup_body));
-        }
 
         mSpinner = findViewById(R.id.registration_spinner_companylist);
         findViewById(R.id.registration_text_add).setOnClickListener(this);
@@ -60,16 +54,30 @@ public class RegisterActivity extends Activity implements View.OnClickListener {
         validatePassword(company, new RetrofitResponseListener() {
             @Override
             public void onSuccess() {
-                //mLoginViewModel.createUser();
+                addCompanyToUser(company);
             }
 
             @Override
             public void onFailure() {
-//            showPopUp(getString(R.string.main_popup_title), "Incorrect password");
+            showPopUp(getString(R.string.main_popup_title), "Incorrect password", true);
             }
         });
     }
 
+    private void addCompanyToUser(Company company){
+        mLoginViewModel.addCompanyToUser(company, new RetrofitResponseListener() {
+            @Override
+            public void onSuccess() {
+                Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
+                startActivity(intent);
+            }
+
+            @Override
+            public void onFailure() {
+                showPopUp("Error", "Login not Successful", true);
+            }
+        });
+    }
 
     private void validatePassword(Company company, RetrofitResponseListener retrofitResponseListener) {
         mLoginViewModel.validateCompanyPassword(company, retrofitResponseListener);
@@ -84,8 +92,8 @@ public class RegisterActivity extends Activity implements View.OnClickListener {
                 intent = new Intent(getApplicationContext(), AddCompanyActivity.class);
                 startActivity(intent);
             case R.id.registration_save_button:
-                Company newCompany = new Company(mSpinner.getSelectedItem().toString(), mPasswordTextView.getText().toString());
-                createUser(newCompany);
+                Company company = (Company) mSpinner.getSelectedItem();
+                createUser(new Company(company.getId(), company.getCompanyname(), mPasswordTextView.getText().toString()));
 //                intent = new Intent(getApplicationContext(), HomeActivity.class);
 //                startActivity(intent);
         }

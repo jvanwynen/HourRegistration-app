@@ -17,7 +17,8 @@ import retrofit2.Response;
 public class LoginRepository {
 
     private RetrofitClient retrofitClient ;
-    private String Id;
+    private static User user;
+
 
     public LoginRepository() {
         this.retrofitClient = RetrofitClient.getInstance();
@@ -28,7 +29,7 @@ public class LoginRepository {
             @Override
             public void onResponse(Call<String> call, Response<String> response) {
                 if(response.isSuccessful()) {
-                    Id = response.body();
+                    user = new User(response.body());
                     retrofitResponseListener.onSuccess();
                 }
                 else{
@@ -43,21 +44,25 @@ public class LoginRepository {
         });
     }
 
-    public void AddCompanytoUser(User user, Company company){
+    public void AddCompanytoUser(User user, Company company, RetrofitResponseListener retrofitResponseListener){
         retrofitClient.getLoginService().createUser(user.getId(), company.getId()).enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-
+                if(response.isSuccessful()){
+                    retrofitResponseListener.onSuccess();
+                }else {
+                    retrofitResponseListener.onFailure();
+                }
             }
 
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
-
+                retrofitResponseListener.onFailure();
             }
         });
     }
 
-    public String getId() {
-        return Id;
+    public User getUser() {
+        return user;
     }
 }

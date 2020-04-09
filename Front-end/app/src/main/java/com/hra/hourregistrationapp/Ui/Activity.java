@@ -11,11 +11,12 @@ import com.hra.hourregistrationapp.Ui.popup.Popup;
 public class Activity extends AppCompatActivity {
 
     //method that puts title and body in bundle and start the pop-up activity
-    public void showPopUp(String title, String body){
+    public void showPopUp(String title, String body, boolean continueActivity){
         Bundle extras = new Bundle();
         Intent intent =  new Intent(this, Popup.class);
         extras.putString("help_title", title);
         extras.putString("help_text", body);
+        extras.putBoolean("close", continueActivity);
         intent.putExtras(extras);
         startActivity(intent);
     }

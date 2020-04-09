@@ -78,7 +78,7 @@ public class CompanyRepository  {
 
     public void verifyCompanyToken(Company company, RetrofitResponseListener retrofitResponseListener){
 
-        retrofitClient.getCompanyService().verifyCompanyPassword(company.getCompanyname(), company.getPassword()).enqueue(new Callback<ResponseBody>(){
+        retrofitClient.getCompanyService().verifyCompanyPassword(company.getId(), company.getPassword()).enqueue(new Callback<ResponseBody>(){
 
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {

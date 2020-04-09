@@ -11,19 +11,20 @@ import com.google.gson.annotations.SerializedName;
 public class Company {
 
     @ColumnInfo(name = "name")
-    String companyname;
+    private String companyname;
 
     @Ignore
-    String password;
+    private String password;
 
     @PrimaryKey
-    int id;
+    private int id;
 
-    public Company(String companyName, String password) {
-        this(companyName);
+    public Company(int id, String companyName, String password) {
+        this(id, companyName);
         this.password = password;
     }
-    public Company(String companyname) {
+    public Company(int id, String companyname) {
+        this.id = id;
         this.companyname = companyname;
     }
 
@@ -53,8 +54,6 @@ public class Company {
 
     @Override
     public String toString() {
-        return "Company{" +
-                "companyname='" + companyname + '\'' +
-                '}';
+        return companyname ;
     }
 }
