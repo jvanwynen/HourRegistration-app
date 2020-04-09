@@ -28,6 +28,7 @@ class UserController extends AbstractController
         $id_token = $request->request->get('id_token');
         // Get $id_token via HTTPS POST.
 
+        
         $client = new Google_Client(['client_id' => $CLIENT_ID]);  // Specify the CLIENT_ID of the app that accesses the backend
 
         $payload = $client->verifyIdToken($id_token);
@@ -35,27 +36,31 @@ class UserController extends AbstractController
 
             $user_id = $payload['sub'];
 
-            //check if user already exists
-            $existing_user = $userRepository->find((int)$user_id);
 
-            if($existing_user->getFirstname() != null){
-                $response = new JsonResponse((int)$user_id);
-                $response->setStatusCode(Response::HTTP_);
+            //check if user already exists
+            $existing_user = $userRepository->find($user_id);
+
+            
+
+            if($existing_user != null){
+                $response = new JsonResponse($user_id);
+                $response->setStatusCode(Response::HTTP_OK);
                 // sets a HTTP response header
                 $response->headers->set('Content-Type', 'application/json');
                 return $response;
             }
 
             $firstname_and_lastname = $payload['name'];
-            $pieces = explode(" ", $firstname_and_lastname);
-            $firstname = $pieces[0]; // firstname
-            $lastname =  $pieces[1]; // lastname
+            $firstname = $payload['given_name']; // firstname
+            $lastname = $payload['family_name']; // lastname
 
             $user = new User();
             $user->setAdmin(0);
             $user->setFirstname($firstname);
             $user->setLastname($lastname);
-            $user->setId((int)$user_id);
+            $user->setId($user_id);
+
+        
 
             if($user != null){
                 // tell Doctrine you want to (eventually) save the User (no queries yet)
