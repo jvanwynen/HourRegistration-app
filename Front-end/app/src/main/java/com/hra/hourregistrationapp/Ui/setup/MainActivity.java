@@ -5,11 +5,10 @@ import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProviders;
 
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
@@ -18,26 +17,25 @@ import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.ApiException;
-import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
-import com.hra.hourregistrationapp.Model.Company;
-import com.hra.hourregistrationapp.Persistence.LocalDatabase;
 import com.hra.hourregistrationapp.R;
+import com.hra.hourregistrationapp.Retrofit.RetrofitResponseListener;
 import com.hra.hourregistrationapp.Ui.Activity;
 import com.hra.hourregistrationapp.Ui.home.HomeActivity;
 import com.hra.hourregistrationapp.Ui.popup.Popup;
 import com.hra.hourregistrationapp.Ui.projects.ProjectsFragment;
 import com.hra.hourregistrationapp.Ui.registration.RegisterActivity;
-import com.hra.hourregistrationapp.ViewModel.LoginViewModel;
 import com.hra.hourregistrationapp.ViewModel.MainViewModel;
 
-public class MainActivity extends AppCompatActivity  {
+import butterknife.internal.ListenerClass;
+
+public class MainActivity extends Activity {
 
     private static final int RC_SIGN_IN = 6969;
-    private static final String TAG = "tag";
 
     private GoogleSignInClient mGoogleSignInClient;
     private SignInButton mSignInButton;
+    private TextView mTitle;
     private MainViewModel mMainViewModel;
 
     @Override
@@ -45,20 +43,26 @@ public class MainActivity extends AppCompatActivity  {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_setup);
 
-//        Intent intent = new Intent(this, HomeActivity.class);
-//        startActivity(intent);
-
         if (!isNetworkAvailable()) {
-//            showPopUp(getString(R.string.main_popup_title), getString(R.string.main_popup_text));
+            showPopUp(getString(R.string.main_popup_title), getString(R.string.main_popup_text), false);
         }
 
         mMainViewModel = ViewModelProviders.of(this).get(MainViewModel.class);
 
-        if(!mMainViewModel.loadDataFromRemote()){
-//            showPopUp(getString(R.string.main_popup_title), getString(R.string.main_popup_companyerrrortext));
-        }
+        mMainViewModel.loadDataFromRemote(new RetrofitResponseListener() {
+            @Override
+            public void onSuccess() {
+                mMainViewModel.upsertCompaniesLocally();
+            }
+
+            @Override
+            public void onFailure() {
+                showPopUp(getString(R.string.main_popup_title), getString(R.string.main_popup_companyerrrortext), false);
+            }
+        });
 
         mSignInButton = findViewById(R.id.setup_button_signin);
+        mTitle = findViewById(R.id.setup_text_title);
 
         mSignInButton.setOnClickListener(view -> getIdToken());
 
@@ -76,16 +80,24 @@ public class MainActivity extends AppCompatActivity  {
         try {
             GoogleSignInAccount account = completedTask.getResult(ApiException.class);
             String idToken = account.getIdToken();
-            //System.out.println(idToken);
-            if(mMainViewModel.verifyIdToken(idToken)) {
-                Intent intent = new Intent(getApplicationContext(), RegisterActivity.class);
-                startActivity(intent);
-            } else{
-//                showPopUp(getString(R.string.main_popup_title), getString(R.string.registration_popup_body));
-            }
+            System.out.println(idToken);
+            mMainViewModel.verifyIdToken(idToken, new RetrofitResponseListener() {
+                @Override
+                public void onSuccess() {
+                    mMainViewModel.setSignedInUser();
+                    Intent intent = new Intent(getApplicationContext(), RegisterActivity.class);
+                    startActivity(intent);
+                }
+
+                @Override
+                public void onFailure() {
+                    showPopUp(getString(R.string.main_popup_title), getString(R.string.registration_popup_body), true);
+                }
+            });
+
         } catch (ApiException e) {
             System.out.println("handleSignInResult:error" + e);
-//            showPopUp(getString(R.string.main_popup_title), e.getMessage());
+            showPopUp(getString(R.string.main_popup_title), e.toString(), false);
         }
     }
 
@@ -93,6 +105,8 @@ public class MainActivity extends AppCompatActivity  {
         // Show an account picker to let the user choose a Google account from the device.
         // If the GoogleSignInOptions only asks for IDToken and/or profile and/or email then no
         // consent screen will be shown here.
+        mSignInButton.setVisibility(View.GONE);
+        mTitle.setVisibility(View.GONE);
         Intent signInIntent = mGoogleSignInClient.getSignInIntent();
         startActivityForResult(signInIntent, RC_SIGN_IN);
     }
@@ -111,7 +125,6 @@ public class MainActivity extends AppCompatActivity  {
     }
 
     /**
-     *
      * @return true if any network is available otherwise false
      */
     private boolean isNetworkAvailable() {
@@ -120,8 +133,4 @@ public class MainActivity extends AppCompatActivity  {
         NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
         return activeNetworkInfo != null && activeNetworkInfo.isConnected();
     }
-
-    //method that puts title and body in bundle and start the pop-up activity
-
-
 }

@@ -1,30 +1,42 @@
 package com.hra.hourregistrationapp.Model;
 
+import androidx.annotation.NonNull;
 import androidx.room.Entity;
+import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
+
+import java.math.BigInteger;
 
 @Entity
 public class User {
 
     @PrimaryKey
-    private int id;
-    private int admin, calendarID, companyID;
-    private String firstname, lastname;
+    @NonNull
+    private String id;
 
-    public User(int id, int admin, int calendarID, int companyID, String firstname, String lastname) {
+    @Ignore
+    private int admin, calendarID, companyID;
+    @Ignore
+    private String firstName, lastName;
+
+    public User(String id, int admin, int calendarID, int companyID, String firstName, String lastName) {
         this.id = id;
         this.admin = admin;
         this.calendarID = calendarID;
         this.companyID = companyID;
-        this.firstname = firstname;
-        this.lastname = lastname;
+        this.firstName = firstName;
+        this.lastName = lastName;
     }
 
-    public int getId() {
+    public User(String id){
+        this.id = id;
+    }
+
+    public String getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
     }
 
@@ -53,18 +65,18 @@ public class User {
     }
 
     public String getFirstname() {
-        return firstname;
+        return firstName;
     }
 
-    public void setFirstname(String firstname) {
-        this.firstname = firstname;
+    public void setFirstname(String firstName) {
+        this.firstName = firstName;
     }
 
     public String getLastname() {
-        return lastname;
+        return lastName;
     }
 
-    public void setLastname(String lastname) {
-        this.lastname = lastname;
+    public void setLastname(String lastName) {
+        this.lastName = lastName;
     }
 }

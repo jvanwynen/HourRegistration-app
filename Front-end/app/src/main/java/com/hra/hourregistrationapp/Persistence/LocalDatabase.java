@@ -14,7 +14,7 @@ import com.hra.hourregistrationapp.Model.User;
 /*
 this class defines the local database, and its migrations to newer versions
  */
-@Database(entities = {User.class, Company.class}, version = 2, exportSchema = false)
+@Database(entities = {User.class, Company.class}, version = 3, exportSchema = false)
 public abstract class LocalDatabase extends RoomDatabase {
 
     private static LocalDatabase instance;
@@ -24,7 +24,8 @@ public abstract class LocalDatabase extends RoomDatabase {
 
     public static LocalDatabase getInstance(Context context) {
         if (instance == null) {
-            instance = Room.databaseBuilder(context, LocalDatabase.class, "HRA").allowMainThreadQueries().addMigrations(MIGRATION_1_2).build();
+            instance = Room.databaseBuilder(context, LocalDatabase.class, "HRA").allowMainThreadQueries()
+                    .addMigrations(MIGRATION_1_2, MIGRATION_2_3).build();
         }
         return instance;
     }
@@ -42,6 +43,21 @@ public abstract class LocalDatabase extends RoomDatabase {
                     database.execSQL("DROP TABLE company");
             // Change the table name to the correct one
             database.execSQL("ALTER TABLE company_new RENAME TO company");
+        }
+    };
+    static final Migration MIGRATION_2_3 = new Migration(2, 3) {
+        @Override
+        public void migrate(SupportSQLiteDatabase database) {
+            // Create the new table
+            database.execSQL(
+                    "CREATE TABLE user_new (id TEXT NOT NULL, PRIMARY KEY(id))");
+            // Copy the data
+            database.execSQL(
+                    "INSERT INTO user_new (id) SELECT id FROM user");
+            // Remove the old table
+            database.execSQL("DROP TABLE user");
+            // Change the table name to the correct one
+            database.execSQL("ALTER TABLE user_new RENAME TO user");
         }
     };
 
