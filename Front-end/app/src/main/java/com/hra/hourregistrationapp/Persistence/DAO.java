@@ -13,16 +13,16 @@ import java.util.List;
 public interface DAO<T> {
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
-    public abstract long insert(T obj);
+    public long insert(T obj);
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
-    public abstract List<Long> insert(List<T> obj);
+    public List<Long> insert(List<T> obj);
 
     @Update
-    public abstract void update(T obj);
+    public void update(T obj);
 
     @Update
-    public abstract void update(List<T> obj);
+    public void update(List<T> obj);
 
 //    @Transaction
 //    public void upsert(T obj);

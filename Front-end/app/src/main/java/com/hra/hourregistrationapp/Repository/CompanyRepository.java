@@ -6,6 +6,7 @@ import android.util.Log;
 import androidx.lifecycle.MutableLiveData;
 
 import com.hra.hourregistrationapp.Model.Company;
+import com.hra.hourregistrationapp.Model.User;
 import com.hra.hourregistrationapp.Persistence.LocalDatabase;
 import com.hra.hourregistrationapp.Retrofit.RetrofitClient;
 import com.hra.hourregistrationapp.Retrofit.RetrofitResponseListener;
@@ -60,18 +61,22 @@ public class CompanyRepository  {
         return companies;
     }
 
-    public void createCompany(Company company) {
+    public void createCompany(User user, Company company, RetrofitResponseListener retrofitResponseListener) {
 
-        retrofitClient.getCompanyService().createCompany(company.getCompanyname(), company.getPassword()).enqueue(new Callback<ResponseBody>() {
+        retrofitClient.getCompanyService().createCompany(user.getId(), company.getCompanyname(), company.getPassword()).enqueue(new Callback<ResponseBody>() {
 
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                Log.d("http", response.message());
+                if(response.isSuccessful()){
+                    retrofitResponseListener.onSuccess();
+                } else {
+                    retrofitResponseListener.onFailure();
+                }
             }
 
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
-                Log.d("httpFailure", t.getMessage());
+                retrofitResponseListener.onFailure();
             }
         });
     }

@@ -30,22 +30,13 @@ public class LoginViewModel extends AndroidViewModel {
         localDatabase = LocalDatabase.getInstance(application.getApplicationContext());
     }
 
-    public List<Company> getLocalCompanies(){
-        return localDatabase.companyDao().getAll();
+    public void upsertCompaniesLocally(){
+        companies = companyRepository.getCompanielist();
+        localDatabase.companyDao().upsert(companies);
     }
 
-    //get Company names from local database
-    public ArrayList<String> getCompanyNames(){
-        ArrayList<String> CompanyNames = new ArrayList<>();
-        companies = getLocalCompanies();
-        if(!companies.isEmpty()){
-            for(Company c : companies ){
-                CompanyNames.add(c.getCompanyname());
-            }
-        } else {
-            CompanyNames.add("No existing companies");
-        }
-        return CompanyNames;
+    public List<Company> getLocalCompanies(){
+        return localDatabase.companyDao().getAll();
     }
 
     public void validateCompanyPassword(Company company, RetrofitResponseListener retrofitResponseListener){

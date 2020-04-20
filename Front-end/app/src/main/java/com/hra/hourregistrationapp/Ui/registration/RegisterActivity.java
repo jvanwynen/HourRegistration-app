@@ -24,6 +24,7 @@ import java.util.List;
 
 public class RegisterActivity extends Activity implements View.OnClickListener {
 
+
     private ArrayAdapter<Company> mAdapter;
     private Spinner mSpinner;
     private Button mSaveButton;
@@ -50,6 +51,12 @@ public class RegisterActivity extends Activity implements View.OnClickListener {
 
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        mLoginViewModel.upsertCompaniesLocally();
+    }
+
     private void createUser(Company company) {
         validatePassword(company, new RetrofitResponseListener() {
             @Override
@@ -68,13 +75,12 @@ public class RegisterActivity extends Activity implements View.OnClickListener {
         mLoginViewModel.addCompanyToUser(company, new RetrofitResponseListener() {
             @Override
             public void onSuccess() {
-                Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
-                startActivity(intent);
+                startActivity(new Intent(getApplicationContext(), HomeActivity.class));
             }
 
             @Override
             public void onFailure() {
-                showPopUp("Error", "Login not Successful", true);
+                showPopUp(getString(R.string.main_popup_title), "Login not Successful", true);
             }
         });
     }
@@ -86,16 +92,13 @@ public class RegisterActivity extends Activity implements View.OnClickListener {
 
     @Override
     public void onClick(View v) {
-        Intent intent;
         switch (v.getId()) {
             case R.id.registration_text_add:
-                intent = new Intent(getApplicationContext(), AddCompanyActivity.class);
+                Intent intent = new Intent(getApplicationContext(), AddCompanyActivity.class);
                 startActivity(intent);
             case R.id.registration_save_button:
                 Company company = (Company) mSpinner.getSelectedItem();
                 createUser(new Company(company.getId(), company.getCompanyname(), mPasswordTextView.getText().toString()));
-//                intent = new Intent(getApplicationContext(), HomeActivity.class);
-//                startActivity(intent);
         }
     }
 
