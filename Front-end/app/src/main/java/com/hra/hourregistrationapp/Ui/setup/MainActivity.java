@@ -73,7 +73,7 @@ public class MainActivity extends Activity {
         mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
 
         //check if user can sign in silently
-        mGoogleSignInClient.silentSignIn().addOnCompleteListener(this, this::handleSignInResult);
+        //mGoogleSignInClient.silentSignIn().addOnCompleteListener(this, this::handleSignInResult);
     }
 
     private void handleSignInResult(@NonNull Task<GoogleSignInAccount> completedTask) {
