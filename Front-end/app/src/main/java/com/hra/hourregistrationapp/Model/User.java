@@ -28,6 +28,11 @@ public class User {
         this.lastName = lastName;
     }
 
+    public User(String id, int companyID){
+        this.id = id;
+        this.companyID = companyID;
+    }
+
     public User(String id){
         this.id = id;
     }

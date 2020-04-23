@@ -29,7 +29,7 @@ public class LoginRepository {
             @Override
             public void onResponse(Call<String> call, Response<String> response) {
                 if(response.isSuccessful()) {
-                    user = new User(response.body());
+                //    user = new User(response.body());
                     retrofitResponseListener.onSuccess();
                 }
                 else{
