@@ -27,8 +27,6 @@ class UserController extends AbstractController
         $response = new JsonResponse();
         $id_token = $request->request->get('id_token');
         // Get $id_token via HTTPS POST.
-
-        
         $client = new Google_Client(['client_id' => $CLIENT_ID]);  // Specify the CLIENT_ID of the app that accesses the backend
 
         $payload = $client->verifyIdToken($id_token);
@@ -39,7 +37,7 @@ class UserController extends AbstractController
             $existing_user = $userRepository->find($user_id);
 
             if($existing_user != null){
-                $response = new JsonResponse($user_id);
+                $response = new JsonResponse(['id' => $existing_user->getId(),  'companyid' => $existing_user->getCompany()->getId()]);
                 $response->setStatusCode(Response::HTTP_OK);
                 // sets a HTTP response header
                 $response->headers->set('Content-Type', 'application/json');

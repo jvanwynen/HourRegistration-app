@@ -9,18 +9,20 @@ import androidx.room.migration.Migration;
 import androidx.sqlite.db.SupportSQLiteDatabase;
 
 import com.hra.hourregistrationapp.Model.Company;
+import com.hra.hourregistrationapp.Model.Project;
 import com.hra.hourregistrationapp.Model.User;
 
 /*
 this class defines the local database, and its migrations to newer versions
  */
-@Database(entities = {User.class, Company.class}, version = 3, exportSchema = false)
+@Database(entities = {User.class, Company.class, Project.class}, version = 3, exportSchema = false)
 public abstract class LocalDatabase extends RoomDatabase {
 
     private static LocalDatabase instance;
 
    public abstract UserDao userDao();
    public abstract CompanyDao companyDao();
+   public abstract ProjectDao projectDao();
 
     public static LocalDatabase getInstance(Context context) {
         if (instance == null) {
@@ -60,5 +62,4 @@ public abstract class LocalDatabase extends RoomDatabase {
             database.execSQL("ALTER TABLE user_new RENAME TO user");
         }
     };
-
 }

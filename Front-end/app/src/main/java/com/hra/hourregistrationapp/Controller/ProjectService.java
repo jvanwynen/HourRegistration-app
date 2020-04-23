@@ -20,3 +20,4 @@ public interface ProjectService {
     @GET("project/getbycompanyid?}")
     Call<List<Project>> getProjectsByCompanyId(@Query("companyid") int companyId);
 }
+
