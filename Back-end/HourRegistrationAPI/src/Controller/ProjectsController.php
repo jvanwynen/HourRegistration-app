@@ -24,8 +24,8 @@ class ProjectsController extends AbstractController
         $response = new Response();
 
         // the URI being requested (e.g. /about) minus any query parameters
-        $projectname = $request->request->get('projectname');
-        $project_tag = $request->request->get('project_tag');
+        $projectname = $request->request->get('name');
+        $project_tag = $request->request->get('tag');
         $companyid = $request->request->get('company_id');
         //Query the database to find the corrosponding company object based on the ID
         $company = $companyRepository->find($companyid);
@@ -182,20 +182,22 @@ class ProjectsController extends AbstractController
         if($company != null){
             $projects = $company->getProjects();
             $projectsArray = array();
-            foreach ($projects as $item) {
-                $projectsArray[] = array(
-                    'id' => $item->getId(),
-                    'projectname' => $item->getProjectname(),
-                    'project_tag' => $item->getProjectTag(),
-                    'company_id' => $item->getCompany()->getId()
-                );
+            if ($projects != null) {
+                foreach ($projects as $item) {
+                    $projectsArray[] = array(
+                        'id' => $item->getId(),
+                        'projectname' => $item->getName(),
+                        'project_tag' => $item->getTag(),
+                        'company_id' => $item->getCompany()->getId()
+                    );
+                }
+                $response = new JsonResponse($projectsArray);
+                // the data to send when creating the response
+                $response->setStatusCode(Response::HTTP_OK);
+                // sets a HTTP response header
+                $response->headers->set('Content-Type', 'application/json');
+                return $response;
             }
-            $response = new JsonResponse($projectsArray);
-            // the data to send when creating the response
-            $response->setStatusCode(Response::HTTP_OK);
-            // sets a HTTP response header
-            $response->headers->set('Content-Type', 'application/json');
-            return $response;
         }
         $response->setStatusCode(Response::HTTP_NOT_FOUND);
         // sets a HTTP response header

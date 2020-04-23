@@ -22,28 +22,22 @@ class UserController extends AbstractController
      */
     public function validateAndInsertUser(Request $request, UserRepository $userRepository)
     {
-        $CLIENT_ID = "627510897874-46pejgnail9p51tkib5hg9d58nv9r85p.apps.googleusercontent.com";
+        $CLIENT_ID = "1091513271790-n7dtefpfnqnv1rnk6vqmh76ng9hck5ul.apps.googleusercontent.com";
         $entityManager = $this->getDoctrine()->getManager();
         $response = new JsonResponse();
         $id_token = $request->request->get('id_token');
         // Get $id_token via HTTPS POST.
-
-        
         $client = new Google_Client(['client_id' => $CLIENT_ID]);  // Specify the CLIENT_ID of the app that accesses the backend
 
         $payload = $client->verifyIdToken($id_token);
         if ($payload) {
-
             $user_id = $payload['sub'];
-
 
             //check if user already exists
             $existing_user = $userRepository->find($user_id);
 
-            
-
             if($existing_user != null){
-                $response = new JsonResponse($user_id);
+                $response = new JsonResponse(['id' => $existing_user->getId(),  'companyid' => $existing_user->getCompany()->getId()]);
                 $response->setStatusCode(Response::HTTP_OK);
                 // sets a HTTP response header
                 $response->headers->set('Content-Type', 'application/json');

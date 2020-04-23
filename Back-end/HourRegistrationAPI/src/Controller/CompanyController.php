@@ -13,12 +13,11 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class CompanyController extends AbstractController
 {
-
-    /**
- * @Route("/company/insert", name="companies")
- * @param Request $request
- * @return Response
- */
+     /**
+     * @Route("/company/insert", name="companies")
+     * @param Request $request
+     * @return Response
+     */
     function insertCompany(Request $request, UserRepository $userRepository, CompanyRepository $companyRepository){
         $entityManager = $this->getDoctrine()->getManager();
         $response = new Response();
@@ -30,24 +29,19 @@ class CompanyController extends AbstractController
         $company = new Company();
         $company->setName($companyname);
         $company->setPassword(password_hash($companypassword, PASSWORD_DEFAULT));
-
-        if($company != null){
+        $user = $userRepository->find($userid);
+        if($company != null && $user != null){
             // tell Doctrine you want to (eventually) save the Product (no queries yet)
             $entityManager->persist($company);
             // actually executes the queries (i.e. the INSERT query)
             $entityManager->flush();// tell Doctrine you want to (eventually) save the Product (no queries yet)
-
-            $user = $userRepository->find($userid);
             $company = $companyRepository->find($company->getId());
-
             $user->setCompany($company);
             $user->setAdmin(1);
-
             // tell Doctrine you want to (eventually) save the Product (no queries yet)
             $entityManager->persist($user);
             // actually executes the queries (i.e. the INSERT query)
             $entityManager->flush();// tell Doctrine you want to (eventually) save the Product (no queries yet)
-
             $response->setStatusCode(Response::HTTP_OK);
             // sets a HTTP response header
             $response->headers->set('Content-Type', 'text/html');

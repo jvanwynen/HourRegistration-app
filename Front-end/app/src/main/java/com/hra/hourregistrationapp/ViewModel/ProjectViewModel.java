@@ -12,7 +12,7 @@ public class ProjectViewModel extends ViewModel {
     private static ProjectRepository projectRepository = new ProjectRepository();
 
     public void sendGetProjectRequest(){
-        projectRepository.getProjects();
+        projectRepository.getProjectsById();
     }
 
     public MutableLiveData<List<Project>> getResponse(){
