@@ -9,7 +9,14 @@
         android:id="@+id/nav_home"
         android:name="com.hra.hourregistrationapp.Ui.home.HomeFragment"
         android:label="@string/menu_home"
-        tools:layout="@layout/fragment_home" />
+        tools:layout="@layout/fragment_home" >
+        <action
+            android:id="@+id/action_nav_home_to_nav_projects"
+            app:destination="@id/nav_projects" />
+        <action
+            android:id="@+id/action_nav_home_to_nav_hours"
+            app:destination="@id/nav_hours" />
+    </fragment>
 
     <fragment
         android:id="@+id/nav_hours"
@@ -33,5 +40,19 @@
         android:id="@+id/nav_logout"
         android:name="com.hra.hourregistrationapp.Ui.logout.LogoutFragment"
         android:label="@string/menu_logout"
-        tools:layout="@layout/fragment_logout" />
+        tools:layout="@layout/fragment_logout" >
+        <action
+            android:id="@+id/action_nav_logout_to_registerActivity"
+            app:destination="@id/registerActivity" />
+    </fragment>
+    <fragment
+        android:id="@+id/addHourFragment"
+        android:name="com.hra.hourregistrationapp.Ui.hours.AddHourFragment"
+        android:label="fragment_add_hour"
+        tools:layout="@layout/fragment_add_hour" />
+    <activity
+        android:id="@+id/registerActivity"
+        android:name="com.hra.hourregistrationapp.Ui.registration.RegisterActivity"
+        android:label="activity_registration"
+        tools:layout="@layout/activity_registration" />
 </navigation>

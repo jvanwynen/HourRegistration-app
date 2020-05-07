@@ -5,4 +5,5 @@
     <color name="colorAccent">#006FCB</color>
     <color name="BlueAccent">#006FCB</color>
     <color name="YellowAccent">#F5CB42</color>
+    <color name="White">#FFFFFF</color>
 </resources>

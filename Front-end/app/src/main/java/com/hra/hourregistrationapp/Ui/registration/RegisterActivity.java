@@ -32,6 +32,7 @@ public class RegisterActivity extends Activity implements View.OnClickListener {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_registration);
 
@@ -47,7 +48,6 @@ public class RegisterActivity extends Activity implements View.OnClickListener {
         mAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
         mSpinner.setAdapter(mAdapter);
-
     }
 
     private void createUser(Company company) {
@@ -97,6 +97,10 @@ public class RegisterActivity extends Activity implements View.OnClickListener {
 //                intent = new Intent(getApplicationContext(), HomeActivity.class);
 //                startActivity(intent);
         }
+    }
+
+    @Override
+    public void onBackPressed() {
     }
 
 }
