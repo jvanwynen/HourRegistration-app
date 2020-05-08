@@ -13,6 +13,7 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
 import com.hra.hourregistrationapp.R;
+import com.hra.hourregistrationapp.ViewModel.HoursViewModel;
 
 public class HourFragment extends Fragment {
 
@@ -28,6 +29,13 @@ public class HourFragment extends Fragment {
             @Override
             public void onChanged(@Nullable String s) {
                 textView.setText(s);
+            }
+        });
+
+        textView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+//                findNav
             }
         });
         return root;

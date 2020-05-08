@@ -16,4 +16,7 @@ public class LogoutViewModel extends ViewModel {
     public LiveData<String> getText() {
         return mText;
     }
+
+
+
 }

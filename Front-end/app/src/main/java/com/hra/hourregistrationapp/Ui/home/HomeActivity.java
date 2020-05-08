@@ -2,6 +2,7 @@ package com.hra.hourregistrationapp.Ui.home;
 
 import android.os.Bundle;
 
+import androidx.core.view.GravityCompat;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
@@ -15,10 +16,12 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+
 import android.view.Menu;
 
 public class HomeActivity extends AppCompatActivity {
 
+    private DrawerLayout drawerLayout;
     private AppBarConfiguration mAppBarConfiguration;
 
     @Override
@@ -38,7 +41,7 @@ public class HomeActivity extends AppCompatActivity {
         mAppBarConfiguration = new AppBarConfiguration.Builder(
                 R.id.nav_home, R.id.nav_home,
                 R.id.nav_hours, R.id.nav_projects, R.id.nav_settings, R.id.nav_logout)
-                .setDrawerLayout(drawer)
+                .setOpenableLayout(drawer)
                 .build();
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
@@ -57,5 +60,17 @@ public class HomeActivity extends AppCompatActivity {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         return NavigationUI.navigateUp(navController, mAppBarConfiguration)
                 || super.onSupportNavigateUp();
+    }
+
+    /**
+     * Close the drawer when hardware back is pressed.
+     */
+    @Override
+    public void onBackPressed() {
+        if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
+            drawerLayout.closeDrawer(GravityCompat.START);
+        } else {
+            super.onBackPressed();
+        }
     }
 }
