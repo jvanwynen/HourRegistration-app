@@ -26,9 +26,7 @@ public class MainViewModel extends AndroidViewModel {
    private LocalDatabase localDatabase;
    Application application;
 
-
-
-    public MainViewModel(Application application) {
+   public MainViewModel(Application application) {
         super(application);
         this.application= application;
         LoginRepository = new LoginRepository();

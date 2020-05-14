@@ -25,11 +25,11 @@ public class LoginRepository {
     }
 
     public void sendToken(String idToken, RetrofitResponseListener retrofitResponseListener){
-        retrofitClient.getLoginService().verifyToken(idToken).enqueue(new Callback<String>() {
+        retrofitClient.getLoginService().verifyToken(idToken).enqueue(new Callback<User>() {
             @Override
-            public void onResponse(Call<String> call, Response<String> response) {
+            public void onResponse(Call<User> call, Response<User> response) {
                 if(response.isSuccessful()) {
-                //    user = new User(response.body());
+                    user = response.body();
                     retrofitResponseListener.onSuccess();
                 }
                 else{
@@ -38,7 +38,7 @@ public class LoginRepository {
             }
 
             @Override
-            public void onFailure(Call<String> call, Throwable t) {
+            public void onFailure(Call<User> call, Throwable t) {
                 retrofitResponseListener.onFailure();
             }
         });
