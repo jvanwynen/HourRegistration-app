@@ -8,8 +8,8 @@ import androidx.lifecycle.LiveData;
 
 import com.hra.hourregistrationapp.Model.Company;
 import com.hra.hourregistrationapp.Model.User;
-import com.hra.hourregistrationapp.Persistence.LocalDatabase;
 import com.hra.hourregistrationapp.Repository.CompanyRepository;
+import com.hra.hourregistrationapp.Repository.UserRepository;
 import com.hra.hourregistrationapp.Retrofit.RetrofitResponseListener;
 
 import java.util.List;
@@ -17,13 +17,12 @@ import java.util.List;
 public class CompanyViewModel extends AndroidViewModel {
 
     private CompanyRepository companyRepository;
-    private LiveData<List<Company>> mCompanyList;
-    private LocalDatabase localDatabase;
+    private UserRepository userRepository;
 
     public CompanyViewModel(@NonNull Application application) {
         super(application);
-        companyRepository = new CompanyRepository();
-        localDatabase = LocalDatabase.getInstance(application.getApplicationContext());
+        companyRepository = new CompanyRepository(application);
+        userRepository = new UserRepository(application);
     }
     public void createNewCompany(Company company, RetrofitResponseListener retrofitResponseListener){
         companyRepository.createCompany(getCurrentUser(), company, retrofitResponseListener);
@@ -31,8 +30,9 @@ public class CompanyViewModel extends AndroidViewModel {
     public void loadDataFromRemote(RetrofitResponseListener retrofitResponseListener){
         companyRepository.getCompanies(retrofitResponseListener);
     }
+
     private User getCurrentUser(){
-        return localDatabase.userDao().getAll().get(0);
+        return userRepository.getUser();
     }
 
 }

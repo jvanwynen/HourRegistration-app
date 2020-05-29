@@ -5,7 +5,7 @@ import android.os.Bundle;
 import android.view.View;
 
 import androidx.appcompat.widget.AppCompatEditText;
-import androidx.lifecycle.ViewModelProviders;
+import androidx.lifecycle.ViewModelProvider;
 
 import com.hra.hourregistrationapp.Model.Company;
 import com.hra.hourregistrationapp.R;
@@ -23,7 +23,7 @@ public class AddCompanyActivity extends Activity implements View.OnClickListener
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_company);
 
-        mCompanyViewModel = ViewModelProviders.of(this).get(CompanyViewModel.class);
+        mCompanyViewModel = new ViewModelProvider(this).get(CompanyViewModel.class);
 
         nameInput = findViewById(R.id.addcompany_input_name);
         passwordInput = findViewById(R.id.addcompany_input_password);
