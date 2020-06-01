@@ -5,8 +5,6 @@ import androidx.room.Entity;
 import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
-import java.math.BigInteger;
-
 @Entity
 public class User {
 
@@ -15,21 +13,26 @@ public class User {
     private String id;
 
     @Ignore
-    private int admin, calendarID, companyID;
+    private int admin, calendarID, companyId;
     @Ignore
     private String firstName, lastName;
 
-    public User(String id, int admin, int calendarID, int companyID, String firstName, String lastName) {
+    public User(String id, int admin, int calendarID, int companyId, String firstName, String lastName) {
         this.id = id;
         this.admin = admin;
         this.calendarID = calendarID;
-        this.companyID = companyID;
+        this.companyId = companyId;
         this.firstName = firstName;
         this.lastName = lastName;
     }
 
     public User(String id){
         this.id = id;
+    }
+
+    public User(String id, int companyId){
+        this.id = id;
+        this.companyId = companyId;
     }
 
     public String getId() {
@@ -56,12 +59,12 @@ public class User {
         this.calendarID = calendarID;
     }
 
-    public int getCompanyID() {
-        return companyID;
+    public int getCompanyId() {
+        return companyId;
     }
 
-    public void setCompanyID(int companyID) {
-        this.companyID = companyID;
+    public void setCompanyId(int companyId) {
+        this.companyId = companyId;
     }
 
     public String getFirstname() {

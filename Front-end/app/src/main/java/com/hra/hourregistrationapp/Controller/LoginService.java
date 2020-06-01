@@ -18,7 +18,7 @@ public interface LoginService {
 
     @FormUrlEncoded
     @POST("/token/verify")
-    Call<String> verifyToken(
+    Call<User> verifyToken(
             @Field("id_token") String token
     );
 

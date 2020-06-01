@@ -49,11 +49,11 @@ public class LogoutFragment extends Fragment {
             @Override
             public void onClick(View view) {
 
-                GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                        .requestIdToken(getString(R.string.server_client_id))
-                        .build();
+            GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                    .requestIdToken(getString(R.string.server_client_id))
+                    .build();
 
-                mGoogleSignInClient = GoogleSignIn.getClient(getContext(), gso);
+            mGoogleSignInClient = GoogleSignIn.getClient(getContext(), gso);
 
                 mGoogleSignInClient.signOut().addOnCompleteListener((Activity) getContext(), new OnCompleteListener<Void>() {
                     @Override

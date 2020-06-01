@@ -9,7 +9,9 @@ import android.view.View;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelProviders;
+
 
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
@@ -47,13 +49,11 @@ public class MainActivity extends Activity {
             showPopUp(getString(R.string.main_popup_title), getString(R.string.main_popup_text), false);
         }
 
-        mMainViewModel = ViewModelProviders.of(this).get(MainViewModel.class);
+        mMainViewModel = new ViewModelProvider(this).get(MainViewModel.class);
 
         mMainViewModel.loadDataFromRemote(new RetrofitResponseListener() {
             @Override
-            public void onSuccess() {
-                mMainViewModel.upsertCompaniesLocally();
-            }
+            public void onSuccess(){}
 
             @Override
             public void onFailure() {
@@ -79,12 +79,14 @@ public class MainActivity extends Activity {
     private void handleSignInResult(@NonNull Task<GoogleSignInAccount> completedTask) {
         try {
             GoogleSignInAccount account = completedTask.getResult(ApiException.class);
-            String idToken = account.getIdToken();
-            System.out.println(idToken);
+            String idToken = null;
+            if (account != null) {
+                idToken = account.getIdToken();
+            }
+            //System.out.println(idToken);
             mMainViewModel.verifyIdToken(idToken, new RetrofitResponseListener() {
                 @Override
                 public void onSuccess() {
-                    mMainViewModel.setSignedInUser();
                     Intent intent = new Intent(getApplicationContext(), RegisterActivity.class);
                     startActivity(intent);
                 }

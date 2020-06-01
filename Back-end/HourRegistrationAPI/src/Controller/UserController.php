@@ -22,7 +22,7 @@ class UserController extends AbstractController
      */
     public function validateAndInsertUser(Request $request, UserRepository $userRepository)
     {
-        $CLIENT_ID = "1091513271790-n7dtefpfnqnv1rnk6vqmh76ng9hck5ul.apps.googleusercontent.com";
+        $CLIENT_ID = "627510897874-46pejgnail9p51tkib5hg9d58nv9r85p.apps.googleusercontent.com";
         $entityManager = $this->getDoctrine()->getManager();
         $response = new JsonResponse();
         $id_token = $request->request->get('id_token');
@@ -73,8 +73,10 @@ class UserController extends AbstractController
             return $response;
         } else {
             // Invalid ID token
-            $response->setStatusCode(Response::HTTP_UNAUTHORIZED);
-            $response = new JsonResponse("Invalid Id Token");
+            $response->setStatusCode(Response::HTTP_NOT_FOUND);
+
+            $response->headers->set('Content-Type', 'application/json');
+            $response = new JsonResponse("Invalid Id Tokens");
             return $response;
         }
     }

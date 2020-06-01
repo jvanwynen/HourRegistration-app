@@ -15,7 +15,7 @@ public abstract class UserDao implements DAO<User> {
     public abstract void deleteAllFromTable();
 
     @Query("SELECT * FROM user")
-    public abstract List<User> getAll();
+    public abstract User getAll();
 
     @Transaction
     public void upsert(User obj) {
