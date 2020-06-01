@@ -19,20 +19,20 @@
         android:textAlignment="center"
         android:textSize="18sp"
         android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@+id/addcompany_input_password"
+        app:layout_constraintBottom_toTopOf="@+id/addcompany_input_name"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.appcompat.widget.AppCompatEditText
-        android:id="@+id/addcompany_input_name"
+        android:id="@+id/addcompany_input_password"
         android:layout_width="300dp"
         android:layout_height="50dp"
         android:layout_marginStart="180dp"
         android:layout_marginTop="6dp"
         android:layout_marginEnd="180dp"
         android:layout_marginBottom="64dp"
-        android:hint="@string/registration_hint_name"
+        android:hint="@string/registration_hint_password"
         android:inputType="text"
         android:paddingLeft="10dp"
         android:paddingRight="10dp"
@@ -53,20 +53,20 @@
         android:textAlignment="center"
         android:textSize="18sp"
         android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@+id/addcompany_input_name"
+        app:layout_constraintBottom_toTopOf="@+id/addcompany_input_password"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/addcompany_input_password" />
+        app:layout_constraintTop_toBottomOf="@+id/addcompany_input_name" />
 
     <androidx.appcompat.widget.AppCompatEditText
-        android:id="@+id/addcompany_input_password"
+        android:id="@+id/addcompany_input_name"
         android:layout_width="300dp"
         android:layout_height="50dp"
         android:layout_marginStart="180dp"
         android:layout_marginTop="10dp"
         android:layout_marginEnd="180dp"
         android:layout_marginBottom="20dp"
-        android:hint="@string/registration_hint_password"
+        android:hint="@string/registration_hint_name"
         android:inputType="text"
         android:paddingLeft="10dp"
         android:paddingRight="10dp"
@@ -92,7 +92,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.491"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/addcompany_input_name" />
+        app:layout_constraintTop_toBottomOf="@+id/addcompany_input_password" />
 
     <Button
         android:id="@+id/addcompany_button_save"

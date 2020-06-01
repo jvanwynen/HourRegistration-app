@@ -8,10 +8,9 @@ import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.TextView;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.lifecycle.ViewModelProviders;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
 
-import com.hra.hourregistrationapp.Persistence.LocalDatabase;
 import com.hra.hourregistrationapp.Retrofit.RetrofitResponseListener;
 import com.hra.hourregistrationapp.Ui.Activity;
 import com.hra.hourregistrationapp.Ui.home.HomeActivity;
@@ -24,11 +23,13 @@ import java.util.List;
 
 public class RegisterActivity extends Activity implements View.OnClickListener {
 
-    private ArrayAdapter<Company> mAdapter;
+
+
     private Spinner mSpinner;
     private Button mSaveButton;
     private TextView mPasswordTextView;
     private LoginViewModel mLoginViewModel;
+    ArrayAdapter<Company> mAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,7 +37,7 @@ public class RegisterActivity extends Activity implements View.OnClickListener {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_registration);
 
-        mLoginViewModel = ViewModelProviders.of(this).get(LoginViewModel.class);
+        mLoginViewModel = new ViewModelProvider(this).get(LoginViewModel.class);
 
         mSpinner = findViewById(R.id.registration_spinner_companylist);
         findViewById(R.id.registration_text_add).setOnClickListener(this);
@@ -44,11 +45,36 @@ public class RegisterActivity extends Activity implements View.OnClickListener {
         mPasswordTextView = findViewById(R.id.registration_input_password);
         mSaveButton.setOnClickListener(this);
 
-        mAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, mLoginViewModel.getLocalCompanies());
+        List<Company> companyList = new ArrayList<>();
+
+//        Company company = new Company("test1","test1");
+//        companyList.add(company);
+//        Company company2 = new Company("test2","test1");
+//        companyList.add(company2);
+//        Company company3 = new Company("test3","test1");
+//        companyList.add(company3);
+//        Company company4 = new Company("test4","test1");
+//        companyList.add(company4);
+
+         mLoginViewModel.getLocalCompanies().observe(this, new Observer<List<Company>>() {
+             @Override
+             public void onChanged(List<Company> companies) {
+                 companyList.addAll(companies);
+                 mAdapter.notifyDataSetChanged();
+             }
+         });
+
+         mAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, companyList);
         mAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
         mSpinner.setAdapter(mAdapter);
     }
+
+//    @Override
+//    protected void onResume() {
+//        super.onResume();
+//        mLoginViewModel.upsertCompaniesLocally();
+//    }
 
     private void createUser(Company company) {
         validatePassword(company, new RetrofitResponseListener() {
@@ -68,34 +94,29 @@ public class RegisterActivity extends Activity implements View.OnClickListener {
         mLoginViewModel.addCompanyToUser(company, new RetrofitResponseListener() {
             @Override
             public void onSuccess() {
-                Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
-                startActivity(intent);
+                startActivity(new Intent(getApplicationContext(), HomeActivity.class));
             }
 
             @Override
             public void onFailure() {
-                showPopUp("Error", "Login not Successful", true);
+                showPopUp(getString(R.string.main_popup_title), getString(R.string.error_loginunsuccesfull), true);
             }
         });
     }
 
     private void validatePassword(Company company, RetrofitResponseListener retrofitResponseListener) {
         mLoginViewModel.validateCompanyPassword(company, retrofitResponseListener);
-
     }
 
     @Override
     public void onClick(View v) {
-        Intent intent;
         switch (v.getId()) {
             case R.id.registration_text_add:
-                intent = new Intent(getApplicationContext(), AddCompanyActivity.class);
+                Intent intent = new Intent(getApplicationContext(), AddCompanyActivity.class);
                 startActivity(intent);
             case R.id.registration_save_button:
                 Company company = (Company) mSpinner.getSelectedItem();
                 createUser(new Company(company.getId(), company.getCompanyname(), mPasswordTextView.getText().toString()));
-//                intent = new Intent(getApplicationContext(), HomeActivity.class);
-//                startActivity(intent);
         }
     }
 

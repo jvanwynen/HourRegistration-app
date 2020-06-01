@@ -1,5 +1,6 @@
 package com.hra.hourregistrationapp.Persistence;
 
+import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
 import androidx.room.Query;
 import androidx.room.Transaction;
@@ -16,7 +17,7 @@ This DAO is responsible for communication with local database for all Company re
 public abstract class CompanyDao implements DAO<Company> {
 
     @Query("SELECT * FROM Company")
-    public abstract List<Company> getAll();
+    public abstract LiveData<List<Company>> getAll();
 
     @Transaction
     public void upsert(List<Company> objList) {

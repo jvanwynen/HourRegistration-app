@@ -28,6 +28,11 @@ public class Company {
         this.companyname = companyname;
     }
 
+    public Company(String companyname, String password) {
+        this.companyname = companyname;
+        this.password = password;
+    }
+
     public String getCompanyname() {
         return companyname;
     }

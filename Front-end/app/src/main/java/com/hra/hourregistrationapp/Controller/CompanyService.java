@@ -19,8 +19,9 @@ public interface CompanyService {
     Call<List<Company>> getAllCompanies();
 
     @FormUrlEncoded
-    @POST("company/createcompany")
+    @POST("company/insert")
     Call<ResponseBody> createCompany(
+            @Field("user_id") String id,
             @Field("name") String name,
             @Field("password") String password
     );
