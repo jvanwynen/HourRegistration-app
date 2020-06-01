@@ -32,7 +32,6 @@ public class RegisterActivity extends Activity implements View.OnClickListener {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_registration);
 
@@ -99,8 +98,11 @@ public class RegisterActivity extends Activity implements View.OnClickListener {
         }
     }
 
-    @Override
-    public void onBackPressed() {
+    public void onBackPressed(){
+        Intent a = new Intent(Intent.ACTION_MAIN);
+        a.addCategory(Intent.CATEGORY_HOME);
+        a.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(a);
     }
 
 }

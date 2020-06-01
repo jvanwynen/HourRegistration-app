@@ -58,9 +58,7 @@ public class LogoutFragment extends Fragment {
                 mGoogleSignInClient.signOut().addOnCompleteListener((Activity) getContext(), new OnCompleteListener<Void>() {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
-
                         Navigation.findNavController(view).navigate(R.id.action_nav_logout_to_registerActivity);
-
                     }
                 });
             }
