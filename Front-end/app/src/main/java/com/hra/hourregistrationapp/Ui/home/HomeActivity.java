@@ -21,7 +21,7 @@ import android.view.Menu;
 
 public class HomeActivity extends AppCompatActivity {
 
-    private DrawerLayout drawerLayout;
+    private DrawerLayout drawer;
     private AppBarConfiguration mAppBarConfiguration;
 
     @Override
@@ -34,7 +34,7 @@ public class HomeActivity extends AppCompatActivity {
 //        Intent intent = new Intent(getApplicationContext(), RegisterActivity.class);
 //        startActivity(intent);
 
-        DrawerLayout drawer = findViewById(R.id.drawer_layout);
+        drawer = findViewById(R.id.drawer_layout);
         NavigationView navigationView = findViewById(R.id.nav_view);
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
@@ -67,8 +67,8 @@ public class HomeActivity extends AppCompatActivity {
      */
     @Override
     public void onBackPressed() {
-        if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
-            drawerLayout.closeDrawer(GravityCompat.START);
+        if (drawer.isDrawerOpen(GravityCompat.START)) {
+            drawer.closeDrawer(GravityCompat.START);
         } else {
             super.onBackPressed();
         }

@@ -19,24 +19,28 @@
             android:name=".Ui.home.HomeActivity"
             android:label="Hour Registration App"
             android:theme="@style/AppTheme.NoActionBar"
-            >
-        </activity>
-        <activity
-            android:name=".Ui.registration.RegisterActivity"
-            android:exported="true" />
-        <activity
-            android:name=".Ui.setup.MainActivity"
-            android:exported="true"
-            >
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
-        <activity
-            android:name=".Ui.registration.AddCompanyActivity"
-            android:exported="true" />
-        <activity android:name=".Ui.popup.Popup" />
-        <activity android:name=".Ui.Activity" />
-    </application>
+            android:screenOrientation="portrait">
+            <!--<intent-filter>
+            <action android:name="android.intent.action.MAIN" />
+            <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>-->
+       </activity>
+       <activity
+           android:name=".Ui.registration.RegisterActivity"
+           android:exported="true" />
+       <activity
+           android:name=".Ui.setup.MainActivity"
+           android:exported="true"
+           android:screenOrientation="portrait">
+           <intent-filter>
+               <action android:name="android.intent.action.MAIN" />
+               <category android:name="android.intent.category.LAUNCHER" />
+           </intent-filter>
+       </activity>
+       <activity
+           android:name=".Ui.registration.AddCompanyActivity"
+           android:exported="true" />
+       <activity android:name=".Ui.popup.Popup" />
+       <activity android:name=".Ui.Activity" />
+   </application>
 </manifest>

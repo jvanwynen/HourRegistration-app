@@ -22,7 +22,8 @@ class UserController extends AbstractController
      */
     public function validateAndInsertUser(Request $request, UserRepository $userRepository)
     {
-        $CLIENT_ID = "627510897874-46pejgnail9p51tkib5hg9d58nv9r85p.apps.googleusercontent.com";
+
+        $CLIENT_ID = "1091513271790-n7dtefpfnqnv1rnk6vqmh76ng9hck5ul.apps.googleusercontent.com";
         $entityManager = $this->getDoctrine()->getManager();
         $response = new JsonResponse();
         $id_token = $request->request->get('id_token');
@@ -31,20 +32,28 @@ class UserController extends AbstractController
 
         $payload = $client->verifyIdToken($id_token);
         if ($payload) {
+
             $user_id = $payload['sub'];
 
             //check if user already exists
             $existing_user = $userRepository->find($user_id);
-
             if($existing_user != null){
-                $response = new JsonResponse(['id' => $existing_user->getId(),  'companyid' => $existing_user->getCompany()->getId()]);
+                //controleer of er een company aan de user gekoppeld is
+                if($existing_user->getCompany() == null){
+                    $response = new JsonResponse(['id' => $existing_user->getId()]);
+                    $response->setStatusCode(Response::HTTP_OK);
+                    // sets a HTTP response header
+                    $response->headers->set('Content-Type', 'application/json');
+                    return $response;
+                }
+
+                $response = new JsonResponse(['id' => $existing_user->getId(),  'companyId' => $existing_user->getCompany()->getId()]);
                 $response->setStatusCode(Response::HTTP_OK);
                 // sets a HTTP response header
                 $response->headers->set('Content-Type', 'application/json');
                 return $response;
             }
 
-            $firstname_and_lastname = $payload['name'];
             $firstname = $payload['given_name']; // firstname
             $lastname = $payload['family_name']; // lastname
 
@@ -61,7 +70,7 @@ class UserController extends AbstractController
                 $entityManager->persist($user);
                 // actually executes the queries (i.e. the INSERT query)
                 $entityManager->flush();// tell Doctrine you want to (eventually) save the Product (no queries yet)
-                $response = new JsonResponse($user_id);
+                $response = new JsonResponse(['id' => $user_id]);
                 $response->setStatusCode(Response::HTTP_OK);
                 // sets a HTTP response header
                 $response->headers->set('Content-Type', 'application/json');
@@ -74,7 +83,6 @@ class UserController extends AbstractController
         } else {
             // Invalid ID token
             $response->setStatusCode(Response::HTTP_NOT_FOUND);
-
             $response->headers->set('Content-Type', 'application/json');
             $response = new JsonResponse("Invalid Id Tokens");
             return $response;

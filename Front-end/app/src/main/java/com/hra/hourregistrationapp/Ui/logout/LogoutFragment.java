@@ -45,7 +45,9 @@ public class LogoutFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        signOffButton.setOnClickListener(view1 -> {
+        signOffButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
 
             GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                     .requestIdToken(getString(R.string.server_client_id))
@@ -53,14 +55,13 @@ public class LogoutFragment extends Fragment {
 
             mGoogleSignInClient = GoogleSignIn.getClient(getContext(), gso);
 
-            mGoogleSignInClient.signOut().addOnCompleteListener((Activity) getContext(), new OnCompleteListener<Void>() {
-                @Override
-                public void onComplete(@NonNull Task<Void> task) {
-
-                    Navigation.findNavController(view1).navigate(R.id.action_nav_logout_to_registerActivity);
-
-                }
-            });
+                mGoogleSignInClient.signOut().addOnCompleteListener((Activity) getContext(), new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        Navigation.findNavController(view).navigate(R.id.action_nav_logout_to_registerActivity);
+                    }
+                });
+            }
         });
     }
 
