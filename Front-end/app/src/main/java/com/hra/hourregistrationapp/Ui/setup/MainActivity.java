@@ -83,7 +83,7 @@ public class MainActivity extends Activity {
             if (account != null) {
                 idToken = account.getIdToken();
             }
-            //System.out.println(idToken);
+            System.out.println(idToken);
             mMainViewModel.verifyIdToken(idToken, new RetrofitResponseListener() {
                 @Override
                 public void onSuccess() {
