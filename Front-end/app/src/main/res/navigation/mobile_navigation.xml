@@ -28,7 +28,11 @@
         android:id="@+id/nav_projects"
         android:name="com.hra.hourregistrationapp.Ui.projects.ProjectsFragment"
         android:label="@string/menu_projects"
-        tools:layout="@layout/fragment_projects" />
+        tools:layout="@layout/fragment_projects" >
+        <action
+            android:id="@+id/action_nav_projects_to_addProjectFragment"
+            app:destination="@id/addProjectFragment" />
+    </fragment>
 
     <fragment
         android:id="@+id/nav_settings"
@@ -55,4 +59,9 @@
         android:name="com.hra.hourregistrationapp.Ui.registration.RegisterActivity"
         android:label="activity_registration"
         tools:layout="@layout/activity_registration" />
+    <fragment
+        android:id="@+id/addProjectFragment"
+        android:name="com.hra.hourregistrationapp.Ui.projects.AddProjectFragment"
+        android:label="fragment_add_project"
+        tools:layout="@layout/fragment_add_project" />
 </navigation>

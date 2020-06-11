@@ -13,6 +13,7 @@ import com.hra.hourregistrationapp.R;
 import java.util.List;
 
 import androidx.annotation.NonNull;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -27,7 +28,7 @@ public class ProjectAdapter extends
         // Your holder should contain a member variable
         // for any view that will be set as you render a row
         TextView projectNameTextView;
-        LinearLayout layoutItemView;
+        ConstraintLayout layoutItemView;
 
         // We also create a constructor that accepts the entire item row
         // and does the view lookups to find each subview
@@ -69,7 +70,11 @@ public class ProjectAdapter extends
         //Set item views based on your views and data model
         TextView ProjectNameTv = holder.projectNameTextView;
 
-        ProjectNameTv.setText(project.getProjectname());
+        String projectName = project.getProjectname();
+
+          String capitalProjectName = projectName.substring(0, 1).toUpperCase() + projectName.substring(1).toLowerCase();
+
+        ProjectNameTv.setText(capitalProjectName);
     }
 
     @Override

@@ -3,6 +3,7 @@ package com.hra.hourregistrationapp.Controller;
 import java.util.List;
 
 import retrofit2.Call;
+import retrofit2.http.Body;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
@@ -19,5 +20,12 @@ public interface ProjectService {
 
     @GET("project/getbycompanyid?}")
     Call<List<Project>> getProjectsByCompanyId(@Query("companyid") int companyId);
+
+    @POST("/project/insert")
+    @FormUrlEncoded
+    Call<Project> addProject(@Field("name") String name,
+                        @Field("tag") String tag,
+                        @Field("company_id") int company_id);
+
 }
 

@@ -9,11 +9,14 @@ import android.widget.ProgressBar;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.ViewModelProviders;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.hra.hourregistrationapp.Adapter.ProjectAdapter;
 import com.hra.hourregistrationapp.Model.Project;
 import com.hra.hourregistrationapp.R;
@@ -29,30 +32,40 @@ public class ProjectsFragment extends Fragment {
     private ProjectAdapter projectAdapter;
     private RecyclerView rvProjects;
     private ProgressBar projectProgressBar;
-
+    private FloatingActionButton fabButton;
+    public View root;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-
-        projectViewModel = ViewModelProviders.of(this).get(ProjectViewModel.class);
-        View root = inflater.inflate(R.layout.fragment_projects, container, false);
+        projectViewModel = new ViewModelProvider(this).get(ProjectViewModel.class);
+        if(root == null){
+            root = inflater.inflate(R.layout.fragment_projects, container, false);
+        }
         projectProgressBar = root.findViewById(R.id.projectProgressBar);
+        fabButton = root.findViewById(R.id.fab);
+
+        fabButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Navigation.findNavController(view).navigate(R.id.addProjectFragment);
+            }
+        });
 
         rvProjects = root.findViewById(R.id.rvProjects);
         projectViewModel.sendGetProjectRequest();
-
         projectViewModel.getResponse().observe(getActivity(), new Observer<List<Project>>() {
+
             @Override
             public void onChanged(List<Project> projects) {
                 setupRecyclerView(projects);
             }
+
+
         });
         //setupRecyclerView()
         return root;
     }
-//
 
-//
 //
 //        Call<List<Project>> call = api.getProjects();
 //
