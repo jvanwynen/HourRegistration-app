@@ -83,11 +83,16 @@ public class MainActivity extends Activity {
             if (account != null) {
                 idToken = account.getIdToken();
             }
-            //System.out.println(idToken);
+            System.out.println(idToken);
             mMainViewModel.verifyIdToken(idToken, new RetrofitResponseListener() {
                 @Override
                 public void onSuccess() {
-                    Intent intent = new Intent(getApplicationContext(), RegisterActivity.class);
+                    Intent intent = new Intent();
+                    if(mMainViewModel.userHasCompany()) {
+                        intent.setClass(getApplicationContext(), HomeActivity.class);
+                    } else {
+                        intent.setClass(getApplicationContext(), RegisterActivity.class);
+                    }
                     startActivity(intent);
                 }
 
