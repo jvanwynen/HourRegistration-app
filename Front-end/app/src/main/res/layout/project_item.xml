@@ -1,23 +1,44 @@
-<LinearLayout
+<androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/projectItemLayout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:paddingTop="10dp"
     android:paddingBottom="10dp"
     android:orientation="vertical"
-    android:background="@drawable/border_blue"
+    android:background="@color/BlueAccent"
     android:layout_margin="8dp"
     >
 
     <TextView
+        android:textColor="@color/White"
         android:id="@+id/projectNameTextView"
         android:layout_width="wrap_content"
         android:layout_height="58dp"
         android:layout_weight="10"
+        android:gravity="center"
         android:paddingLeft="16dp"
         android:paddingRight="16dp"
         android:text="project"
-        android:gravity="center"
-        android:textSize="30sp" />
-</LinearLayout>
+        android:textSize="30sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/button"
+        app:layout_constraintHorizontal_bias="0.038"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/button"
+
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginEnd="16dp"
+        android:layout_weight="10"
+        android:background="@null"
+        android:drawableBottom="@drawable/ic_mode_edit_white_24dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,7 +1,10 @@
 package com.hra.hourregistrationapp.Ui.home;
 
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.core.view.GravityCompat;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
@@ -18,6 +21,7 @@ import androidx.appcompat.widget.Toolbar;
 
 
 import android.view.Menu;
+import android.widget.FrameLayout;
 
 public class HomeActivity extends AppCompatActivity {
 
@@ -67,10 +71,9 @@ public class HomeActivity extends AppCompatActivity {
      */
     @Override
     public void onBackPressed() {
-        if (drawer.isDrawerOpen(GravityCompat.START)) {
-            drawer.closeDrawer(GravityCompat.START);
-        } else {
-            super.onBackPressed();
-        }
+            Intent a = new Intent(Intent.ACTION_MAIN);
+            a.addCategory(Intent.CATEGORY_HOME);
+            a.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(a);
     }
 }

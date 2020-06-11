@@ -63,8 +63,6 @@ class UserController extends AbstractController
             $user->setLastname($lastname);
             $user->setId($user_id);
 
-        
-
             if($user != null){
                 // tell Doctrine you want to (eventually) save the User (no queries yet)
                 $entityManager->persist($user);
