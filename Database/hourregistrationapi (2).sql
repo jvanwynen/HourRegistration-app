@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.0.1
+-- version 4.9.2
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Gegenereerd op: 02 apr 2020 om 11:45
--- Serverversie: 10.4.11-MariaDB
--- PHP-versie: 7.4.3
+-- Gegenereerd op: 01 jun 2020 om 12:00
+-- Serverversie: 10.4.10-MariaDB
+-- PHP-versie: 7.3.12
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
@@ -41,7 +41,10 @@ CREATE TABLE `company` (
 INSERT INTO `company` (`id`, `name`, `password`) VALUES
 (1, 'no_company_yet', '$2y$10$mrFpt7neUy7aE.FXvO/KnOPsW.MJDiwF3VjRtlETonDm7rMW.z0Wq'),
 (2, 'Verbeter je website', '$2y$10$Lzdw3BMFzTFqbNl0V4f8z.5lHwNdO1WqXbd1jDyjetJ9taqvCC3TW'),
-(3, 'All Round', '$2y$10$jcSSm5qC6J9JzHh.vRGoN.avPO.0CNBGfJ9Xws/oWQSRmDAwNk.v.');
+(3, 'All Round', '$2y$10$jcSSm5qC6J9JzHh.vRGoN.avPO.0CNBGfJ9Xws/oWQSRmDAwNk.v.'),
+(15, 'test12345', '$2y$10$7nWMqqY8Gj6SPxv73Sn7FeeJXlkq7wjMoKFnvSZS0VVSTZ5M0kjNa'),
+(16, 'alleswerk', '$2y$10$yOKdXEva6bdHaqSiypjl9OJ8CWe0kQp1bhlCqkBIcTFRhbOQ.n8oe'),
+(17, 'alleswerk', '$2y$10$aS1TkyNYvYKhEcTQFKGtrOpLUDiFLMiuXOZ4BzHjTahWbSQIk0nhS');
 
 -- --------------------------------------------------------
 
@@ -54,7 +57,7 @@ CREATE TABLE `hour` (
   `hours` int(11) DEFAULT NULL,
   `date_added` datetime NOT NULL,
   `project_id` int(11) NOT NULL,
-  `user_id` bigint(20) DEFAULT NULL
+  `user_id` varchar(29) COLLATE utf8mb4_unicode_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
@@ -86,7 +89,13 @@ INSERT INTO `migration_versions` (`version`, `executed_at`) VALUES
 ('20200330113701', '2020-03-30 11:37:05'),
 ('20200330113824', '2020-03-30 11:38:29'),
 ('20200330114357', '2020-03-30 11:44:03'),
-('20200330114819', '2020-03-30 11:48:24');
+('20200330114819', '2020-03-30 11:48:24'),
+('20200409133129', '2020-04-09 13:31:49'),
+('20200409133819', '2020-04-09 13:47:15'),
+('20200409134023', '2020-04-09 13:47:15'),
+('20200409134826', '2020-04-09 13:48:31'),
+('20200409134933', '2020-04-09 13:49:39'),
+('20200409135754', '2020-04-09 13:58:02');
 
 -- --------------------------------------------------------
 
@@ -108,7 +117,7 @@ CREATE TABLE `project` (
 --
 
 CREATE TABLE `user` (
-  `id` bigint(20) NOT NULL,
+  `id` varchar(29) COLLATE utf8mb4_unicode_ci NOT NULL,
   `admin` tinyint(1) NOT NULL,
   `firstname` varchar(55) COLLATE utf8mb4_unicode_ci NOT NULL,
   `lastname` varchar(55) COLLATE utf8mb4_unicode_ci NOT NULL,
@@ -120,7 +129,8 @@ CREATE TABLE `user` (
 --
 
 INSERT INTO `user` (`id`, `admin`, `firstname`, `lastname`, `company_id`) VALUES
-(9223372036854775807, 0, 'Leonard', 'Bos', 1);
+('103797143833347304268', 1, 'Joost', 'van Wijnen', 16),
+('9223372036854775807', 0, 'Leonard', 'Bos', 1);
 
 --
 -- Indexen voor geëxporteerde tabellen
@@ -168,7 +178,7 @@ ALTER TABLE `user`
 -- AUTO_INCREMENT voor een tabel `company`
 --
 ALTER TABLE `company`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 
 --
 -- AUTO_INCREMENT voor een tabel `hour`
