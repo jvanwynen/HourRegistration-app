@@ -71,14 +71,14 @@ public class AddProjectFragment extends Fragment {
             @Override
             public void onClick(View view) {
 
-//                Toast.makeText(getActivity().getBaseContext(), projectViewModel.getCurrentUser(), Toast.LENGTH_SHORT).show();
-                
-                String ProjectName = projectNameTv.getText().toString();
-                String ProjectTag = projectTagTv.getText().toString();
-
-                if (!TextUtils.isEmpty(projectNameTv.getText()) && !TextUtils.isEmpty(projectTagTv.getText()) ){
-                    projectViewModel.addProject(ProjectName, ProjectTag);
-                }
+                Toast.makeText(getActivity().getBaseContext(), String.valueOf( projectViewModel.getCurrentUser()), Toast.LENGTH_SHORT).show();
+//
+//                String ProjectName = projectNameTv.getText().toString();
+//                String ProjectTag = projectTagTv.getText().toString();
+//
+//                if (!TextUtils.isEmpty(projectNameTv.getText()) && !TextUtils.isEmpty(projectTagTv.getText()) ){
+//                    projectViewModel.addProject(ProjectName, ProjectTag);
+//                }
             }
         });
     }

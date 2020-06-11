@@ -78,7 +78,14 @@ public class UserRepository {
     }
 
     public User getUser() {
-        return user;
+        User user2;
+        try {
+            user2 = new UserAsyncTask(userDao, 1).execute().get();
+        } catch (ExecutionException | InterruptedException e) {
+            e.printStackTrace();
+            user2 = null;
+        }
+        return user2;
     }
 
     public void deleteAll(){

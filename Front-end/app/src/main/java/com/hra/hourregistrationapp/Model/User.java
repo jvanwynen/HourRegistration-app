@@ -12,8 +12,11 @@ public class User {
     @NonNull
     private String id;
 
+    private int companyId;
+
     @Ignore
-    private int admin, calendarID, companyId;
+    private int admin, calendarID;
+
     @Ignore
     private String firstName, lastName;
 
@@ -26,6 +29,7 @@ public class User {
         this.lastName = lastName;
     }
 
+    @Ignore
     public User(String id){
         this.id = id;
     }

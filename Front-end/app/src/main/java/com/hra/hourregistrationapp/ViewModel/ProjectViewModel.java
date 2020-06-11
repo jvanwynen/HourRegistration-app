@@ -4,6 +4,7 @@ package com.hra.hourregistrationapp.ViewModel;
 import android.app.Application;
 
 import com.hra.hourregistrationapp.Model.Project;
+import com.hra.hourregistrationapp.Model.User;
 import com.hra.hourregistrationapp.Repository.CompanyRepository;
 import com.hra.hourregistrationapp.Repository.ProjectRepository;
 import com.hra.hourregistrationapp.Repository.UserRepository;
@@ -38,8 +39,9 @@ public class ProjectViewModel extends AndroidViewModel {
         int currentCompany = 16;
         projectRepository.addProject(name, tag, currentCompany); }
 
-    public String getCurrentUser(){
-            return userRepository.getUser().getFirstname().toString();
+    public int getCurrentUser(){
+            User user = userRepository.getUser();
+            return user.getCompanyId();
     }
 
     public MutableLiveData<List<Project>> getResponse(){
