@@ -45,4 +45,7 @@
     <string name="add_a_project">Add a project</string>
     <string name="projectname">Projectname</string>
     <string name="projecttag">Projecttag</string>
+    <string name="project">project</string>
+    <string name="edit_a_project">Edit a project</string>
+    <string name="edit_project">Edit project</string>
 </resources>
