@@ -11,8 +11,8 @@
         android:id="@+id/text_home"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="80dp"
-        android:layout_marginBottom="48dp"
+        android:layout_marginStart="25dp"
+        android:layout_marginEnd="25dp"
         android:text="Welkom,"
         android:textAlignment="center"
         android:textColor="@color/colorPrimary"
@@ -20,7 +20,8 @@
         android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/hoursButton"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/registration_image_clock" />
 
     <ImageView
         android:id="@+id/registration_image_clock"
@@ -30,36 +31,37 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.545"
         app:srcCompat="@drawable/login_image_clock" />
 
     <Button
         android:id="@+id/hoursButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="20dp"
-        android:padding="20dp"
         android:background="@drawable/btn_rounded"
         android:backgroundTint="@color/colorAccent"
+        android:padding="20dp"
         android:text="@string/mijn_gewerkte_uren"
         android:textColor="@color/White"
         android:textSize="12dp"
         app:layout_constraintBottom_toTopOf="@+id/projectsButton"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/text_home" />
 
     <Button
         android:id="@+id/projectsButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="200dp"
-        android:padding="20dp"
+        android:layout_marginBottom="60dp"
         android:background="@drawable/btn_rounded"
         android:backgroundTint="@color/colorAccent"
+        android:padding="20dp"
         android:text="@string/bekijk_mijn_projecten"
         android:textColor="@color/White"
         android:textSize="12dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" tools:targetApi="lollipop"/>
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/hoursButton"
+        tools:targetApi="lollipop" />
 </androidx.constraintlayout.widget.ConstraintLayout>

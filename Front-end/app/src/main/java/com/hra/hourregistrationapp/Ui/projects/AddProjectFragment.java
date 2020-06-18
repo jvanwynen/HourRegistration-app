@@ -9,6 +9,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.Navigation;
 
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -21,6 +22,7 @@ import android.widget.Toast;
 import com.hra.hourregistrationapp.Persistence.DAO;
 import com.hra.hourregistrationapp.Persistence.ProjectDao;
 import com.hra.hourregistrationapp.R;
+import com.hra.hourregistrationapp.Retrofit.RetrofitResponseListener;
 import com.hra.hourregistrationapp.Ui.home.HomeActivity;
 import com.hra.hourregistrationapp.ViewModel.ProjectViewModel;
 
@@ -35,13 +37,9 @@ public class AddProjectFragment extends Fragment {
     private ProjectViewModel projectViewModel;
     public View root;
 
-
-
     public AddProjectFragment() {
         // Required empty public constructor
-
     }
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -70,15 +68,27 @@ public class AddProjectFragment extends Fragment {
         addProjectBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                String ProjectName = projectNameTv.getText().toString();
+                String ProjectTag = projectTagTv.getText().toString();
 
-                Toast.makeText(getActivity().getBaseContext(), String.valueOf( projectViewModel.getCurrentUser()), Toast.LENGTH_SHORT).show();
-//
-//                String ProjectName = projectNameTv.getText().toString();
-//                String ProjectTag = projectTagTv.getText().toString();
-//
-//                if (!TextUtils.isEmpty(projectNameTv.getText()) && !TextUtils.isEmpty(projectTagTv.getText()) ){
-//                    projectViewModel.addProject(ProjectName, ProjectTag);
-//                }
+                if (!TextUtils.isEmpty(projectNameTv.getText()) && !TextUtils.isEmpty(projectTagTv.getText()) ){
+                    projectViewModel.addProject(ProjectName, ProjectTag, new RetrofitResponseListener() {
+                        @Override
+                        public void onSuccess() {
+                            Navigation.findNavController(view).navigate(R.id.action_addProjectFragment_to_nav_projects);
+                        }
+
+                        @Override
+                        public void onFailure() {
+                            Toast.makeText(getActivity().getBaseContext(), "Er ging iets mis tijdens het uploaden", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                }else if(TextUtils.isEmpty(projectNameTv.getText())){
+                    Toast.makeText(getActivity().getBaseContext(), "Voer een projectnaam in.", Toast.LENGTH_SHORT).show();
+                }else if(TextUtils.isEmpty(projectTagTv.getText())){
+                    Toast.makeText(getActivity().getBaseContext(), "Voer een projecttag in.", Toast.LENGTH_SHORT).show();
+                }
+
             }
         });
     }
