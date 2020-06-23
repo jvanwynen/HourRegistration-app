@@ -23,7 +23,7 @@ class UserController extends AbstractController
     public function validateAndInsertUser(Request $request, UserRepository $userRepository)
     {
 
-        $CLIENT_ID = "1091513271790-n7dtefpfnqnv1rnk6vqmh76ng9hck5ul.apps.googleusercontent.com";
+        $CLIENT_ID = "627510897874-46pejgnail9p51tkib5hg9d58nv9r85p.apps.googleusercontent.com";
         $entityManager = $this->getDoctrine()->getManager();
         $response = new JsonResponse();
         $id_token = $request->request->get('id_token');
@@ -62,6 +62,8 @@ class UserController extends AbstractController
             $user->setFirstname($firstname);
             $user->setLastname($lastname);
             $user->setId($user_id);
+
+        
 
             if($user != null){
                 // tell Doctrine you want to (eventually) save the User (no queries yet)

@@ -92,6 +92,11 @@ public class UserRepository {
         new UserAsyncTask(userDao, 3).execute();
     }
 
+    public void addCompanyToLocalUser(User user, Company company){
+        user.setCompanyId(company.getId());
+        new UserAsyncTask(userDao, 2).execute(user);
+    }
+
     private static class UserAsyncTask extends AsyncTask<User, Void, User> {
         private UserDao userDao;
         private int taskCode;
@@ -112,7 +117,7 @@ public class UserRepository {
                 case TASK_GET:
                     return userDao.getAll();
                 case TASK_INSERT:
-                    userDao.insert(users[0]);
+                    userDao.upsert(users[0]);
                     return null;
                 case TASK_DELETEALL:
                     userDao.deleteAllFromTable();

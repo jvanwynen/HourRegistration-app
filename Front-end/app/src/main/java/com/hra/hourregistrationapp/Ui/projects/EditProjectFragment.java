@@ -80,6 +80,7 @@ public class EditProjectFragment extends Fragment {
                     projectViewModel.updateProject(projectID, projectName, projectTag, new RetrofitResponseListener() {
                         @Override
                         public void onSuccess() {
+                            projectViewModel.sendGetProjectByCompanyRequest();
                             Navigation.findNavController(view).navigate(R.id.action_editProjectFragment_to_nav_projects);
                         }
 

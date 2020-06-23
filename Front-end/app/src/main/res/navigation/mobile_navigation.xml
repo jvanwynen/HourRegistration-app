@@ -50,7 +50,7 @@
         tools:layout="@layout/fragment_logout" >
         <action
             android:id="@+id/action_nav_logout_to_registerActivity"
-            app:destination="@id/registerActivity" />
+            app:destination="@id/HomeActivity" />
     </fragment>
     <fragment
         android:id="@+id/addHourFragment"
@@ -58,10 +58,9 @@
         android:label="fragment_add_hour"
         tools:layout="@layout/fragment_add_hour" />
     <activity
-        android:id="@+id/registerActivity"
-        android:name="com.hra.hourregistrationapp.Ui.registration.RegisterActivity"
-        android:label="activity_registration"
-        tools:layout="@layout/activity_registration" />
+        android:id="@+id/HomeActivity"
+        android:name="com.hra.hourregistrationapp.Ui.setup.MainActivity"
+        android:label="@android:string/yes" />
     <fragment
         android:id="@+id/addProjectFragment"
         android:name="com.hra.hourregistrationapp.Ui.projects.AddProjectFragment"

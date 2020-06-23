@@ -5,6 +5,7 @@ import com.hra.hourregistrationapp.Model.Project;
 import java.util.ArrayList;
 import java.util.List;
 
+import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
 import androidx.room.Query;
 import androidx.room.Transaction;
@@ -16,7 +17,13 @@ This DAO is responsible for communication with local database for all Company re
 public abstract class ProjectDao implements DAO<Project> {
 
     @Query("SELECT * FROM Project")
-    public abstract List<Project> getAll();
+    public abstract LiveData<List<Project>> getAll();
+
+    @Query("SELECT * FROM project WHERE id = :projectId")
+    public abstract Project getProjectById(int projectId);
+
+    @Query("DELETE FROM Project")
+    public abstract void DeleteAll();
 
     @Transaction
     public void upsert(List<Project> objList) {

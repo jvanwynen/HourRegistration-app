@@ -46,20 +46,15 @@ public class RegisterActivity extends Activity implements View.OnClickListener {
 
         List<Company> companyList = new ArrayList<>();
 
-//        Company company = new Company("test1","test1");
-//        companyList.add(company);
-//        Company company2 = new Company("test2","test1");
-//        companyList.add(company2);
-//        Company company3 = new Company("test3","test1");
-//        companyList.add(company3);
-//        Company company4 = new Company("test4","test1");
-//        companyList.add(company4);
-
          mLoginViewModel.getLocalCompanies().observe(this, new Observer<List<Company>>() {
              @Override
              public void onChanged(List<Company> companies) {
-                 companyList.addAll(companies);
-                 mAdapter.notifyDataSetChanged();
+                 for(Company company : companies){
+                     if(!companyList.contains(company)){
+                         companyList.add(company);
+                         mAdapter.notifyDataSetChanged();
+                     }
+                 }
              }
          });
 
@@ -68,12 +63,6 @@ public class RegisterActivity extends Activity implements View.OnClickListener {
 
         mSpinner.setAdapter(mAdapter);
     }
-
-//    @Override
-//    protected void onResume() {
-//        super.onResume();
-//        mLoginViewModel.upsertCompaniesLocally();
-//    }
 
     private void createUser(Company company) {
         validatePassword(company, new RetrofitResponseListener() {
@@ -93,6 +82,8 @@ public class RegisterActivity extends Activity implements View.OnClickListener {
         mLoginViewModel.addCompanyToUser(company, new RetrofitResponseListener() {
             @Override
             public void onSuccess() {
+                mLoginViewModel.updateLocalUser(company);
+                mLoginViewModel.sendGetProjectByCompanyRequest(company.getId());
                 startActivity(new Intent(getApplicationContext(), HomeActivity.class));
             }
 
@@ -113,9 +104,11 @@ public class RegisterActivity extends Activity implements View.OnClickListener {
             case R.id.registration_text_add:
                 Intent intent = new Intent(getApplicationContext(), AddCompanyActivity.class);
                 startActivity(intent);
+                break;
             case R.id.registration_save_button:
                 Company company = (Company) mSpinner.getSelectedItem();
                 createUser(new Company(company.getId(), company.getCompanyname(), mPasswordTextView.getText().toString()));
+                break;
         }
     }
 

@@ -40,16 +40,11 @@ public class ProjectsFragment extends Fragment {
 
         FloatingActionButton fabButton = root.findViewById(R.id.fab);
 
-        fabButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Navigation.findNavController(view).navigate(R.id.addProjectFragment);
-            }
-        });
+        fabButton.setOnClickListener(view -> Navigation.findNavController(view).navigate(R.id.addProjectFragment));
 
         rvProjects = root.findViewById(R.id.rvProjects);
         projectViewModel.sendGetProjectByCompanyRequest();
-        projectViewModel.getProjectsResponse().observe(getActivity(), new Observer<List<Project>>() {
+        projectViewModel.getLocalProjectList().observe(getActivity(), new Observer<List<Project>>() {
             @Override
             public void onChanged(List<Project> projects) {
                 setupRecyclerView(projects);
@@ -70,12 +65,6 @@ public class ProjectsFragment extends Fragment {
         }else{
             projectProgressBar.setVisibility(View.VISIBLE);
             rvProjects.setVisibility(View.INVISIBLE);
-            projectProgressBar.setOnClickListener(new ProgressBar.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    projectViewModel.sendGetProjectByCompanyRequest();
-                }
-            });
         }
     }
 }

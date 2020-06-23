@@ -10,8 +10,6 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.lifecycle.ViewModelProviders;
-
 
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
@@ -24,12 +22,8 @@ import com.hra.hourregistrationapp.R;
 import com.hra.hourregistrationapp.Retrofit.RetrofitResponseListener;
 import com.hra.hourregistrationapp.Ui.Activity;
 import com.hra.hourregistrationapp.Ui.home.HomeActivity;
-import com.hra.hourregistrationapp.Ui.popup.Popup;
-import com.hra.hourregistrationapp.Ui.projects.ProjectsFragment;
 import com.hra.hourregistrationapp.Ui.registration.RegisterActivity;
 import com.hra.hourregistrationapp.ViewModel.MainViewModel;
-
-import butterknife.internal.ListenerClass;
 
 public class MainActivity extends Activity {
 
@@ -53,7 +47,8 @@ public class MainActivity extends Activity {
 
         mMainViewModel.loadDataFromRemote(new RetrofitResponseListener() {
             @Override
-            public void onSuccess(){}
+            public void onSuccess() {
+            }
 
             @Override
             public void onFailure() {
@@ -77,35 +72,35 @@ public class MainActivity extends Activity {
     }
 
     private void handleSignInResult(@NonNull Task<GoogleSignInAccount> completedTask) {
+        String idToken = null;
         try {
             GoogleSignInAccount account = completedTask.getResult(ApiException.class);
-            String idToken = null;
             if (account != null) {
                 idToken = account.getIdToken();
             }
-            System.out.println(idToken);
-            mMainViewModel.verifyIdToken(idToken, new RetrofitResponseListener() {
-                @Override
-                public void onSuccess() {
-                    Intent intent = new Intent();
-                    if(mMainViewModel.userHasCompany()) {
-                        intent.setClass(getApplicationContext(), HomeActivity.class);
-                    } else {
-                        intent.setClass(getApplicationContext(), RegisterActivity.class);
-                    }
-                    startActivity(intent);
-                }
-
-                @Override
-                public void onFailure() {
-                    showPopUp(getString(R.string.main_popup_title), getString(R.string.registration_popup_body), true);
-                }
-            });
-
         } catch (ApiException e) {
             System.out.println("handleSignInResult:error" + e);
             showPopUp(getString(R.string.main_popup_title), e.toString(), false);
         }
+        System.out.println(idToken);
+        mMainViewModel.verifyIdToken(idToken, new RetrofitResponseListener() {
+            @Override
+            public void onSuccess() {
+                Intent intent = new Intent();
+                if (mMainViewModel.userHasCompany()) {
+                    mMainViewModel.sendGetProjectByCompanyRequest();
+                    intent.setClass(getApplicationContext(), HomeActivity.class);
+                } else {
+                    intent.setClass(getApplicationContext(), RegisterActivity.class);
+                }
+                startActivity(intent);
+            }
+
+            @Override
+            public void onFailure() {
+                showPopUp(getString(R.string.main_popup_title), getString(R.string.registration_popup_body), true);
+            }
+        });
     }
 
     private void getIdToken() {

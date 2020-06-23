@@ -111,11 +111,9 @@ public class CompanyRepository {
     private static class CompanyAsyncTask extends AsyncTask<List<Company>, Void, Void> {
         private CompanyDao companyDao;
 
-
         CompanyAsyncTask(CompanyDao companyDao) {
             this.companyDao = companyDao;
         }
-
 
         @SafeVarargs
         @Override
