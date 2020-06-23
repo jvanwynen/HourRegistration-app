@@ -75,6 +75,7 @@ public class AddProjectFragment extends Fragment {
                     projectViewModel.addProject(ProjectName, ProjectTag, new RetrofitResponseListener() {
                         @Override
                         public void onSuccess() {
+                            projectViewModel.sendGetProjectByCompanyRequest();
                             Navigation.findNavController(view).navigate(R.id.action_addProjectFragment_to_nav_projects);
                         }
 

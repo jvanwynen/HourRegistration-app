@@ -24,9 +24,4 @@ public interface DAO<T> {
     @Update
     public void update(List<T> obj);
 
-//    @Transaction
-//    public void upsert(T obj);
-//
-//    @Transaction
-//    public void upsert(List< T> objList);
 }

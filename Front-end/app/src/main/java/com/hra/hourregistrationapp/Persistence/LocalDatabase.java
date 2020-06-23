@@ -1,7 +1,9 @@
 package com.hra.hourregistrationapp.Persistence;
 
 import android.content.Context;
+import android.os.AsyncTask;
 
+import androidx.annotation.NonNull;
 import androidx.room.Database;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
@@ -26,7 +28,9 @@ public abstract class LocalDatabase extends RoomDatabase {
 
     public static LocalDatabase getInstance(Context context) {
         if (instance == null) {
-            instance = Room.databaseBuilder(context, LocalDatabase.class, "HRA").addMigrations(MIGRATION_1_2, MIGRATION_2_3, MIGRATION_3_4).build();
+            instance = Room.databaseBuilder(context, LocalDatabase.class, "HRA")
+                    .addMigrations(MIGRATION_1_2, MIGRATION_2_3, MIGRATION_3_4)
+                    .build();
         }
         return instance;
     }
@@ -61,7 +65,6 @@ public abstract class LocalDatabase extends RoomDatabase {
             database.execSQL("ALTER TABLE user_new RENAME TO user");
         }
     };
-
     static final Migration MIGRATION_3_4 = new Migration(3, 4) {
         @Override
         public void migrate(SupportSQLiteDatabase database) {
@@ -77,4 +80,5 @@ public abstract class LocalDatabase extends RoomDatabase {
             database.execSQL("ALTER TABLE user_new RENAME TO user");
         }
     };
+
 }

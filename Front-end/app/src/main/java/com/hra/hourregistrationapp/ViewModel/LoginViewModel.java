@@ -10,6 +10,7 @@ import com.hra.hourregistrationapp.Model.Company;
 import com.hra.hourregistrationapp.Model.User;
 import com.hra.hourregistrationapp.Persistence.LocalDatabase;
 import com.hra.hourregistrationapp.Repository.CompanyRepository;
+import com.hra.hourregistrationapp.Repository.ProjectRepository;
 import com.hra.hourregistrationapp.Repository.UserRepository;
 import com.hra.hourregistrationapp.Retrofit.RetrofitResponseListener;
 
@@ -17,8 +18,8 @@ import java.util.List;
 
 public class LoginViewModel extends AndroidViewModel {
 
-    private LocalDatabase localDatabase;
     private UserRepository userRepository;
+    private ProjectRepository projectRepository;
     private LiveData<List<Company>> allCompanies;
     private CompanyRepository companyRepository;
 
@@ -26,6 +27,7 @@ public class LoginViewModel extends AndroidViewModel {
     public LoginViewModel(@NonNull Application application) {
         super(application);
         userRepository = new UserRepository(application);
+        projectRepository = new ProjectRepository(application);
         companyRepository = new CompanyRepository(application);
         allCompanies = companyRepository.getAllLocalCompanies();
     }
@@ -40,6 +42,14 @@ public class LoginViewModel extends AndroidViewModel {
 
     public void addCompanyToUser(Company company, RetrofitResponseListener retrofitResponseListener){
         userRepository.AddCompanytoUser(getCurrentUser(), company, retrofitResponseListener);
+    }
+
+    public void sendGetProjectByCompanyRequest(int companyId){
+        projectRepository.getProjectsByCompanyId(companyId);
+    }
+
+    public void updateLocalUser(Company company){
+        userRepository.addCompanyToLocalUser(getCurrentUser(), company);
     }
 
     private User getCurrentUser(){

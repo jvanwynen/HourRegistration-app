@@ -186,9 +186,9 @@ class ProjectsController extends AbstractController
                 foreach ($projects as $item) {
                     $projectsArray[] = array(
                         'id' => $item->getId(),
-                        'projectname' => $item->getName(),
-                        'project_tag' => $item->getTag(),
-                        'company_id' => $item->getCompany()->getId()
+                        'projectName' => $item->getName(),
+                        'projectTag' => $item->getTag(),
+                        'companyId' => $item->getCompany()->getId()
                     );
                 }
                 $response = new JsonResponse($projectsArray);

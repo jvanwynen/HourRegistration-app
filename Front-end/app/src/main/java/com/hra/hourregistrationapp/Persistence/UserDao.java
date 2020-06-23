@@ -6,7 +6,6 @@ import androidx.room.Transaction;
 
 import com.hra.hourregistrationapp.Model.User;
 
-import java.util.List;
 
 @Dao
 public abstract class UserDao implements DAO<User> {

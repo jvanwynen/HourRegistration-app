@@ -88,6 +88,7 @@ public class MainActivity extends Activity {
             public void onSuccess() {
                 Intent intent = new Intent();
                 if (mMainViewModel.userHasCompany()) {
+                    mMainViewModel.sendGetProjectByCompanyRequest();
                     intent.setClass(getApplicationContext(), HomeActivity.class);
                 } else {
                     intent.setClass(getApplicationContext(), RegisterActivity.class);

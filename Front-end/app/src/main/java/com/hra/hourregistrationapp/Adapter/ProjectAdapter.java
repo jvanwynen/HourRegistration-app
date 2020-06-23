@@ -5,14 +5,10 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.hra.hourregistrationapp.Model.Project;
 import com.hra.hourregistrationapp.R;
-import com.hra.hourregistrationapp.Ui.projects.EditProjectFragment;
-import com.hra.hourregistrationapp.Ui.projects.EditProjectFragmentDirections;
 import com.hra.hourregistrationapp.Ui.projects.ProjectsFragmentDirections;
 
 import java.util.List;
@@ -76,9 +72,9 @@ public class ProjectAdapter extends
         Project project = mProjects.get(position);
         //Set item views based on your views and data model
         TextView ProjectNameTv = holder.projectNameTextView;
-        String projectName = project.getProjectname();
+        String projectName = project.getProjectName();
         int projectId = project.getId();
-        String projectTitle = project.getProjectname();
+        String projectTitle = project.getProjectName();
         String capitalProjectName = projectName.substring(0, 1).toUpperCase() + projectName.substring(1).toLowerCase();
         ProjectNameTv.setText(capitalProjectName);
         holder.itemView.setOnClickListener(new View.OnClickListener() {
